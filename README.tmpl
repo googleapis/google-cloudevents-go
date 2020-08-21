@@ -5,9 +5,8 @@ At this moment the following types are available:
 
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
-| auditv1  | AuditLogWrittenEvent | The event is triggered when a new Cloud Audit Log entry is written. |
-| pubsubv1  | MessagePublishedEvent | This event is triggered when a new Cloud Pub/Sub event is published to a topic. |
-
+{{range .}}| {{.Package}}  | {{.Name}} | {{.Description}} |
+{{end}}
 
 ## Installation and Usage
 
