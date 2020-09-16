@@ -1,0 +1,30 @@
+{
+  "name": "gen",
+  "version": "1.0.0",
+  "description": "A helper tool for generating the Google CloudEvents Library for Python",
+  "bin": "build/src/index.js",
+  "main": "build/src/index.js",
+  "scripts": {
+    "start": "node build/src",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check"
+  },
+  "author": "Google Cloud DevRel",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "gts": "^2.0.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "mkdirp": "^1.0.4",
+    "qt": "file:quicktype-wrapper",
+    "squirrelly": "^8.0.8",
+    "yargs": "^16.0.3"
+  }
+}

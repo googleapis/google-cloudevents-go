@@ -1,0 +1,9 @@
+func UnmarshalEvent(data []byte) (Event, error) {
+	var r Event
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *Event) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}

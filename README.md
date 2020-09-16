@@ -5,9 +5,8 @@ At this moment the following types are available:
 
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
-| auditv1  | AuditLogWrittenEvent | The event is triggered when a new Cloud Audit Log entry is written. |
-| pubsubv1  | MessagePublishedEvent | This event is triggered when a new Cloud Pub/Sub event is published to a topic. |
-
+| cloud.pubsub.v1 | MessagePublishedEvent | This event is triggered when a Pub/Sub message is published. |
+| cloud.audit.v1 | AuditLogWrittenEvent | This event is triggered when a new audit log entry is written. |
 
 ## Installation and Usage
 
@@ -36,8 +35,7 @@ func main () {
 
 ## Generation
 
-**Note**: Before generating the package,
-[quicktype](https://quicktype.io/), and Go 1.11+.
+**Note**: Before generating the package, set up Node.js 12+.
 
 To generate this package, run
 

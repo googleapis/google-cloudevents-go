@@ -5,8 +5,9 @@ At this moment the following types are available:
 
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
-{{range .}}| {{.Package}}  | {{.Name}} | {{.Description}} |
-{{end}}
+{{@each(it.allEvents) => t, index}}
+| {{ t[0] }} | {{ t[1] }} | {{ t[2] }} |
+{{/each}}
 
 ## Installation and Usage
 
@@ -35,8 +36,7 @@ func main () {
 
 ## Generation
 
-**Note**: Before generating the package,
-[quicktype](https://quicktype.io/), and Go 1.11+.
+**Note**: Before generating the package, set up Node.js 12+.
 
 To generate this package, run
 
