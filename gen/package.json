@@ -1,7 +1,7 @@
 {
   "name": "gen",
   "version": "1.0.0",
-  "description": "A helper tool for generating the Google CloudEvents Library for Python",
+  "description": "A helper tool for generating the Google CloudEvents Library for Go",
   "bin": "build/src/index.js",
   "main": "build/src/index.js",
   "scripts": {

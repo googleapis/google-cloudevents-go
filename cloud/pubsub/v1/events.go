@@ -11,7 +11,8 @@ import "errors"
 import "encoding/json"
 
 func UnmarshalMessagePublishedEvent(data []byte) (MessagePublishedEvent, error) {
-	var r MessagePublishedEvent	err := json.Unmarshal(data, &r)
+	var r MessagePublishedEvent
+	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
@@ -26,16 +27,20 @@ type EventClass struct {
 
 // This event is triggered when a Pub/Sub message is published.
 type MessagePublishedEvent struct {
-	Message      *PubsubMessage `json:"message,omitempty"`     
-	Subscription *string        `json:"subscription,omitempty"`
+	Message      *PubsubMessage `json:"message,omitempty"`     // The message that was published.
+	Subscription *string        `json:"subscription,omitempty"`// The resource name of the subscription for which this event was generated. The format of; the value is `projects/{project-id}/subscriptions/{subscription-id}`.
 }
 
+// The message that was published.
+//
+// A message published to a topic.
 type PubsubMessage struct {
-	Attributes map[string]interface{} `json:"attributes,omitempty"`
-	Data       *string                `json:"data,omitempty"`      
-	MessageID  *string                `json:"messageId,omitempty"` 
+	Attributes map[string]interface{} `json:"attributes,omitempty"`// Attributes for this message. If this field is empty, the message must contain non-empty; data. This can be used to filter messages on the subscription.
+	Data       *string                `json:"data,omitempty"`      // The message data field. If this field is empty, the message must contain at least one; attribute. A base64-encoded string.
+	MessageID  *string                `json:"messageId,omitempty"` // ID of this message, assigned by the server when the message is published. Guaranteed to; be unique within the topic. This value may be read by a subscriber that receives a; PubsubMessage via a subscriptions.pull call or a push delivery. It must not be populated; by the publisher in a topics.publish call.
 }
 
+// A message that is published by publishers and consumed by subscribers.
 type Event struct {
 	AnythingArray []interface{}
 	Bool          *bool

@@ -27,6 +27,7 @@ export OUT="../"
 npm run start
 
 echo "Cleaning things up..."
+cd ..
 rm -rf workplace/ || true
 
 echo "All done."

@@ -11,7 +11,8 @@ import "errors"
 import "encoding/json"
 
 func UnmarshalAuditLogWrittenEvent(data []byte) (AuditLogWrittenEvent, error) {
-	var r AuditLogWrittenEvent	err := json.Unmarshal(data, &r)
+	var r AuditLogWrittenEvent
+	err := json.Unmarshal(data, &r)
 	return r, err
 }
 
@@ -63,15 +64,17 @@ type AuditLog struct {
 	Status                *Status                `json:"status,omitempty"`                 
 }
 
+// Authentication information for the operation.
 type AuthenticationInfo struct {
-	AuthoritySelector            *string                        `json:"authority_selector,omitempty"`             
-	PrincipalEmail               *string                        `json:"principal_email,omitempty"`                
-	PrincipalSubject             *string                        `json:"principal_subject,omitempty"`              
-	ServiceAccountDelegationInfo []ServiceAccountDelegationInfo `json:"service_account_delegation_info,omitempty"`
-	ServiceAccountKeyName        *string                        `json:"service_account_key_name,omitempty"`       
-	ThirdPartyPrincipal          map[string]interface{}         `json:"third_party_principal,omitempty"`          
+	AuthoritySelector            *string                        `json:"authority_selector,omitempty"`             // The authority selector specified by the requestor, if any. It is not guaranteed that the; principal was allowed to use this authority.
+	PrincipalEmail               *string                        `json:"principal_email,omitempty"`                // The email address of the authenticated user (or service account on behalf of third party; principal) making the request. For privacy reasons, the principal email address is; redacted for all read-only operations that fail with a "permission denied" error.
+	PrincipalSubject             *string                        `json:"principal_subject,omitempty"`              // String representation of identity of requesting party. Populated for both first and third; party identities.
+	ServiceAccountDelegationInfo []ServiceAccountDelegationInfo `json:"service_account_delegation_info,omitempty"`// Identity delegation history of an authenticated service account that makes the request.; It contains information on the real authorities that try to access GCP resources by; delegating on a service account. When multiple authorities present, they are guaranteed; to be sorted based on the original ordering of the identity delegation events.
+	ServiceAccountKeyName        *string                        `json:"service_account_key_name,omitempty"`       // The name of the service account key used to create or exchange credentials for; authenticating the service account making the request. This is a scheme-less URI full; resource name.
+	ThirdPartyPrincipal          map[string]interface{}         `json:"third_party_principal,omitempty"`          // The third party identification (if any) of the authenticated user making the request.; When the JSON object represented here has a proto equivalent, the proto name will be; indicated in the @type property.
 }
 
+// Identity delegation history of an authenticated service account
 type ServiceAccountDelegationInfo struct {
 	PrincipalEmail   *string                `json:"principal_email,omitempty"`   
 	ServiceMetadata  map[string]interface{} `json:"service_metadata,omitempty"`  
@@ -79,12 +82,16 @@ type ServiceAccountDelegationInfo struct {
 }
 
 type AuthorizationInfo struct {
-	Granted            *bool     `json:"granted,omitempty"`            
-	Permission         *string   `json:"permission,omitempty"`         
-	Resource           *string   `json:"resource,omitempty"`           
-	ResourceAttributes *Resource `json:"resource_attributes,omitempty"`
+	Granted            *bool     `json:"granted,omitempty"`            // Whether or not authorization for resource and permission was granted.
+	Permission         *string   `json:"permission,omitempty"`         // The required IAM permission.
+	Resource           *string   `json:"resource,omitempty"`           // The resource being accessed, as a REST-style string.
+	ResourceAttributes *Resource `json:"resource_attributes,omitempty"`// Resource attributes used in IAM condition evaluation. This field contains resource; attributes like resource type and resource name. To get the whole view of the attributes; used in IAM condition evaluation, the user must also look into; AuditLog.request_metadata.request_attributes.
 }
 
+// Resource attributes used in IAM condition evaluation. This field contains resource
+// attributes like resource type and resource name. To get the whole view of the attributes
+// used in IAM condition evaluation, the user must also look into
+// AuditLog.request_metadata.request_attributes.
 type Resource struct {
 	Labels  map[string]interface{} `json:"labels,omitempty"` 
 	Name    *string                `json:"name,omitempty"`   
@@ -132,8 +139,8 @@ type Auth struct {
 }
 
 type ResourceLocation struct {
-	CurrentLocations  []string `json:"current_locations,omitempty"` 
-	OriginalLocations []string `json:"original_locations,omitempty"`
+	CurrentLocations  []string `json:"current_locations,omitempty"` // The locations of a resource after the execution of the operation. Requests to create or; delete a location based resource must populate the 'current_locations' field and not the; 'original_locations' field.
+	OriginalLocations []string `json:"original_locations,omitempty"`// The locations of a resource prior to the execution of the operation. Requests that mutate; the resource's location must populate both the 'original_locations' as well as the; 'current_locations' fields. For example:
 }
 
 type Status struct {

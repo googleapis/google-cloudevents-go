@@ -27,12 +27,15 @@ async function main() {
   const templateDirectoryPath = `${__dirname}/../../${TEMPLATE_DIRECTORY}`;
   const snippetDirectoryPath = `${__dirname}/../../${SNIPPET_DIRECTORY}`;
 
+  // Collect all schemas and generate Go code from them using the
+  // quicktype-wrapper package
   const schemasAndGenFiles = await qt.getJSONSchemasAndGenFiles(IN, LANGUAGE);
   const allEvents: Array<[string, string, string]> = [];
   schemasAndGenFiles.map((sg: [any, string]) => {
     const schema = sg[0];
     let genFile = sg[1];
 
+    // Make the directory for all events in the schema
     let pkg = schema['$id'];
     pkg = pkg.replace('google.events.', '');
     const pkgPath = pkg.replace(/\./g, '/');
@@ -43,9 +46,10 @@ async function main() {
     const goPkgStmt = `package ${goPkg}`;
     genFile = genFile.replace('package main', goPkgStmt);
 
-    const pkgEvents: Array<string> = [];
-    Object.keys(schema['properties']).map((eventName: string) => {
-      const eventDescription = schema['properties'][eventName]['description'];
+    // Collect all events in the schema
+    const pkgEvents: string[] = [];
+    Object.keys(schema.properties).map((eventName: string) => {
+      const eventDescription = schema.properties[eventName].description;
       pkgEvents.push(eventName);
       allEvents.push([pkg, eventName, eventDescription]);
     });
@@ -62,6 +66,7 @@ async function main() {
     });
     genFile = genFile.replace(String(marshalFuncsSnippet), marshalFuncs);
 
+    // Write the patched generated code
     fs.writeFileSync(`${OUT}/${pkgPath}/${GO_FILENAME}`, genFile);
   });
 

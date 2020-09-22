@@ -25,22 +25,17 @@ To use an event class, see the snippet below:
 package main
 
 import (
-	pubsub "github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
+	"fmt"
+
+	pubsubv1 "github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
 )
 
-func main () {
-    e := audit.UnmarshalMessagePublishedEvent(data)
-    fmt.Println(e.message)
+func main() {
+	data := []byte("Some event data")
+	e, err := pubsubv1.UnmarshalMessagePublishedEvent(data)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(e.Message)
 }
-```
-
-## Generation
-
-**Note**: Before generating the package, set up Node.js 12+.
-
-To generate this package, run
-
-``` sh
-chmod +x gen.sh
-./gen.sh
 ```
