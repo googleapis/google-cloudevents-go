@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-EVENTS_SPEC_REPO='https://github.com/michaelawyu/google-cloudevents'
+EVENTS_SPEC_REPO='https://github.com/googleapis/google-cloudevents'
 
 echo "Cleaning things up..."
 for f in *; do
