@@ -17,6 +17,12 @@ const MARSHAL_FUNCS_TO_REPLACE_SNIPPET = 'marshalFuncsToReplace.snippet';
 const MARSHAL_FUNCS_TEMPLATE = 'marshalFuncs.squirrelly';
 const README_TEMPLATE = 'README.squirrelly';
 
+interface Event {
+  package: string;
+  eventName: string;
+  eventDescription: string;
+};
+
 async function main() {
   if (!IN) console.error('Error in config: `IN` not set');
   if (!OUT) console.error('Error in config: `OUT` not set');
@@ -30,11 +36,8 @@ async function main() {
   // Collect all schemas and generate Go code from them using the
   // quicktype-wrapper package
   const schemasAndGenFiles = await qt.getJSONSchemasAndGenFiles(IN, LANGUAGE);
-  const allEvents: Array<[string, string, string]> = [];
-  schemasAndGenFiles.map((sg: [any, string]) => {
-    const schema = sg[0];
-    let genFile = sg[1];
-
+  const allEvents: Event[] = [];
+  schemasAndGenFiles.map(([schema, genFile]: [any, string]) => {
     // Make the directory for all events in the schema
     let pkg = schema['$id'];
     pkg = pkg.replace('google.events.', '');
@@ -51,7 +54,11 @@ async function main() {
     Object.keys(schema.properties).map((eventName: string) => {
       const eventDescription = schema.properties[eventName].description;
       pkgEvents.push(eventName);
-      allEvents.push([pkg, eventName, eventDescription]);
+      allEvents.push({
+        package: goPkg,
+        eventName: eventName,
+        eventDescription: eventDescription,
+      });
     });
 
     // Replace the utility funcs in the generated

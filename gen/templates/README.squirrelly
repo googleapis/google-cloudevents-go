@@ -6,7 +6,7 @@ At this moment the following types are available:
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
 {{@each(it.allEvents) => t, index}}
-| {{ t[0] }} | {{ t[1] }} | {{ t[2] }} |
+| {{ t.package }} | {{ t.eventName }} | {{ t.eventDescription }} |
 {{/each}}
 
 ## Installation and Usage
