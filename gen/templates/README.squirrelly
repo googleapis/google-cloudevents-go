@@ -5,8 +5,9 @@ At this moment the following types are available:
 
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
-| pubsubv1 | MessagePublishedEvent | This event is triggered when a Pub/Sub message is published. |
-| auditv1 | AuditLogWrittenEvent | This event is triggered when a new audit log entry is written. |
+{{@each(it.allEvents) => t, index}}
+| {{ t.package }} | {{ t.eventName }} | {{ t.eventDescription }} |
+{{/each}}
 
 ## Installation and Usage
 

@@ -1,0 +1,12 @@
+{{@each(it.pkgEvents) => e, i}}
+func Unmarshal{{ e }}(data []byte) ({{ e }}, error) {
+	var r {{ e }}
+
+	err := json.Unmarshal(data, &r)
+	return r, err
+}
+
+func (r *{{ e }}) Marshal() ([]byte, error) {
+	return json.Marshal(r)
+}
+{{/each}}
