@@ -22,7 +22,7 @@ cd ../
 npm install
 
 echo "Generating the Google Events Library for Python..."
-export IN="../workplace/proto"
+export IN="../workplace/jsonschema"
 export OUT="../"
 npm run start
 

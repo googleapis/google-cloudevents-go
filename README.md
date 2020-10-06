@@ -5,8 +5,8 @@ At this moment the following types are available:
 
 | Package | Struct | Description |
 | ------------- | ------------- | ------------- |
-| pubsubv1 | MessagePublishedEvent | This event is triggered when a Pub/Sub message is published. |
-| auditv1 | AuditLogWrittenEvent | This event is triggered when a new audit log entry is written. |
+| pubsubv1 | MessagePublishedData | A message that is published by publishers and consumed by subscribers. |
+| auditv1 | LogEntryData | This event is triggered when a new audit log entry is written. |
 
 ## Installation and Usage
 
@@ -31,7 +31,7 @@ import (
 
 func main() {
 	data := []byte("Some event data")
-	e, err := pubsubv1.UnmarshalMessagePublishedEvent(data)
+	e, err := pubsubv1.UnmarshalMessagePublishedData(data)
 	if err != nil {
 		panic(err)
 	}
