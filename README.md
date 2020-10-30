@@ -3,12 +3,6 @@
 [![GoDoc](https://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://pkg.go.dev/mod/github.com/googleapis/google-cloudevents-go)
 
 This library provides classes of common event types used with Google services.
-At this moment the following types are available:
-
-| Package | Struct | Description |
-| ------------- | ------------- | ------------- |
-| pubsubv1 | MessagePublishedData | A message that is published by publishers and consumed by subscribers. |
-| auditv1 | LogEntryData | This event is triggered when a new audit log entry is written. |
 
 ## Installation and Usage
 
