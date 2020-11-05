@@ -34,6 +34,6 @@ Guidelines](https://opensource.google/conduct/).
 To generate this package, run
 
 ``` sh
-chmod +x gen.sh
-./gen.sh
+chmod +x ./tools/gen.sh
+./tools/gen.sh
 ```
