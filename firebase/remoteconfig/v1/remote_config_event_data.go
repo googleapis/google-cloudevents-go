@@ -4,13 +4,16 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+package remoteconfig
+
+import "encoding/json"
 
 // The data within all Firebase Remote Config events.
 type RemoteConfigEventData struct {
@@ -33,4 +36,14 @@ type UpdateUser struct {
 type RollbackSource struct {
 	Integer *int64
 	String  *string
+}
+
+func UnmarshalRemoteConfigEventData(data []byte) (RemoteConfigEventData, error) {
+	var d RemoteConfigEventData
+	err := json.Unmarshal(data, &d)
+	return d, err
+}
+
+func (p *RemoteConfigEventData) MarshalRemoteConfigEventData() ([]byte, error) {
+	return json.Marshal(p)
 }

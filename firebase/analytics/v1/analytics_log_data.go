@@ -4,13 +4,16 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+package analytics
+
+import "encoding/json"
 
 // The data within Firebase Analytics log events.
 type AnalyticsLogData struct {
@@ -121,4 +124,14 @@ type Value struct {
 type IntValue struct {
 	Integer *int64
 	String  *string
+}
+
+func UnmarshalAnalyticsLogData(data []byte) (AnalyticsLogData, error) {
+	var d AnalyticsLogData
+	err := json.Unmarshal(data, &d)
+	return d, err
+}
+
+func (p *AnalyticsLogData) MarshalAnalyticsLogData() ([]byte, error) {
+	return json.Marshal(p)
 }
