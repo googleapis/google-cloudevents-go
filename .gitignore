@@ -1,7 +1,2 @@
-.vscode/
-.github/
 node_modules/
-quicktype-wrapper/
-proto/
-gen/build/
-workplace/
+tools/build/**
