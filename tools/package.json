@@ -13,13 +13,13 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/node": "^13.11.1",
-    "gts": "^2.0.2",
-    "typescript": "^3.8.3"
+    "@types/node": "13.13.30",
+    "gts": "2.0.2",
+    "typescript": "3.9.7"
   },
   "dependencies": {
-    "mkdirp": "^1.0.4",
-    "pascalcase": "^1.0.0",
-    "recursive-readdir": "^2.2.2"
+    "mkdirp": "1.0.4",
+    "pascalcase": "1.0.0",
+    "recursive-readdir": "2.2.2"
   }
 }
