@@ -21,29 +21,29 @@ import "encoding/json"
 //
 // https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.
 type BuildEventData struct {
-	Artifacts        *Artifacts                                       `json:"artifacts,omitempty"`       // Artifacts produced by the build that should be uploaded upon; successful completion of all build steps.
-	BuildTriggerID   *string                                          `json:"buildTriggerId,omitempty"`  // The ID of the `BuildTrigger` that triggered this build, if it; was triggered automatically.
-	CreateTime       *string                                          `json:"createTime,omitempty"`      // Time at which the request to create the build was received.
-	FinishTime       *string                                          `json:"finishTime,omitempty"`      // Time at which execution of the build was finished.; ; The difference between finish_time and start_time is the duration of the; build's execution.
-	ID               *string                                          `json:"id,omitempty"`              // Unique identifier of the build.
-	Images           []string                                         `json:"images,omitempty"`          // A list of images to be pushed upon the successful completion of all build; steps.; ; The images are pushed using the builder service account's credentials.; ; The digests of the pushed images will be stored in the `Build` resource's; results field.; ; If any of the images fail to be pushed, the build status is marked; `FAILURE`.
-	LogsBucket       *string                                          `json:"logsBucket,omitempty"`      // Google Cloud Storage bucket where logs should be written (see; [Bucket Name; Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).; Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`.
-	LogURL           *string                                          `json:"logUrl,omitempty"`          // URL to logs for this build in Google Cloud Console.
-	Options          *Options                                         `json:"options,omitempty"`         // Special options for this build.
-	ProjectID        *string                                          `json:"projectId,omitempty"`       // ID of the project.
-	QueueTTL         *QueueTTL                                        `json:"queueTtl,omitempty"`        // TTL in queue for this build. If provided and the build is enqueued longer; than this value, the build will expire and the build status will be; `EXPIRED`.; ; The TTL starts ticking from create_time.
-	Results          *Results                                         `json:"results,omitempty"`         // Results of the build.
-	Secrets          []Secret                                         `json:"secrets,omitempty"`         // Secrets to decrypt using Cloud Key Management Service.
-	Source           *Source                                          `json:"source,omitempty"`          // The location of the source files to build.
-	SourceProvenance *SourceProvenance                                `json:"sourceProvenance,omitempty"`// A permanent fixed identifier for source.
-	StartTime        *string                                          `json:"startTime,omitempty"`       // Time at which execution of the build was started.
-	Status           *Status                                          `json:"status"`                    // Status of the build.
-	StatusDetail     *string                                          `json:"statusDetail,omitempty"`    // Customer-readable message about the current status.
-	Steps            []Step                                           `json:"steps,omitempty"`           // The operations to be performed on the workspace.
-	Substitutions    map[string]string                                `json:"substitutions,omitempty"`   // Substitutions data for `Build` resource.
-	Tags             []string                                         `json:"tags,omitempty"`            // Tags for annotation of a `Build`. These are not docker tags.
-	Timeout          *BuildEventDataTimeout                           `json:"timeout,omitempty"`         // Amount of time that this build should be allowed to run, to second; granularity. If this amount of time elapses, work on the build will cease; and the build status will be `TIMEOUT`.
-	Timing           map[string]GoogleEventsCloudCloudbuildV1TimeSpan `json:"timing,omitempty"`          // Stores timing information for phases of the build. Valid keys; are:; ; * BUILD: time to execute all build steps; * PUSH: time to push all specified images.; * FETCHSOURCE: time to fetch source.; ; If the build does not specify source or images,; these keys will not be included.
+	Artifacts        *Artifacts             `json:"artifacts,omitempty"`       // Artifacts produced by the build that should be uploaded upon; successful completion of all build steps.
+	BuildTriggerID   *string                `json:"buildTriggerId,omitempty"`  // The ID of the `BuildTrigger` that triggered this build, if it; was triggered automatically.
+	CreateTime       *string                `json:"createTime,omitempty"`      // Time at which the request to create the build was received.
+	FinishTime       *string                `json:"finishTime,omitempty"`      // Time at which execution of the build was finished.; ; The difference between finish_time and start_time is the duration of the; build's execution.
+	ID               *string                `json:"id,omitempty"`              // Unique identifier of the build.
+	Images           []string               `json:"images,omitempty"`          // A list of images to be pushed upon the successful completion of all build; steps.; ; The images are pushed using the builder service account's credentials.; ; The digests of the pushed images will be stored in the `Build` resource's; results field.; ; If any of the images fail to be pushed, the build status is marked; `FAILURE`.
+	LogsBucket       *string                `json:"logsBucket,omitempty"`      // Google Cloud Storage bucket where logs should be written (see; [Bucket Name; Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).; Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`.
+	LogURL           *string                `json:"logUrl,omitempty"`          // URL to logs for this build in Google Cloud Console.
+	Options          *Options               `json:"options,omitempty"`         // Special options for this build.
+	ProjectID        *string                `json:"projectId,omitempty"`       // ID of the project.
+	QueueTTL         *QueueTTL              `json:"queueTtl,omitempty"`        // TTL in queue for this build. If provided and the build is enqueued longer; than this value, the build will expire and the build status will be; `EXPIRED`.; ; The TTL starts ticking from create_time.
+	Results          *Results               `json:"results,omitempty"`         // Results of the build.
+	Secrets          []Secret               `json:"secrets,omitempty"`         // Secrets to decrypt using Cloud Key Management Service.
+	Source           *Source                `json:"source,omitempty"`          // The location of the source files to build.
+	SourceProvenance *SourceProvenance      `json:"sourceProvenance,omitempty"`// A permanent fixed identifier for source.
+	StartTime        *string                `json:"startTime,omitempty"`       // Time at which execution of the build was started.
+	Status           *Status                `json:"status"`                    // Status of the build.
+	StatusDetail     *string                `json:"statusDetail,omitempty"`    // Customer-readable message about the current status.
+	Steps            []Step                 `json:"steps,omitempty"`           // The operations to be performed on the workspace.
+	Substitutions    map[string]string      `json:"substitutions,omitempty"`   // Substitutions data for `Build` resource.
+	Tags             []string               `json:"tags,omitempty"`            // Tags for annotation of a `Build`. These are not docker tags.
+	Timeout          *BuildEventDataTimeout `json:"timeout,omitempty"`         // Amount of time that this build should be allowed to run, to second; granularity. If this amount of time elapses, work on the build will cease; and the build status will be `TIMEOUT`.
+	Timing           map[string]TimeSpan    `json:"timing,omitempty"`          // Stores timing information for phases of the build. Valid keys; are:; ; * BUILD: time to execute all build steps; * PUSH: time to push all specified images.; * FETCHSOURCE: time to fetch source.; ; If the build does not specify source or images,; these keys will not be included.
 }
 
 // Artifacts produced by the build that should be uploaded upon
@@ -80,22 +80,22 @@ type ObjectsTiming struct {
 
 // Special options for this build.
 type Options struct {
-	DiskSizeGB            *DiskSizeGB                           `json:"diskSizeGb"`                    // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
-	Env                   []string                              `json:"env,omitempty"`                 // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
-	Logging               *Logging                              `json:"logging"`                       // Option to specify the logging mode, which determines where the logs are; stored.
-	LogStreamingOption    *LogStreamingOption                   `json:"logStreamingOption"`            // Option to define build log streaming behavior to Google Cloud; Storage.
-	MachineType           *MachineType                          `json:"machineType"`                   // Compute Engine machine type on which to run the build.
-	RequestedVerifyOption *RequestedVerifyOption                `json:"requestedVerifyOption"`         // Requested verifiability options.
-	SecretEnv             []string                              `json:"secretEnv,omitempty"`           // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
-	SourceProvenanceHash  []DiskSizeGB                          `json:"sourceProvenanceHash,omitempty"`// Requested hash for SourceProvenance.
-	SubstitutionOption    *SubstitutionOption                   `json:"substitutionOption"`            // Option to specify behavior when there is an error in the substitution; checks.
-	Volumes               []GoogleEventsCloudCloudbuildV1Volume `json:"volumes,omitempty"`             // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
-	WorkerPool            *string                               `json:"workerPool,omitempty"`          // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
+	DiskSizeGB            *DiskSizeGB            `json:"diskSizeGb"`                    // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
+	Env                   []string               `json:"env,omitempty"`                 // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
+	Logging               *Logging               `json:"logging"`                       // Option to specify the logging mode, which determines where the logs are; stored.
+	LogStreamingOption    *LogStreamingOption    `json:"logStreamingOption"`            // Option to define build log streaming behavior to Google Cloud; Storage.
+	MachineType           *MachineType           `json:"machineType"`                   // Compute Engine machine type on which to run the build.
+	RequestedVerifyOption *RequestedVerifyOption `json:"requestedVerifyOption"`         // Requested verifiability options.
+	SecretEnv             []string               `json:"secretEnv,omitempty"`           // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
+	SourceProvenanceHash  []DiskSizeGB           `json:"sourceProvenanceHash,omitempty"`// Requested hash for SourceProvenance.
+	SubstitutionOption    *SubstitutionOption    `json:"substitutionOption"`            // Option to specify behavior when there is an error in the substitution; checks.
+	Volumes               []Volume               `json:"volumes,omitempty"`             // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
+	WorkerPool            *string                `json:"workerPool,omitempty"`          // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
 }
 
 // Volume describes a Docker container volume which is mounted into build steps
 // in order to persist files across build step execution.
-type GoogleEventsCloudCloudbuildV1Volume struct {
+type Volume struct {
 	Name *string `json:"name,omitempty"`// Name of the volume to mount.; ; Volume names must be unique per build step and must be valid names for; Docker volumes. Each named volume must be used by at least two build steps.
 	Path *string `json:"path,omitempty"`// Path at which to mount the volume.; ; Paths must be absolute and cannot conflict with other volume paths on the; same build step or with certain reserved volume paths.
 }
@@ -156,15 +156,15 @@ type Secret struct {
 
 // The location of the source files to build.
 type Source struct {
-	RepoSource    *RepoSource    `json:"repoSource,omitempty"`   // If provided, get the source from this location in a Cloud Source; Repository.
-	StorageSource *StorageSource `json:"storageSource,omitempty"`// If provided, get the source from this location in Google Cloud Storage.
+	RepoSource    *RepoSourceClass    `json:"repoSource,omitempty"`   // If provided, get the source from this location in a Cloud Source; Repository.
+	StorageSource *StorageSourceClass `json:"storageSource,omitempty"`// If provided, get the source from this location in Google Cloud Storage.
 }
 
 // If provided, get the source from this location in a Cloud Source
 // Repository.
 //
 // Location of the source in a Google Cloud Source Repository.
-type RepoSource struct {
+type RepoSourceClass struct {
 	BranchName    *string           `json:"branchName,omitempty"`   // Regex matching branches to build.; ; The syntax of the regular expressions accepted is the syntax accepted by; RE2 and described at https://github.com/google/re2/wiki/Syntax
 	CommitSHA     *string           `json:"commitSha,omitempty"`    // Explicit commit SHA to build.
 	Dir           *string           `json:"dir,omitempty"`          // Directory, relative to the source root, in which to run the build.; ; This must be a relative path. If a step's `dir` is specified and is an; absolute path, this value is ignored for that step's execution.
@@ -178,7 +178,7 @@ type RepoSource struct {
 // If provided, get the source from this location in Google Cloud Storage.
 //
 // Location of the source in an archive file in Google Cloud Storage.
-type StorageSource struct {
+type StorageSourceClass struct {
 	Bucket     *string     `json:"bucket,omitempty"`// Google Cloud Storage bucket containing the source (see; [Bucket Name; Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).
 	Generation *DiskSizeGB `json:"generation"`      // Google Cloud Storage generation for the object. If the generation is; omitted, the latest generation will be used.
 	Object     *string     `json:"object,omitempty"`// Google Cloud Storage object containing the source.
@@ -233,19 +233,19 @@ type ResolvedStorageSourceClass struct {
 
 // A step in the build pipeline.
 type Step struct {
-	Args       []string                              `json:"args,omitempty"`      // A list of arguments that will be presented to the step when it is started.; ; If the image used to run the step's container has an entrypoint, the `args`; are used as arguments to that entrypoint. If the image does not define; an entrypoint, the first element in args is used as the entrypoint,; and the remainder will be used as arguments.
-	Dir        *string                               `json:"dir,omitempty"`       // Working directory to use when running this step's container.; ; If this value is a relative path, it is relative to the build's working; directory. If this value is absolute, it may be outside the build's working; directory, in which case the contents of the path may not be persisted; across build step executions, unless a `volume` for that path is specified.; ; If the build specifies a `RepoSource` with `dir` and a step with a `dir`,; which specifies an absolute path, the `RepoSource` `dir` is ignored for; the step's execution.
-	Entrypoint *string                               `json:"entrypoint,omitempty"`// Entrypoint to be used instead of the build step image's default entrypoint.; If unset, the image's default entrypoint is used.
-	Env        []string                              `json:"env,omitempty"`       // A list of environment variable definitions to be used when running a step.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
-	ID         *string                               `json:"id,omitempty"`        // Unique identifier for this build step, used in `wait_for` to; reference this build step as a dependency.
-	Name       *string                               `json:"name,omitempty"`      // The name of the container image that will run this particular; build step.; ; If the image is available in the host's Docker daemon's cache, it; will be run directly. If not, the host will attempt to pull the image; first, using the builder service account's credentials if necessary.; ; The Docker daemon's cache will already have the latest versions of all of; the officially supported build steps; ; ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).; The Docker daemon will also have cached many of the layers for some popular; images, like "ubuntu", "debian", but they will be refreshed at the time you; attempt to use them.; ; If you built an image in a previous build step, it will be stored in the; host's Docker daemon's cache and is available to use as the name for a; later build step.
-	PullTiming *PullTiming                           `json:"pullTiming,omitempty"`// Stores timing information for pulling this build step's; builder image only.
-	SecretEnv  []string                              `json:"secretEnv,omitempty"` // A list of environment variables which are encrypted using a Cloud Key; Management Service crypto key. These values must be specified in the; build's `Secret`.
-	Status     *DiskSizeGB                           `json:"status"`              // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
-	Timeout    *StepTimeout                          `json:"timeout,omitempty"`   // Time limit for executing this build step. If not defined, the step has no; time limit and will be allowed to continue to run until either it completes; or the build itself times out.
-	Timing     *StepTiming                           `json:"timing,omitempty"`    // Stores timing information for executing this build step.
-	Volumes    []GoogleEventsCloudCloudbuildV1Volume `json:"volumes,omitempty"`   // List of volumes to mount into the build step.; ; Each volume is created as an empty volume prior to execution of the; build step. Upon completion of the build, volumes and their contents are; discarded.; ; Using a named volume in only one step is not valid as it is indicative; of a build request with an incorrect configuration.
-	WaitFor    []string                              `json:"waitFor,omitempty"`   // The ID(s) of the step(s) that this build step depends on.; This build step will not start until all the build steps in `wait_for`; have completed successfully. If `wait_for` is empty, this build step will; start when all previous build steps in the `Build.Steps` list have; completed successfully.
+	Args       []string     `json:"args,omitempty"`      // A list of arguments that will be presented to the step when it is started.; ; If the image used to run the step's container has an entrypoint, the `args`; are used as arguments to that entrypoint. If the image does not define; an entrypoint, the first element in args is used as the entrypoint,; and the remainder will be used as arguments.
+	Dir        *string      `json:"dir,omitempty"`       // Working directory to use when running this step's container.; ; If this value is a relative path, it is relative to the build's working; directory. If this value is absolute, it may be outside the build's working; directory, in which case the contents of the path may not be persisted; across build step executions, unless a `volume` for that path is specified.; ; If the build specifies a `RepoSource` with `dir` and a step with a `dir`,; which specifies an absolute path, the `RepoSource` `dir` is ignored for; the step's execution.
+	Entrypoint *string      `json:"entrypoint,omitempty"`// Entrypoint to be used instead of the build step image's default entrypoint.; If unset, the image's default entrypoint is used.
+	Env        []string     `json:"env,omitempty"`       // A list of environment variable definitions to be used when running a step.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
+	ID         *string      `json:"id,omitempty"`        // Unique identifier for this build step, used in `wait_for` to; reference this build step as a dependency.
+	Name       *string      `json:"name,omitempty"`      // The name of the container image that will run this particular; build step.; ; If the image is available in the host's Docker daemon's cache, it; will be run directly. If not, the host will attempt to pull the image; first, using the builder service account's credentials if necessary.; ; The Docker daemon's cache will already have the latest versions of all of; the officially supported build steps; ; ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).; The Docker daemon will also have cached many of the layers for some popular; images, like "ubuntu", "debian", but they will be refreshed at the time you; attempt to use them.; ; If you built an image in a previous build step, it will be stored in the; host's Docker daemon's cache and is available to use as the name for a; later build step.
+	PullTiming *PullTiming  `json:"pullTiming,omitempty"`// Stores timing information for pulling this build step's; builder image only.
+	SecretEnv  []string     `json:"secretEnv,omitempty"` // A list of environment variables which are encrypted using a Cloud Key; Management Service crypto key. These values must be specified in the; build's `Secret`.
+	Status     *DiskSizeGB  `json:"status"`              // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
+	Timeout    *StepTimeout `json:"timeout,omitempty"`   // Time limit for executing this build step. If not defined, the step has no; time limit and will be allowed to continue to run until either it completes; or the build itself times out.
+	Timing     *StepTiming  `json:"timing,omitempty"`    // Stores timing information for executing this build step.
+	Volumes    []Volume     `json:"volumes,omitempty"`   // List of volumes to mount into the build step.; ; Each volume is created as an empty volume prior to execution of the; build step. Upon completion of the build, volumes and their contents are; discarded.; ; Using a named volume in only one step is not valid as it is indicative; of a build request with an incorrect configuration.
+	WaitFor    []string     `json:"waitFor,omitempty"`   // The ID(s) of the step(s) that this build step depends on.; This build step will not start until all the build steps in `wait_for`; have completed successfully. If `wait_for` is empty, this build step will; start when all previous build steps in the `Build.Steps` list have; completed successfully.
 }
 
 // Stores timing information for pulling this build step's
@@ -288,7 +288,7 @@ type BuildEventDataTimeout struct {
 // Stores timing information for pushing all artifact objects.
 //
 // Start and end times for a build execution phase.
-type GoogleEventsCloudCloudbuildV1TimeSpan struct {
+type TimeSpan struct {
 	EndTime   *string `json:"endTime,omitempty"`  // End of time span.
 	StartTime *string `json:"startTime,omitempty"`// Start of time span.
 }
