@@ -2,9 +2,10 @@
   "name": "google-cloudevents-go-postgen",
   "version": "1.0.0",
   "private": true,
-  "main": "build/src/index.js",
+  "main": "build/src/postgen.js",
   "scripts": {
-    "start": "node build/src",
+    "start": "node build/src/postgen",
+    "docs": "node build/src/docs",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "mkdirp": "1.0.4",
+    "node-fetch": "^2.6.1",
     "pascalcase": "1.0.0",
     "recursive-readdir": "2.2.2"
   }
