@@ -23,17 +23,17 @@ type AnalyticsLogData struct {
 
 // Message containing information pertaining to the event.
 type EventDim struct {
-	Date                    *string                                                  `json:"date,omitempty"`         // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
-	Name                    *string                                                  `json:"name,omitempty"`         // The name of this event.
-	Params                  map[string]GoogleEventsFirebaseAnalyticsV1AnalyticsValue `json:"params,omitempty"`       // A repeated record of the parameters associated with this event.
-	PreviousTimestampMicros *IntValue                                                `json:"previousTimestampMicros"`// UTC client time when the previous event happened.
-	TimestampMicros         *IntValue                                                `json:"timestampMicros"`        // UTC client time when the event happened.
-	ValueInUsd              *float64                                                 `json:"valueInUsd,omitempty"`   // Value param in USD.
+	Date                    *string                   `json:"date,omitempty"`         // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
+	Name                    *string                   `json:"name,omitempty"`         // The name of this event.
+	Params                  map[string]AnalyticsValue `json:"params,omitempty"`       // A repeated record of the parameters associated with this event.
+	PreviousTimestampMicros *IntValue                 `json:"previousTimestampMicros"`// UTC client time when the previous event happened.
+	TimestampMicros         *IntValue                 `json:"timestampMicros"`        // UTC client time when the event happened.
+	ValueInUsd              *float64                  `json:"valueInUsd,omitempty"`   // Value param in USD.
 }
 
 // Value for Event Params and UserProperty can be of type string or int or
 // float or double.
-type GoogleEventsFirebaseAnalyticsV1AnalyticsValue struct {
+type AnalyticsValue struct {
 	DoubleValue *float64  `json:"doubleValue,omitempty"`
 	FloatValue  *float64  `json:"floatValue,omitempty"` 
 	IntValue    *IntValue `json:"intValue"`             
