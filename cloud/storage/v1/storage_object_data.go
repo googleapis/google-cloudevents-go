@@ -28,18 +28,18 @@ type StorageObjectData struct {
 	CustomerEncryption      *CustomerEncryption `json:"customerEncryption,omitempty"`     // Metadata of customer-supplied encryption key, if the object is encrypted by; such a key.
 	Etag                    *string             `json:"etag,omitempty"`                   // HTTP 1.1 Entity tag for the object. See; [https://tools.ietf.org/html/rfc7232#section-2.3][RFC 7232 §2.3].
 	EventBasedHold          *bool               `json:"eventBasedHold,omitempty"`         // Whether an object is under event-based hold.
-	Generation              *Generation         `json:"generation"`                       // The content generation of this object. Used for object versioning.; Attempting to set this field will result in an error.
+	Generation              *string             `json:"generation,omitempty"`             // The content generation of this object. Used for object versioning.; Attempting to set this field will result in an error.
 	ID                      *string             `json:"id,omitempty"`                     // The ID of the object, including the bucket name, object name, and; generation number.
 	Kind                    *string             `json:"kind,omitempty"`                   // The kind of item this is. For objects, this is always "storage#object".
 	KmsKeyName              *string             `json:"kmsKeyName,omitempty"`             // Cloud KMS Key used to encrypt this object, if the object is encrypted by; such a key.
 	Md5Hash                 *string             `json:"md5Hash,omitempty"`                // MD5 hash of the data; encoded using base64 as per; [https://tools.ietf.org/html/rfc4648#section-4][RFC 4648 §4]. For more; information about using the MD5 hash, see; [https://cloud.google.com/storage/docs/hashes-etags#_JSONAPI][Hashes and; ETags: Best Practices].
 	MediaLink               *string             `json:"mediaLink,omitempty"`              // Media download link.
 	Metadata                map[string]string   `json:"metadata,omitempty"`               // User-provided metadata, in key/value pairs.
-	Metageneration          *Generation         `json:"metageneration"`                   // The version of the metadata for this object at this generation. Used for; preconditions and for detecting changes in metadata. A metageneration; number is only meaningful in the context of a particular generation of a; particular object.
+	Metageneration          *string             `json:"metageneration,omitempty"`         // The version of the metadata for this object at this generation. Used for; preconditions and for detecting changes in metadata. A metageneration; number is only meaningful in the context of a particular generation of a; particular object.
 	Name                    *string             `json:"name,omitempty"`                   // The name of the object.
 	RetentionExpirationTime *string             `json:"retentionExpirationTime,omitempty"`// A server-determined value that specifies the earliest time that the; object's retention period expires.
 	SelfLink                *string             `json:"selfLink,omitempty"`               // The link to this object.
-	Size                    *Generation         `json:"size"`                             // Content-Length of the object data in bytes, matching; [https://tools.ietf.org/html/rfc7230#section-3.3.2][RFC 7230 §3.3.2].
+	Size                    *string             `json:"size,omitempty"`                   // Content-Length of the object data in bytes, matching; [https://tools.ietf.org/html/rfc7230#section-3.3.2][RFC 7230 §3.3.2].
 	StorageClass            *string             `json:"storageClass,omitempty"`           // Storage class of the object.
 	TemporaryHold           *bool               `json:"temporaryHold,omitempty"`          // Whether an object is under temporary hold.
 	TimeCreated             *string             `json:"timeCreated,omitempty"`            // The creation time of the object.; Attempting to set this field will result in an error.
@@ -53,11 +53,6 @@ type StorageObjectData struct {
 type CustomerEncryption struct {
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty"`// The encryption algorithm.
 	KeySha256           *string `json:"keySha256,omitempty"`          // SHA256 hash value of the encryption key.
-}
-
-type Generation struct {
-	Integer *int64
-	String  *string
 }
 
 func UnmarshalStorageObjectData(data []byte) (StorageObjectData, error) {
