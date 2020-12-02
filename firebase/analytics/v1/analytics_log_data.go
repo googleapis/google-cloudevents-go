@@ -23,34 +23,34 @@ type AnalyticsLogData struct {
 
 // Message containing information pertaining to the event.
 type EventDim struct {
-	Date                    *string                   `json:"date,omitempty"`         // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
-	Name                    *string                   `json:"name,omitempty"`         // The name of this event.
-	Params                  map[string]AnalyticsValue `json:"params,omitempty"`       // A repeated record of the parameters associated with this event.
-	PreviousTimestampMicros *IntValue                 `json:"previousTimestampMicros"`// UTC client time when the previous event happened.
-	TimestampMicros         *IntValue                 `json:"timestampMicros"`        // UTC client time when the event happened.
-	ValueInUsd              *float64                  `json:"valueInUsd,omitempty"`   // Value param in USD.
+	Date                    *string                   `json:"date,omitempty"`                   // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
+	Name                    *string                   `json:"name,omitempty"`                   // The name of this event.
+	Params                  map[string]AnalyticsValue `json:"params,omitempty"`                 // A repeated record of the parameters associated with this event.
+	PreviousTimestampMicros *string                   `json:"previousTimestampMicros,omitempty"`// UTC client time when the previous event happened.
+	TimestampMicros         *string                   `json:"timestampMicros,omitempty"`        // UTC client time when the event happened.
+	ValueInUsd              *float64                  `json:"valueInUsd,omitempty"`             // Value param in USD.
 }
 
 // Value for Event Params and UserProperty can be of type string or int or
 // float or double.
 type AnalyticsValue struct {
-	DoubleValue *float64  `json:"doubleValue,omitempty"`
-	FloatValue  *float64  `json:"floatValue,omitempty"` 
-	IntValue    *IntValue `json:"intValue"`             
-	StringValue *string   `json:"stringValue,omitempty"`
+	DoubleValue *float64 `json:"doubleValue,omitempty"`
+	FloatValue  *float64 `json:"floatValue,omitempty"` 
+	IntValue    *string  `json:"intValue,omitempty"`   
+	StringValue *string  `json:"stringValue,omitempty"`
 }
 
 // User related dimensions.
 type UserDim struct {
-	AppInfo                  *AppInfo                `json:"appInfo,omitempty"`       // App information.
-	BundleInfo               *BundleInfo             `json:"bundleInfo,omitempty"`    // Information regarding the bundle in which these events were uploaded.
-	DeviceInfo               *DeviceInfo             `json:"deviceInfo,omitempty"`    // Device information.
-	FirstOpenTimestampMicros *IntValue               `json:"firstOpenTimestampMicros"`// The time (in microseconds) at which the user first opened the app.
-	GeoInfo                  *GeoInfo                `json:"geoInfo,omitempty"`       // User's geographic information.
-	LtvInfo                  *LtvInfo                `json:"ltvInfo,omitempty"`       // Lifetime Value information about this user.
-	TrafficSource            *TrafficSource          `json:"trafficSource,omitempty"` // Information about marketing campaign which acquired the user.
-	UserID                   *string                 `json:"userId,omitempty"`        // The user ID set via the setUserId API.
-	UserProperties           map[string]UserProperty `json:"userProperties,omitempty"`// A repeated record of user properties set with the setUserProperty API.; https://firebase.google.com/docs/analytics/android/properties
+	AppInfo                  *AppInfo                `json:"appInfo,omitempty"`                 // App information.
+	BundleInfo               *BundleInfo             `json:"bundleInfo,omitempty"`              // Information regarding the bundle in which these events were uploaded.
+	DeviceInfo               *DeviceInfo             `json:"deviceInfo,omitempty"`              // Device information.
+	FirstOpenTimestampMicros *string                 `json:"firstOpenTimestampMicros,omitempty"`// The time (in microseconds) at which the user first opened the app.
+	GeoInfo                  *GeoInfo                `json:"geoInfo,omitempty"`                 // User's geographic information.
+	LtvInfo                  *LtvInfo                `json:"ltvInfo,omitempty"`                 // Lifetime Value information about this user.
+	TrafficSource            *TrafficSource          `json:"trafficSource,omitempty"`           // Information about marketing campaign which acquired the user.
+	UserID                   *string                 `json:"userId,omitempty"`                  // The user ID set via the setUserId API.
+	UserProperties           map[string]UserProperty `json:"userProperties,omitempty"`          // A repeated record of user properties set with the setUserProperty API.; https://firebase.google.com/docs/analytics/android/properties
 }
 
 // App information.
@@ -64,8 +64,8 @@ type AppInfo struct {
 
 // Information regarding the bundle in which these events were uploaded.
 type BundleInfo struct {
-	BundleSequenceID            *int64    `json:"bundleSequenceId,omitempty"` // Monotonically increasing index for each bundle set by SDK.
-	ServerTimestampOffsetMicros *IntValue `json:"serverTimestampOffsetMicros"`// Timestamp offset between collection time and upload time.
+	BundleSequenceID            *int64  `json:"bundleSequenceId,omitempty"`           // Monotonically increasing index for each bundle set by SDK.
+	ServerTimestampOffsetMicros *string `json:"serverTimestampOffsetMicros,omitempty"`// Timestamp offset between collection time and upload time.
 }
 
 // Device information.
@@ -105,9 +105,9 @@ type TrafficSource struct {
 }
 
 type UserProperty struct {
-	Index            *int64    `json:"index,omitempty"` // Index for user property (one-based).
-	SetTimestampUsec *IntValue `json:"setTimestampUsec"`// UTC client time when user property was last set.
-	Value            *Value    `json:"value,omitempty"` // Last set value of user property.
+	Index            *int64  `json:"index,omitempty"`           // Index for user property (one-based).
+	SetTimestampUsec *string `json:"setTimestampUsec,omitempty"`// UTC client time when user property was last set.
+	Value            *Value  `json:"value,omitempty"`           // Last set value of user property.
 }
 
 // Last set value of user property.
@@ -115,15 +115,10 @@ type UserProperty struct {
 // Value for Event Params and UserProperty can be of type string or int or
 // float or double.
 type Value struct {
-	DoubleValue *float64  `json:"doubleValue,omitempty"`
-	FloatValue  *float64  `json:"floatValue,omitempty"` 
-	IntValue    *IntValue `json:"intValue"`             
-	StringValue *string   `json:"stringValue,omitempty"`
-}
-
-type IntValue struct {
-	Integer *int64
-	String  *string
+	DoubleValue *float64 `json:"doubleValue,omitempty"`
+	FloatValue  *float64 `json:"floatValue,omitempty"` 
+	IntValue    *string  `json:"intValue,omitempty"`   
+	StringValue *string  `json:"stringValue,omitempty"`
 }
 
 func UnmarshalAnalyticsLogData(data []byte) (AnalyticsLogData, error) {

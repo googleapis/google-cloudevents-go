@@ -15,7 +15,7 @@ package pubsub
 
 import "encoding/json"
 
-// The data received in an event when a message is published to a topic.
+// The event data when a message is published to a topic.
 type MessagePublishedData struct {
 	Message      *Message `json:"message,omitempty"`     // The message that was published.
 	Subscription *string  `json:"subscription,omitempty"`// The resource name of the subscription for which this event was; generated. The format of the value is; `projects/{project-id}/subscriptions/{subscription-id}`.

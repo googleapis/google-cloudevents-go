@@ -15,10 +15,7 @@ package audit
 
 import "encoding/json"
 
-// Generic log entry, used as a wrapper for Cloud Audit Logs in events.
-// This is copied from
-// https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto
-// and adapted appropriately.
+// The data within all Cloud Audit Logs log entry events.
 type LogEntryData struct {
 	InsertID         *string           `json:"insertId,omitempty"`        // A unique identifier for the log entry.
 	Labels           map[string]string `json:"labels,omitempty"`          // A set of user-defined (key, value) data that provides additional; information about the log entry.
@@ -27,7 +24,7 @@ type LogEntryData struct {
 	ProtoPayload     *ProtoPayload     `json:"protoPayload,omitempty"`    // The log entry payload, which is always an AuditLog for Cloud Audit Log events.
 	ReceiveTimestamp *string           `json:"receiveTimestamp,omitempty"`// The time the log entry was received by Logging.
 	Resource         *Resource         `json:"resource,omitempty"`        // The monitored resource that produced this log entry.; ; Example: a log entry that reports a database error would be associated with; the monitored resource designating the particular database that reported; the error.
-	Severity         *NumResponseItems `json:"severity"`                  // The severity of the log entry.
+	Severity         *Severity         `json:"severity"`                  // The severity of the log entry.
 	SpanID           *string           `json:"spanId,omitempty"`          // The span ID within the trace associated with the log entry, if any.; ; For Trace spans, this is the same format that the Trace API v2 uses: a; 16-character hexadecimal encoding of an 8-byte array, such as; `000000000000004a`.
 	Timestamp        *string           `json:"timestamp,omitempty"`       // The time the event described by the log entry occurred.
 	Trace            *string           `json:"trace,omitempty"`           // Resource name of the trace associated with the log entry, if any. If it; contains a relative resource name, the name is assumed to be relative to; `//tracing.googleapis.com`. Example:; `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`
@@ -47,7 +44,7 @@ type ProtoPayload struct {
 	AuthorizationInfo     []AuthorizationInfo    `json:"authorizationInfo,omitempty"`    // Authorization information. If there are multiple; resources or permissions involved, then there is; one AuthorizationInfo element for each {resource, permission} tuple.
 	Metadata              *Metadata              `json:"metadata,omitempty"`             // Other service-specific data about the request, response, and other; information associated with the current audited event.
 	MethodName            *string                `json:"methodName,omitempty"`           // The name of the service method or operation.; For API calls, this should be the name of the API method.; For example,; ; "google.datastore.v1.Datastore.RunQuery"; "google.logging.v1.LoggingService.DeleteLog"
-	NumResponseItems      *NumResponseItems      `json:"numResponseItems"`               // The number of items returned from a List or Query API method,; if applicable.
+	NumResponseItems      *string                `json:"numResponseItems,omitempty"`     // The number of items returned from a List or Query API method,; if applicable.
 	Request               *Request               `json:"request,omitempty"`              // The operation request. This may not include all request parameters,; such as those that are too large, privacy-sensitive, or duplicated; elsewhere in the log record.; It should never include user-generated data, such as file contents.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
 	RequestMetadata       *RequestMetadata       `json:"requestMetadata,omitempty"`      // Metadata about the operation.
 	ResourceLocation      *ResourceLocation      `json:"resourceLocation,omitempty"`     // The resource location information.
@@ -158,7 +155,7 @@ type RequestMetadata struct {
 type DestinationAttributes struct {
 	IP         *string           `json:"ip,omitempty"`        // The IP address of the peer.
 	Labels     map[string]string `json:"labels,omitempty"`    // The labels associated with the peer.
-	Port       *NumResponseItems `json:"port"`                // The network port of the peer.
+	Port       *string           `json:"port,omitempty"`      // The network port of the peer.
 	Principal  *string           `json:"principal,omitempty"` // The identity of this peer. Similar to `Request.auth.principal`, but; relative to the peer instead of the request. For example, the; idenity associated with a load balancer that forwared the request.
 	RegionCode *string           `json:"regionCode,omitempty"`// The CLDR country/region code associated with the above IP address.; If the IP address is private, the `region_code` should reflect the; physical location where this peer is running.
 }
@@ -182,7 +179,7 @@ type RequestAttributes struct {
 	Query    *string           `json:"query,omitempty"`   // The HTTP URL query in the format of `name1=value1&name2=value2`, as it; appears in the first line of the HTTP request. No decoding is performed.
 	Reason   *string           `json:"reason,omitempty"`  // A special parameter for request reason. It is used by security systems; to associate auditing information with a request.
 	Scheme   *string           `json:"scheme,omitempty"`  // The HTTP URL scheme, such as `http` and `https`.
-	Size     *NumResponseItems `json:"size"`              // The HTTP request size in bytes. If unknown, it must be -1.
+	Size     *string           `json:"size,omitempty"`    // The HTTP request size in bytes. If unknown, it must be -1.
 	Time     *string           `json:"time,omitempty"`    // The timestamp when the `destination` service receives the first byte of; the request.
 }
 
@@ -352,7 +349,8 @@ type Resource struct {
 	Type   *string           `json:"type,omitempty"`  // Required. The monitored resource type. For example, the type of a; Compute Engine VM instance is `gce_instance`.
 }
 
-type NumResponseItems struct {
+// The severity of the log entry.
+type Severity struct {
 	Integer *int64
 	String  *string
 }

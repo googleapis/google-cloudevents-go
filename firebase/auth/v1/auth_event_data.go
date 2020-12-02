@@ -15,7 +15,7 @@ package auth
 
 import "encoding/json"
 
-// The data within all Firebase Auth events
+// The data within all Firebase Auth events.
 type AuthEventData struct {
 	CustomClaims  *CustomClaims   `json:"customClaims,omitempty"` // User's custom claims, typically used to define user roles and propagated; to an authenticated user's ID token.
 	Disabled      *bool           `json:"disabled,omitempty"`     // Whether the user is disabled.
