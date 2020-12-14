@@ -40,7 +40,7 @@ type OldValueField struct {
 	BytesValue     *string        `json:"bytesValue,omitempty"`    // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64       `json:"doubleValue,omitempty"`   // A double value.
 	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"` // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *string        `json:"integerValue,omitempty"`  // An integer value.
+	IntegerValue   *int64         `json:"integerValue,omitempty"`  // An integer value.
 	MapValue       *MapValue      `json:"mapValue,omitempty"`      // A map value.
 	NullValue      *NullValue     `json:"nullValue"`               // A null value.
 	ReferenceValue *string        `json:"referenceValue,omitempty"`// A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
@@ -55,7 +55,7 @@ type MapValueField struct {
 	BytesValue     *string        `json:"bytesValue,omitempty"`    // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64       `json:"doubleValue,omitempty"`   // A double value.
 	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"` // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *string        `json:"integerValue,omitempty"`  // An integer value.
+	IntegerValue   *int64         `json:"integerValue,omitempty"`  // An integer value.
 	MapValue       *MapValue      `json:"mapValue,omitempty"`      // A map value.
 	NullValue      *NullValue     `json:"nullValue"`               // A null value.
 	ReferenceValue *string        `json:"referenceValue,omitempty"`// A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
@@ -75,7 +75,7 @@ type ValueElement struct {
 	BytesValue     *string        `json:"bytesValue,omitempty"`    // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64       `json:"doubleValue,omitempty"`   // A double value.
 	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"` // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *string        `json:"integerValue,omitempty"`  // An integer value.
+	IntegerValue   *int64         `json:"integerValue,omitempty"`  // An integer value.
 	MapValue       *MapValue      `json:"mapValue,omitempty"`      // A map value.
 	NullValue      *NullValue     `json:"nullValue"`               // A null value.
 	ReferenceValue *string        `json:"referenceValue,omitempty"`// A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
