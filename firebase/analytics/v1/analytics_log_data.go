@@ -26,8 +26,8 @@ type EventDim struct {
 	Date                    *string                   `json:"date,omitempty"`                   // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
 	Name                    *string                   `json:"name,omitempty"`                   // The name of this event.
 	Params                  map[string]AnalyticsValue `json:"params,omitempty"`                 // A repeated record of the parameters associated with this event.
-	PreviousTimestampMicros *string                   `json:"previousTimestampMicros,omitempty"`// UTC client time when the previous event happened.
-	TimestampMicros         *string                   `json:"timestampMicros,omitempty"`        // UTC client time when the event happened.
+	PreviousTimestampMicros *int64                    `json:"previousTimestampMicros,omitempty"`// UTC client time when the previous event happened.
+	TimestampMicros         *int64                    `json:"timestampMicros,omitempty"`        // UTC client time when the event happened.
 	ValueInUsd              *float64                  `json:"valueInUsd,omitempty"`             // Value param in USD.
 }
 
@@ -36,7 +36,7 @@ type EventDim struct {
 type AnalyticsValue struct {
 	DoubleValue *float64 `json:"doubleValue,omitempty"`
 	FloatValue  *float64 `json:"floatValue,omitempty"` 
-	IntValue    *string  `json:"intValue,omitempty"`   
+	IntValue    *int64   `json:"intValue,omitempty"`   
 	StringValue *string  `json:"stringValue,omitempty"`
 }
 
@@ -45,7 +45,7 @@ type UserDim struct {
 	AppInfo                  *AppInfo                `json:"appInfo,omitempty"`                 // App information.
 	BundleInfo               *BundleInfo             `json:"bundleInfo,omitempty"`              // Information regarding the bundle in which these events were uploaded.
 	DeviceInfo               *DeviceInfo             `json:"deviceInfo,omitempty"`              // Device information.
-	FirstOpenTimestampMicros *string                 `json:"firstOpenTimestampMicros,omitempty"`// The time (in microseconds) at which the user first opened the app.
+	FirstOpenTimestampMicros *int64                  `json:"firstOpenTimestampMicros,omitempty"`// The time (in microseconds) at which the user first opened the app.
 	GeoInfo                  *GeoInfo                `json:"geoInfo,omitempty"`                 // User's geographic information.
 	LtvInfo                  *LtvInfo                `json:"ltvInfo,omitempty"`                 // Lifetime Value information about this user.
 	TrafficSource            *TrafficSource          `json:"trafficSource,omitempty"`           // Information about marketing campaign which acquired the user.
@@ -64,8 +64,8 @@ type AppInfo struct {
 
 // Information regarding the bundle in which these events were uploaded.
 type BundleInfo struct {
-	BundleSequenceID            *int64  `json:"bundleSequenceId,omitempty"`           // Monotonically increasing index for each bundle set by SDK.
-	ServerTimestampOffsetMicros *string `json:"serverTimestampOffsetMicros,omitempty"`// Timestamp offset between collection time and upload time.
+	BundleSequenceID            *int64 `json:"bundleSequenceId,omitempty"`           // Monotonically increasing index for each bundle set by SDK.
+	ServerTimestampOffsetMicros *int64 `json:"serverTimestampOffsetMicros,omitempty"`// Timestamp offset between collection time and upload time.
 }
 
 // Device information.
@@ -105,9 +105,9 @@ type TrafficSource struct {
 }
 
 type UserProperty struct {
-	Index            *int64  `json:"index,omitempty"`           // Index for user property (one-based).
-	SetTimestampUsec *string `json:"setTimestampUsec,omitempty"`// UTC client time when user property was last set.
-	Value            *Value  `json:"value,omitempty"`           // Last set value of user property.
+	Index            *int64 `json:"index,omitempty"`           // Index for user property (one-based).
+	SetTimestampUsec *int64 `json:"setTimestampUsec,omitempty"`// UTC client time when user property was last set.
+	Value            *Value `json:"value,omitempty"`           // Last set value of user property.
 }
 
 // Last set value of user property.
@@ -117,7 +117,7 @@ type UserProperty struct {
 type Value struct {
 	DoubleValue *float64 `json:"doubleValue,omitempty"`
 	FloatValue  *float64 `json:"floatValue,omitempty"` 
-	IntValue    *string  `json:"intValue,omitempty"`   
+	IntValue    *int64   `json:"intValue,omitempty"`   
 	StringValue *string  `json:"stringValue,omitempty"`
 }
 

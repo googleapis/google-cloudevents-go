@@ -76,7 +76,7 @@ type ObjectsTiming struct {
 
 // Special options for this build.
 type Options struct {
-	DiskSizeGB            *string                       `json:"diskSizeGb,omitempty"`          // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
+	DiskSizeGB            *int64                        `json:"diskSizeGb,omitempty"`          // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
 	Env                   []string                      `json:"env,omitempty"`                 // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
 	Logging               *Logging                      `json:"logging"`                       // Option to specify the logging mode, which determines where the logs are; stored.
 	LogStreamingOption    *LogStreamingOption           `json:"logStreamingOption"`            // Option to define build log streaming behavior to Google Cloud; Storage.
@@ -102,8 +102,8 @@ type Volume struct {
 //
 // The TTL starts ticking from create_time.
 type QueueTTL struct {
-	Nanos   *int64  `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
-	Seconds *string `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
+	Nanos   *int64 `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
+	Seconds *int64 `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
 // Results of the build.
@@ -113,7 +113,7 @@ type Results struct {
 	BuildStepImages  []string        `json:"buildStepImages,omitempty"` // List of build step digests, in the order corresponding to build step; indices.
 	BuildStepOutputs []string        `json:"buildStepOutputs,omitempty"`// List of build step outputs, produced by builder images, in the order; corresponding to build step indices.; ; [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders); can produce this output by writing to `$BUILDER_OUTPUT/output`.; Only the first 4KB of data is stored.
 	Images           []Image         `json:"images,omitempty"`          // Container images that were built as a part of the build.
-	NumArtifacts     *string         `json:"numArtifacts,omitempty"`    // Number of artifacts uploaded. Only populated when artifacts are uploaded.
+	NumArtifacts     *int64          `json:"numArtifacts,omitempty"`    // Number of artifacts uploaded. Only populated when artifacts are uploaded.
 }
 
 // Time to push all non-container artifacts.
@@ -176,7 +176,7 @@ type RepoSourceClass struct {
 // Location of the source in an archive file in Google Cloud Storage.
 type StorageSourceClass struct {
 	Bucket     *string `json:"bucket,omitempty"`    // Google Cloud Storage bucket containing the source (see; [Bucket Name; Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).
-	Generation *string `json:"generation,omitempty"`// Google Cloud Storage generation for the object. If the generation is; omitted, the latest generation will be used.
+	Generation *int64  `json:"generation,omitempty"`// Google Cloud Storage generation for the object. If the generation is; omitted, the latest generation will be used.
 	Object     *string `json:"object,omitempty"`    // Google Cloud Storage object containing the source.
 }
 
@@ -223,7 +223,7 @@ type ResolvedRepoSourceClass struct {
 // Location of the source in an archive file in Google Cloud Storage.
 type ResolvedStorageSourceClass struct {
 	Bucket     *string `json:"bucket,omitempty"`    // Google Cloud Storage bucket containing the source (see; [Bucket Name; Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).
-	Generation *string `json:"generation,omitempty"`// Google Cloud Storage generation for the object. If the generation is; omitted, the latest generation will be used.
+	Generation *int64  `json:"generation,omitempty"`// Google Cloud Storage generation for the object. If the generation is; omitted, the latest generation will be used.
 	Object     *string `json:"object,omitempty"`    // Google Cloud Storage object containing the source.
 }
 
@@ -259,8 +259,8 @@ type PullTiming struct {
 // time limit and will be allowed to continue to run until either it completes
 // or the build itself times out.
 type StepTimeout struct {
-	Nanos   *int64  `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
-	Seconds *string `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
+	Nanos   *int64 `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
+	Seconds *int64 `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
 // Stores timing information for executing this build step.
@@ -277,8 +277,8 @@ type StepTiming struct {
 // granularity. If this amount of time elapses, work on the build will cease
 // and the build status will be `TIMEOUT`.
 type BuildEventDataTimeout struct {
-	Nanos   *int64  `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
-	Seconds *string `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
+	Nanos   *int64 `json:"nanos,omitempty"`  // Signed fractions of a second at nanosecond resolution of the span; of time. Durations less than one second are represented with a 0; `seconds` field and a positive or negative `nanos` field. For durations; of one second or more, a non-zero value for the `nanos` field must be; of the same sign as the `seconds` field. Must be from -999,999,999; to +999,999,999 inclusive.
+	Seconds *int64 `json:"seconds,omitempty"`// Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
 // Stores timing information for pushing all artifact objects.
