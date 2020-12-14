@@ -44,7 +44,7 @@ type ProtoPayload struct {
 	AuthorizationInfo     []AuthorizationInfo    `json:"authorizationInfo,omitempty"`    // Authorization information. If there are multiple; resources or permissions involved, then there is; one AuthorizationInfo element for each {resource, permission} tuple.
 	Metadata              *Metadata              `json:"metadata,omitempty"`             // Other service-specific data about the request, response, and other; information associated with the current audited event.
 	MethodName            *string                `json:"methodName,omitempty"`           // The name of the service method or operation.; For API calls, this should be the name of the API method.; For example,; ; "google.datastore.v1.Datastore.RunQuery"; "google.logging.v1.LoggingService.DeleteLog"
-	NumResponseItems      *string                `json:"numResponseItems,omitempty"`     // The number of items returned from a List or Query API method,; if applicable.
+	NumResponseItems      *int64                 `json:"numResponseItems,omitempty"`     // The number of items returned from a List or Query API method,; if applicable.
 	Request               *Request               `json:"request,omitempty"`              // The operation request. This may not include all request parameters,; such as those that are too large, privacy-sensitive, or duplicated; elsewhere in the log record.; It should never include user-generated data, such as file contents.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
 	RequestMetadata       *RequestMetadata       `json:"requestMetadata,omitempty"`      // Metadata about the operation.
 	ResourceLocation      *ResourceLocation      `json:"resourceLocation,omitempty"`     // The resource location information.
@@ -155,7 +155,7 @@ type RequestMetadata struct {
 type DestinationAttributes struct {
 	IP         *string           `json:"ip,omitempty"`        // The IP address of the peer.
 	Labels     map[string]string `json:"labels,omitempty"`    // The labels associated with the peer.
-	Port       *string           `json:"port,omitempty"`      // The network port of the peer.
+	Port       *int64            `json:"port,omitempty"`      // The network port of the peer.
 	Principal  *string           `json:"principal,omitempty"` // The identity of this peer. Similar to `Request.auth.principal`, but; relative to the peer instead of the request. For example, the; idenity associated with a load balancer that forwared the request.
 	RegionCode *string           `json:"regionCode,omitempty"`// The CLDR country/region code associated with the above IP address.; If the IP address is private, the `region_code` should reflect the; physical location where this peer is running.
 }
@@ -179,7 +179,7 @@ type RequestAttributes struct {
 	Query    *string           `json:"query,omitempty"`   // The HTTP URL query in the format of `name1=value1&name2=value2`, as it; appears in the first line of the HTTP request. No decoding is performed.
 	Reason   *string           `json:"reason,omitempty"`  // A special parameter for request reason. It is used by security systems; to associate auditing information with a request.
 	Scheme   *string           `json:"scheme,omitempty"`  // The HTTP URL scheme, such as `http` and `https`.
-	Size     *string           `json:"size,omitempty"`    // The HTTP request size in bytes. If unknown, it must be -1.
+	Size     *int64            `json:"size,omitempty"`    // The HTTP request size in bytes. If unknown, it must be -1.
 	Time     *string           `json:"time,omitempty"`    // The timestamp when the `destination` service receives the first byte of; the request.
 }
 
