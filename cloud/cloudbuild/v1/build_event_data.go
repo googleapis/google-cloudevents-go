@@ -33,7 +33,7 @@ type BuildEventData struct {
 	Source           *Source                `json:"source,omitempty"`          // The location of the source files to build.
 	SourceProvenance *SourceProvenance      `json:"sourceProvenance,omitempty"`// A permanent fixed identifier for source.
 	StartTime        *string                `json:"startTime,omitempty"`       // Time at which execution of the build was started.
-	Status           *BuildEventDataStatus  `json:"status"`                    // Status of the build.
+	Status           *Status                `json:"status"`                    // Status of the build.
 	StatusDetail     *string                `json:"statusDetail,omitempty"`    // Customer-readable message about the current status.
 	Steps            []Step                 `json:"steps,omitempty"`           // The operations to be performed on the workspace.
 	Substitutions    map[string]string      `json:"substitutions,omitempty"`   // Substitutions data for `Build` resource.
@@ -76,17 +76,17 @@ type ObjectsTiming struct {
 
 // Special options for this build.
 type Options struct {
-	DiskSizeGB            *int64                        `json:"diskSizeGb,omitempty"`          // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
-	Env                   []string                      `json:"env,omitempty"`                 // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
-	Logging               *Logging                      `json:"logging"`                       // Option to specify the logging mode, which determines where the logs are; stored.
-	LogStreamingOption    *LogStreamingOption           `json:"logStreamingOption"`            // Option to define build log streaming behavior to Google Cloud; Storage.
-	MachineType           *MachineType                  `json:"machineType"`                   // Compute Engine machine type on which to run the build.
-	RequestedVerifyOption *RequestedVerifyOption        `json:"requestedVerifyOption"`         // Requested verifiability options.
-	SecretEnv             []string                      `json:"secretEnv,omitempty"`           // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
-	SourceProvenanceHash  []SourceProvenanceHashElement `json:"sourceProvenanceHash,omitempty"`// Requested hash for SourceProvenance.
-	SubstitutionOption    *SubstitutionOption           `json:"substitutionOption"`            // Option to specify behavior when there is an error in the substitution; checks.
-	Volumes               []Volume                      `json:"volumes,omitempty"`             // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
-	WorkerPool            *string                       `json:"workerPool,omitempty"`          // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
+	DiskSizeGB            *int64                 `json:"diskSizeGb,omitempty"`          // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
+	Env                   []string               `json:"env,omitempty"`                 // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
+	Logging               *Logging               `json:"logging"`                       // Option to specify the logging mode, which determines where the logs are; stored.
+	LogStreamingOption    *LogStreamingOption    `json:"logStreamingOption"`            // Option to define build log streaming behavior to Google Cloud; Storage.
+	MachineType           *MachineType           `json:"machineType"`                   // Compute Engine machine type on which to run the build.
+	RequestedVerifyOption *RequestedVerifyOption `json:"requestedVerifyOption"`         // Requested verifiability options.
+	SecretEnv             []string               `json:"secretEnv,omitempty"`           // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
+	SourceProvenanceHash  []SourceProvenanceHash `json:"sourceProvenanceHash,omitempty"`// Requested hash for SourceProvenance.
+	SubstitutionOption    *SubstitutionOption    `json:"substitutionOption"`            // Option to specify behavior when there is an error in the substitution; checks.
+	Volumes               []Volume               `json:"volumes,omitempty"`             // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
+	WorkerPool            *string                `json:"workerPool,omitempty"`          // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
 }
 
 // Volume describes a Docker container volume which is mounted into build steps
@@ -229,19 +229,19 @@ type ResolvedStorageSourceClass struct {
 
 // A step in the build pipeline.
 type Step struct {
-	Args       []string                     `json:"args,omitempty"`      // A list of arguments that will be presented to the step when it is started.; ; If the image used to run the step's container has an entrypoint, the `args`; are used as arguments to that entrypoint. If the image does not define; an entrypoint, the first element in args is used as the entrypoint,; and the remainder will be used as arguments.
-	Dir        *string                      `json:"dir,omitempty"`       // Working directory to use when running this step's container.; ; If this value is a relative path, it is relative to the build's working; directory. If this value is absolute, it may be outside the build's working; directory, in which case the contents of the path may not be persisted; across build step executions, unless a `volume` for that path is specified.; ; If the build specifies a `RepoSource` with `dir` and a step with a `dir`,; which specifies an absolute path, the `RepoSource` `dir` is ignored for; the step's execution.
-	Entrypoint *string                      `json:"entrypoint,omitempty"`// Entrypoint to be used instead of the build step image's default entrypoint.; If unset, the image's default entrypoint is used.
-	Env        []string                     `json:"env,omitempty"`       // A list of environment variable definitions to be used when running a step.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
-	ID         *string                      `json:"id,omitempty"`        // Unique identifier for this build step, used in `wait_for` to; reference this build step as a dependency.
-	Name       *string                      `json:"name,omitempty"`      // The name of the container image that will run this particular; build step.; ; If the image is available in the host's Docker daemon's cache, it; will be run directly. If not, the host will attempt to pull the image; first, using the builder service account's credentials if necessary.; ; The Docker daemon's cache will already have the latest versions of all of; the officially supported build steps; ; ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).; The Docker daemon will also have cached many of the layers for some popular; images, like "ubuntu", "debian", but they will be refreshed at the time you; attempt to use them.; ; If you built an image in a previous build step, it will be stored in the; host's Docker daemon's cache and is available to use as the name for a; later build step.
-	PullTiming *PullTiming                  `json:"pullTiming,omitempty"`// Stores timing information for pulling this build step's; builder image only.
-	SecretEnv  []string                     `json:"secretEnv,omitempty"` // A list of environment variables which are encrypted using a Cloud Key; Management Service crypto key. These values must be specified in the; build's `Secret`.
-	Status     *SourceProvenanceHashElement `json:"status"`              // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
-	Timeout    *StepTimeout                 `json:"timeout,omitempty"`   // Time limit for executing this build step. If not defined, the step has no; time limit and will be allowed to continue to run until either it completes; or the build itself times out.
-	Timing     *StepTiming                  `json:"timing,omitempty"`    // Stores timing information for executing this build step.
-	Volumes    []Volume                     `json:"volumes,omitempty"`   // List of volumes to mount into the build step.; ; Each volume is created as an empty volume prior to execution of the; build step. Upon completion of the build, volumes and their contents are; discarded.; ; Using a named volume in only one step is not valid as it is indicative; of a build request with an incorrect configuration.
-	WaitFor    []string                     `json:"waitFor,omitempty"`   // The ID(s) of the step(s) that this build step depends on.; This build step will not start until all the build steps in `wait_for`; have completed successfully. If `wait_for` is empty, this build step will; start when all previous build steps in the `Build.Steps` list have; completed successfully.
+	Args       []string     `json:"args,omitempty"`      // A list of arguments that will be presented to the step when it is started.; ; If the image used to run the step's container has an entrypoint, the `args`; are used as arguments to that entrypoint. If the image does not define; an entrypoint, the first element in args is used as the entrypoint,; and the remainder will be used as arguments.
+	Dir        *string      `json:"dir,omitempty"`       // Working directory to use when running this step's container.; ; If this value is a relative path, it is relative to the build's working; directory. If this value is absolute, it may be outside the build's working; directory, in which case the contents of the path may not be persisted; across build step executions, unless a `volume` for that path is specified.; ; If the build specifies a `RepoSource` with `dir` and a step with a `dir`,; which specifies an absolute path, the `RepoSource` `dir` is ignored for; the step's execution.
+	Entrypoint *string      `json:"entrypoint,omitempty"`// Entrypoint to be used instead of the build step image's default entrypoint.; If unset, the image's default entrypoint is used.
+	Env        []string     `json:"env,omitempty"`       // A list of environment variable definitions to be used when running a step.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
+	ID         *string      `json:"id,omitempty"`        // Unique identifier for this build step, used in `wait_for` to; reference this build step as a dependency.
+	Name       *string      `json:"name,omitempty"`      // The name of the container image that will run this particular; build step.; ; If the image is available in the host's Docker daemon's cache, it; will be run directly. If not, the host will attempt to pull the image; first, using the builder service account's credentials if necessary.; ; The Docker daemon's cache will already have the latest versions of all of; the officially supported build steps; ; ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).; The Docker daemon will also have cached many of the layers for some popular; images, like "ubuntu", "debian", but they will be refreshed at the time you; attempt to use them.; ; If you built an image in a previous build step, it will be stored in the; host's Docker daemon's cache and is available to use as the name for a; later build step.
+	PullTiming *PullTiming  `json:"pullTiming,omitempty"`// Stores timing information for pulling this build step's; builder image only.
+	SecretEnv  []string     `json:"secretEnv,omitempty"` // A list of environment variables which are encrypted using a Cloud Key; Management Service crypto key. These values must be specified in the; build's `Secret`.
+	Status     *Status      `json:"status"`              // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
+	Timeout    *StepTimeout `json:"timeout,omitempty"`   // Time limit for executing this build step. If not defined, the step has no; time limit and will be allowed to continue to run until either it completes; or the build itself times out.
+	Timing     *StepTiming  `json:"timing,omitempty"`    // Stores timing information for executing this build step.
+	Volumes    []Volume     `json:"volumes,omitempty"`   // List of volumes to mount into the build step.; ; Each volume is created as an empty volume prior to execution of the; build step. Upon completion of the build, volumes and their contents are; discarded.; ; Using a named volume in only one step is not valid as it is indicative; of a build request with an incorrect configuration.
+	WaitFor    []string     `json:"waitFor,omitempty"`   // The ID(s) of the step(s) that this build step depends on.; This build step will not start until all the build steps in `wait_for`; have completed successfully. If `wait_for` is empty, this build step will; start when all previous build steps in the `Build.Steps` list have; completed successfully.
 }
 
 // Stores timing information for pulling this build step's
@@ -316,17 +316,17 @@ const (
 	Verified RequestedVerifyOptionEnum = "VERIFIED"
 )
 
+type SourceProvenanceHashEnum string
+const (
+	Md5 SourceProvenanceHashEnum = "MD5"
+	None SourceProvenanceHashEnum = "NONE"
+	Sha256 SourceProvenanceHashEnum = "SHA256"
+)
+
 type SubstitutionOptionEnum string
 const (
 	AllowLoose SubstitutionOptionEnum = "ALLOW_LOOSE"
 	MustMatch SubstitutionOptionEnum = "MUST_MATCH"
-)
-
-type TypeEnum string
-const (
-	Md5 TypeEnum = "MD5"
-	None TypeEnum = "NONE"
-	Sha256 TypeEnum = "SHA256"
 )
 
 type StatusEnum string
@@ -368,9 +368,10 @@ type RequestedVerifyOption struct {
 	Integer *int64
 }
 
-type SourceProvenanceHashElement struct {
+type SourceProvenanceHash struct {
+	Double  *float64
+	Enum    *SourceProvenanceHashEnum
 	Integer *int64
-	String  *string
 }
 
 // Option to specify behavior when there is an error in the substitution
@@ -382,12 +383,11 @@ type SubstitutionOption struct {
 
 // The type of hash that was performed.
 type Type struct {
-	Enum    *TypeEnum
+	Enum    *SourceProvenanceHashEnum
 	Integer *int64
 }
 
-// Status of the build.
-type BuildEventDataStatus struct {
+type Status struct {
 	Enum    *StatusEnum
 	Integer *int64
 }

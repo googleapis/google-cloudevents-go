@@ -349,10 +349,23 @@ type Resource struct {
 	Type   *string           `json:"type,omitempty"`  // Required. The monitored resource type. For example, the type of a; Compute Engine VM instance is `gce_instance`.
 }
 
+type InsertID string
+const (
+	Alert InsertID = "ALERT"
+	Critical InsertID = "CRITICAL"
+	Debug InsertID = "DEBUG"
+	Default InsertID = "DEFAULT"
+	Emergency InsertID = "EMERGENCY"
+	Error InsertID = "ERROR"
+	Info InsertID = "INFO"
+	Notice InsertID = "NOTICE"
+	Warning InsertID = "WARNING"
+)
+
 // The severity of the log entry.
 type Severity struct {
+	Enum    *InsertID
 	Integer *int64
-	String  *string
 }
 
 func UnmarshalLogEntryData(data []byte) (LogEntryData, error) {
