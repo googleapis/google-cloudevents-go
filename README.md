@@ -54,6 +54,7 @@ func main() {
 ```
 
 More detailed documentation about the usage of every type can be found in this library's reference.
+
 ## Reference
 
 The [`reference.md`](reference.md) file has detailed examples for how to use every event data type.
