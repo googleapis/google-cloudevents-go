@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "mkdirp": "1.0.4",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "2.6.1",
     "pascalcase": "1.0.0",
     "recursive-readdir": "2.2.2"
   }
