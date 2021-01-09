@@ -22,23 +22,39 @@ Here's an exmaple of using this library with an event from Cloud Pub/Sub with da
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 
 	pubsub "github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
 )
 
 func main() {
-	data := []byte("CloudEvent Data in bytes")
+	data := []byte(`{
+    "message": {
+      "attributes": {
+        "key": "value"
+      },
+      "data": "Q2xvdWQgUHViL1N1Yg==",
+      "messageId": "136969346945"
+    },
+    "subscription": "projects/myproject/subscriptions/mysubscription"
+  }`)
 
 	e, err := pubsub.UnmarshalMessagePublishedData(data)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%+v\n", e)
+	s, err := base64.URLEncoding.DecodeString(*e.Message.Data)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+s\n", s)
 }
+
 ```
 
 More detailed documentation about the usage of every type can be found in this library's reference.
+
 ## Reference
 
 The [`reference.md`](reference.md) file has detailed examples for how to use every event data type.
