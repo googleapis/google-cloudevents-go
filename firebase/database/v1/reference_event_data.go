@@ -17,8 +17,8 @@ import "encoding/json"
 
 // The data within all Firebase Real Time Database reference events.
 type ReferenceEventData struct {
-	Data  map[string]interface{} `json:"data"` 
-	Delta map[string]interface{} `json:"delta"`
+	Data  map[string]interface{} `json:"data,omitempty"` // The original data for the reference.
+	Delta map[string]interface{} `json:"delta,omitempty"`// The change in the reference data.
 }
 
 func UnmarshalReferenceEventData(data []byte) (ReferenceEventData, error) {
