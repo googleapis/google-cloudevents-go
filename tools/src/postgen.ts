@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import {fix64BitNumberFields} from './postgen-64types';
 const pascalcase = require('pascalcase');
 const recursive = require("recursive-readdir");
 
@@ -35,6 +36,12 @@ func (p *${dataFieldName}) Marshal${dataFieldName}() ([]byte, error) {
 	return json.Marshal(p)
 }`;
 
+/**
+ * Runs post-gen processing on the generated files:
+ * - Fixes 64 bit types on the structs.
+ * - Adds the correct Go package.
+ * - Adds JSON Unmarshal and Marshal functions.
+ */
 async function main() {
   const filePaths: string[] = [
     ...await recursive(`${REPO_ROOT}/cloud`),
@@ -45,6 +52,7 @@ async function main() {
   filePaths.forEach(filePath => {
     // Read file
     const typeFileContent = fs.readFileSync(filePath).toString();
+    const fixedFileContents = fix64BitNumberFields(typeFileContent);
 
     // Get relative path info
     const relativePath = filePath.substr(REPO_ROOT.length + 1);
@@ -63,7 +71,7 @@ async function main() {
     
     // Create the full file
     const typeFileWithMarshalling = 
-      typeFileContent +
+      fixedFileContents +
       marshalUnmarshalFunctions(dataField);
 
     // Add Go package header (but under Apache header)
@@ -74,7 +82,7 @@ import "encoding/json"`;
     let typeFileWithMarshallingAndPackage =
       typeFileWithMarshalling.split('\n');
     typeFileWithMarshallingAndPackage.splice(
-      13, // length of Apache header from quicktype
+      13, // length of Apache header from quicktype wrapper
       0, // don't delete anything
       filePackageHeader, // insert header at this index
     );

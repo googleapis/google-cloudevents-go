@@ -15,8 +15,10 @@ qt \
 cp -a google/events/. .
 rm -r google
 
-echo $ROOT
-
 # Run postgen
-cd tools
-npm start
+echo '- Running postgen step'
+(cd tools && npm start)
+
+# Re-format the golang files
+echo "- Re-format golang files"
+gofmt -s -w .
