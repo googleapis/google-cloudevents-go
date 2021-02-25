@@ -27,7 +27,6 @@ type Message struct {
 	Data        *string           `json:"data,omitempty"`        // The binary data in the message.
 	MessageID   *string           `json:"messageId,omitempty"`   // ID of this message, assigned by the server when the message is published.; Guaranteed to be unique within the topic.
 	PublishTime *string           `json:"publishTime,omitempty"` // The time at which the message was published, populated by the server when; it receives the `Publish` call.
-	Tempbytes   *string           `json:"tempbytes,omitempty"`
 }
 
 func UnmarshalMessagePublishedData(data []byte) (MessagePublishedData, error) {
