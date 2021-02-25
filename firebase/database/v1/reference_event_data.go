@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ import "encoding/json"
 
 // The data within all Firebase Real Time Database reference events.
 type ReferenceEventData struct {
-	Data  map[string]interface{} `json:"data,omitempty"` // The original data for the reference.
-	Delta map[string]interface{} `json:"delta,omitempty"`// The change in the reference data.
+	Data  map[string]interface{} `json:"data,omitempty"`  // The original data for the reference.
+	Delta map[string]interface{} `json:"delta,omitempty"` // The change in the reference data.
 }
 
 func UnmarshalReferenceEventData(data []byte) (ReferenceEventData, error) {

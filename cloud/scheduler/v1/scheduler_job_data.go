@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ import "encoding/json"
 
 // Scheduler job data.
 type SchedulerJobData struct {
-	CustomData *string `json:"customData,omitempty"`// The custom data the user specified when creating the scheduler source.
+	CustomData *string `json:"customData,omitempty"` // The custom data the user specified when creating the scheduler source.
 }
 
 func UnmarshalSchedulerJobData(data []byte) (SchedulerJobData, error) {
