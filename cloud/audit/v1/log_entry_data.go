@@ -20,8 +20,8 @@ type LogEntryData struct {
 	InsertID         *string           `json:"insertId,omitempty"`         // A unique identifier for the log entry.
 	Labels           map[string]string `json:"labels,omitempty"`           // A set of user-defined (key, value) data that provides additional; information about the log entry.
 	LogName          *string           `json:"logName,omitempty"`          // The resource name of the log to which this log entry belongs.
-	Operation        *Operation        `json:"operation,omitempty"`        // Information about an operation associated with the log entry, if applicable.
-	ProtoPayload     *ProtoPayload     `json:"protoPayload,omitempty"`     // The log entry payload, which is always an AuditLog for Cloud Audit Log events.
+	Operation        *Operation        `json:"operation,omitempty"`        // Information about an operation associated with the log entry, if; applicable.
+	ProtoPayload     *ProtoPayload     `json:"protoPayload,omitempty"`     // The log entry payload, which is always an AuditLog for Cloud Audit Log; events.
 	ReceiveTimestamp *string           `json:"receiveTimestamp,omitempty"` // The time the log entry was received by Logging.
 	Resource         *Resource         `json:"resource,omitempty"`         // The monitored resource that produced this log entry.; ; Example: a log entry that reports a database error would be associated with; the monitored resource designating the particular database that reported; the error.
 	Severity         *Severity         `json:"severity"`                   // The severity of the log entry.
@@ -30,7 +30,8 @@ type LogEntryData struct {
 	Trace            *string           `json:"trace,omitempty"`            // Resource name of the trace associated with the log entry, if any. If it; contains a relative resource name, the name is assumed to be relative to; `//tracing.googleapis.com`. Example:; `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`
 }
 
-// Information about an operation associated with the log entry, if applicable.
+// Information about an operation associated with the log entry, if
+// applicable.
 type Operation struct {
 	First    *bool   `json:"first,omitempty"`    // True if this is the first log entry in the operation.
 	ID       *string `json:"id,omitempty"`       // An arbitrary operation identifier. Log entries with the same; identifier are assumed to be part of the same operation.
@@ -38,7 +39,8 @@ type Operation struct {
 	Producer *string `json:"producer,omitempty"` // An arbitrary producer identifier. The combination of `id` and; `producer` must be globally unique. Examples for `producer`:; `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`.
 }
 
-// The log entry payload, which is always an AuditLog for Cloud Audit Log events.
+// The log entry payload, which is always an AuditLog for Cloud Audit Log
+// events.
 type ProtoPayload struct {
 	AuthenticationInfo    *AuthenticationInfo    `json:"authenticationInfo,omitempty"`      // Authentication information.
 	AuthorizationInfo     []AuthorizationInfo    `json:"authorizationInfo,omitempty"`       // Authorization information. If there are multiple; resources or permissions involved, then there is; one AuthorizationInfo element for each {resource, permission} tuple.
