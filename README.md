@@ -12,7 +12,7 @@ This library provides classes of common event types used with Google services.
 To install this package, run:
 
 ``` sh
-go get github.com/googleapis/google-cloudevents-go
+go get -u github.com/googleapis/google-cloudevents-go
 ```
 
 ## Example Usage
