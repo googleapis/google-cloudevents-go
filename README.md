@@ -9,10 +9,10 @@ This library provides classes of common event types used with Google services.
 
 **Note**: This library requires Go 1.11+.
 
-To install this package, run
+To install this package, run:
 
 ``` sh
-go install github.com/googleapis/google-cloudevents-go
+go get -u github.com/googleapis/google-cloudevents-go
 ```
 
 ## Example Usage
