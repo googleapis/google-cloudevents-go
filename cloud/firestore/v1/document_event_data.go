@@ -11,18 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package firestore
 
-import "encoding/json"
-
-// The data within all Firestore document events.
+// DocumentEventData: The data within all Firestore document events.
 type DocumentEventData struct {
 	OldValue   *OldValue   `json:"oldValue,omitempty"`   // A Document object containing a pre-operation document snapshot.; This is only populated for update and delete events.
 	UpdateMask *UpdateMask `json:"updateMask,omitempty"` // A DocumentMask object that lists changed fields.; This is only populated for update events.
 	Value      *Value      `json:"value,omitempty"`      // A Document object containing a post-operation document snapshot.; This is not populated for delete events. (TODO: check this!)
 }
 
-// A Document object containing a pre-operation document snapshot.
+// OldValue: A Document object containing a pre-operation document snapshot.
 // This is only populated for update and delete events.
 //
 // A Firestore document.
@@ -33,7 +32,7 @@ type OldValue struct {
 	UpdateTime *string                  `json:"updateTime,omitempty"` // The time at which the document was last changed.; ; This value is initially set to the `create_time` then increases; monotonically with each change to the document. It can also be; compared to values from other documents and the `read_time` of a query.
 }
 
-// A message that can hold any of the supported value types.
+// OldValueField: A message that can hold any of the supported value types.
 type OldValueField struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
@@ -48,7 +47,7 @@ type OldValueField struct {
 	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
-// A message that can hold any of the supported value types.
+// MapValueField: A message that can hold any of the supported value types.
 type MapValueField struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
@@ -63,12 +62,12 @@ type MapValueField struct {
 	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
-// A map value.
+// MapValue: A map value.
 type MapValue struct {
 	Fields map[string]MapValueField `json:"fields,omitempty"` // The map's fields.; ; The map keys represent field names. Field names matching the regular; expression `__.*__` are reserved. Reserved field names are forbidden except; in certain documented contexts. The map keys, represented as UTF-8, must; not exceed 1,500 bytes and cannot be empty.
 }
 
-// A message that can hold any of the supported value types.
+// ValueElement: A message that can hold any of the supported value types.
 type ValueElement struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
@@ -83,7 +82,7 @@ type ValueElement struct {
 	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
-// An array value.
+// ArrayValue: An array value.
 //
 // Cannot directly contain another array value, though can contain an
 // map which contains another array.
@@ -91,19 +90,19 @@ type ArrayValue struct {
 	Values []ValueElement `json:"values,omitempty"` // Values in the array.
 }
 
-// A geo point value representing a point on the surface of Earth.
+// GeoPointValue: A geo point value representing a point on the surface of Earth.
 type GeoPointValue struct {
 	Latitude  *float64 `json:"latitude,omitempty"`  // The latitude in degrees. It must be in the range [-90.0, +90.0].
 	Longitude *float64 `json:"longitude,omitempty"` // The longitude in degrees. It must be in the range [-180.0, +180.0].
 }
 
-// A DocumentMask object that lists changed fields.
+// UpdateMask: A DocumentMask object that lists changed fields.
 // This is only populated for update events.
 type UpdateMask struct {
 	FieldPaths []string `json:"fieldPaths,omitempty"` // The list of field paths in the mask.; See [Document.fields][google.cloud.firestore.v1.events.Document.fields]; for a field path syntax reference.
 }
 
-// A Document object containing a post-operation document snapshot.
+// Value: A Document object containing a post-operation document snapshot.
 // This is not populated for delete events. (TODO: check this!)
 //
 // A Document object containing a pre-operation document snapshot.
@@ -123,18 +122,8 @@ const (
 	NullValue CreateTime = "NULL_VALUE"
 )
 
-// A null value.
+// NullValueUnion: A null value.
 type NullValueUnion struct {
 	Enum    *CreateTime
 	Integer *int64
-}
-
-func UnmarshalDocumentEventData(data []byte) (DocumentEventData, error) {
-	var d DocumentEventData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *DocumentEventData) MarshalDocumentEventData() ([]byte, error) {
-	return json.Marshal(p)
 }

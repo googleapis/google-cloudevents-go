@@ -11,11 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package storage
 
-import "encoding/json"
-
-// An object within Google Cloud Storage.
+// StorageObjectData: An object within Google Cloud Storage.
 type StorageObjectData struct {
 	Bucket                  *string             `json:"bucket,omitempty"`                  // The name of the bucket containing this object.
 	CacheControl            *string             `json:"cacheControl,omitempty"`            // Cache-Control directive for the object data, matching; [https://tools.ietf.org/html/rfc7234#section-5.2"][RFC 7234 §5.2].
@@ -48,19 +47,9 @@ type StorageObjectData struct {
 	Updated                 *string             `json:"updated,omitempty"`                 // The modification time of the object metadata.
 }
 
-// Metadata of customer-supplied encryption key, if the object is encrypted by
+// CustomerEncryption: Metadata of customer-supplied encryption key, if the object is encrypted by
 // such a key.
 type CustomerEncryption struct {
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty"` // The encryption algorithm.
 	KeySha256           *string `json:"keySha256,omitempty"`           // SHA256 hash value of the encryption key.
-}
-
-func UnmarshalStorageObjectData(data []byte) (StorageObjectData, error) {
-	var d StorageObjectData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *StorageObjectData) MarshalStorageObjectData() ([]byte, error) {
-	return json.Marshal(p)
 }
