@@ -5,29 +5,29 @@ The following sections describe how to use this library with different event dat
 <!-- GENERATED START -->
 ### Cloud Audit Logs
 
-Generic log entry, used as a wrapper for Cloud Audit Logs in events.
- This is copied from
- https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto
- and adapted appropriately.
+The data within all Cloud Audit Logs log entry events.
 
 #### CloudEvent Types:
 
 - `google.cloud.audit.log.v1.written`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	audit "github.com/googleapis/google-cloudevents-go/cloud/audit/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/audit/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := audit.UnmarshalLogEntryData(data)
+	var e audit.LogEntryData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -37,29 +37,29 @@ func main() {
 
 ### Cloud Build
 
-Build event data
- Common build format for Google Cloud Platform API operations.
- Copied from
- https://github.com/googleapis/googleapis/blob/master/google/devtools/cloudbuild/v1/cloudbuild.proto.
+Build event data for Google Cloud Platform API operations.
 
 #### CloudEvent Types:
 
 - `google.cloud.cloudbuild.build.v1.statusChanged`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	cloudbuild "github.com/googleapis/google-cloudevents-go/cloud/cloudbuild/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/cloudbuild/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := cloudbuild.UnmarshalBuildEventData(data)
+	var e cloudbuild.BuildEventData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -79,19 +79,22 @@ The data within all Firestore document events.
 - `google.cloud.firestore.document.v1.written`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	firestore "github.com/googleapis/google-cloudevents-go/cloud/firestore/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/firestore/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := firestore.UnmarshalDocumentEventData(data)
+	var e firestore.DocumentEventData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -101,26 +104,29 @@ func main() {
 
 ### Cloud Pub/Sub
 
-The data received in an event when a message is published to a topic.
+The event data when a message is published to a topic.
 
 #### CloudEvent Types:
 
 - `google.cloud.pubsub.topic.v1.messagePublished`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	pubsub "github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := pubsub.UnmarshalMessagePublishedData(data)
+	var e pubsub.MessagePublishedData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -137,19 +143,22 @@ Scheduler job data.
 - `google.cloud.scheduler.job.v1.executed`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	scheduler "github.com/googleapis/google-cloudevents-go/cloud/scheduler/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/scheduler/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := scheduler.UnmarshalSchedulerJobData(data)
+	var e scheduler.SchedulerJobData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -169,19 +178,22 @@ An object within Google Cloud Storage.
 - `google.cloud.storage.object.v1.metadataUpdated`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	storage "github.com/googleapis/google-cloudevents-go/cloud/storage/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/storage/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := storage.UnmarshalStorageObjectData(data)
+	var e storage.StorageObjectData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -198,19 +210,22 @@ The data within Firebase Analytics log events.
 - `google.firebase.analytics.log.v1.written`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	analytics "github.com/googleapis/google-cloudevents-go/firebase/analytics/v1"
+	"github.com/googleapis/google-cloudevents-go/firebase/analytics/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := analytics.UnmarshalAnalyticsLogData(data)
+	var e analytics.AnalyticsLogData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -220,7 +235,7 @@ func main() {
 
 ### Firebase Authentication
 
-The data within all Firebase Auth events
+The data within all Firebase Auth events.
 
 #### CloudEvent Types:
 
@@ -228,19 +243,22 @@ The data within all Firebase Auth events
 - `google.firebase.auth.user.v1.deleted`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	auth "github.com/googleapis/google-cloudevents-go/firebase/auth/v1"
+	"github.com/googleapis/google-cloudevents-go/firebase/auth/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := auth.UnmarshalAuthEventData(data)
+	var e auth.AuthEventData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -260,19 +278,22 @@ The data within all Firebase Real Time Database reference events.
 - `google.firebase.database.ref.v1.written`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	database "github.com/googleapis/google-cloudevents-go/firebase/database/v1"
+	"github.com/googleapis/google-cloudevents-go/firebase/database/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := database.UnmarshalReferenceEventData(data)
+	var e database.ReferenceEventData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -289,19 +310,22 @@ The data within all Firebase Remote Config events.
 - `google.firebase.remoteconfig.remoteConfig.v1.updated`
 
 #### Sample
+
 ```go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	remoteconfig "github.com/googleapis/google-cloudevents-go/firebase/remoteconfig/v1"
+	"github.com/googleapis/google-cloudevents-go/firebase/remoteconfig/v1"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := remoteconfig.UnmarshalRemoteConfigEventData(data)
+	var e remoteconfig.RemoteConfigEventData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}

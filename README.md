@@ -24,9 +24,10 @@ package main
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 
-	pubsub "github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
+	"github.com/googleapis/google-cloudevents-go/cloud/pubsub/v1"
 )
 
 func main() {
@@ -41,7 +42,8 @@ func main() {
     "subscription": "projects/myproject/subscriptions/mysubscription"
   }`)
 
-	e, err := pubsub.UnmarshalMessagePublishedData(data)
+	var e pubsub.MessagePublishedData
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
@@ -51,7 +53,6 @@ func main() {
 	}
 	fmt.Printf("%+s\n", s)
 }
-
 ```
 
 More detailed documentation about the usage of every type can be found in this library's reference.
