@@ -11,22 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package database
 
-import "encoding/json"
-
-// The data within all Firebase Real Time Database reference events.
+// ReferenceEventData: The data within all Firebase Real Time Database reference events.
 type ReferenceEventData struct {
 	Data  map[string]interface{} `json:"data,omitempty"`  // The original data for the reference.
 	Delta map[string]interface{} `json:"delta,omitempty"` // The change in the reference data.
-}
-
-func UnmarshalReferenceEventData(data []byte) (ReferenceEventData, error) {
-	var d ReferenceEventData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *ReferenceEventData) MarshalReferenceEventData() ([]byte, error) {
-	return json.Marshal(p)
 }

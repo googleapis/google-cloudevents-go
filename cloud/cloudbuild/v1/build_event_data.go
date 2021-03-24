@@ -11,11 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package cloudbuild
 
-import "encoding/json"
-
-// Build event data for Google Cloud Platform API operations.
+// BuildEventData: Build event data for Google Cloud Platform API operations.
 type BuildEventData struct {
 	Artifacts        *Artifacts             `json:"artifacts,omitempty"`        // Artifacts produced by the build that should be uploaded upon; successful completion of all build steps.
 	BuildTriggerID   *string                `json:"buildTriggerId,omitempty"`   // The ID of the `BuildTrigger` that triggered this build, if it; was triggered automatically.
@@ -42,14 +41,14 @@ type BuildEventData struct {
 	Timing           map[string]TimeSpan    `json:"timing,omitempty"`           // Stores timing information for phases of the build. Valid keys; are:; ; * BUILD: time to execute all build steps; * PUSH: time to push all specified images.; * FETCHSOURCE: time to fetch source.; ; If the build does not specify source or images,; these keys will not be included.
 }
 
-// Artifacts produced by the build that should be uploaded upon
+// Artifacts: Artifacts produced by the build that should be uploaded upon
 // successful completion of all build steps.
 type Artifacts struct {
 	Images  []string `json:"images,omitempty"`  // A list of images to be pushed upon the successful completion of all build; steps.; ; The images will be pushed using the builder service account's credentials.; ; The digests of the pushed images will be stored in the Build resource's; results field.; ; If any of the images fail to be pushed, the build is marked FAILURE.
 	Objects *Objects `json:"objects,omitempty"` // A list of objects to be uploaded to Cloud Storage upon successful; completion of all build steps.; ; Files in the workspace matching specified paths globs will be uploaded to; the specified Cloud Storage location using the builder service account's; credentials.; ; The location and generation of the uploaded objects will be stored in the; Build resource's results field.; ; If any objects fail to be pushed, the build is marked FAILURE.
 }
 
-// A list of objects to be uploaded to Cloud Storage upon successful
+// Objects: A list of objects to be uploaded to Cloud Storage upon successful
 // completion of all build steps.
 //
 // Files in the workspace matching specified paths globs will be uploaded to
@@ -66,7 +65,7 @@ type Objects struct {
 	Timing   *ObjectsTiming `json:"timing,omitempty"`   // Stores timing information for pushing all artifact objects.
 }
 
-// Stores timing information for pushing all artifact objects.
+// ObjectsTiming: Stores timing information for pushing all artifact objects.
 //
 // Start and end times for a build execution phase.
 type ObjectsTiming struct {
@@ -74,7 +73,7 @@ type ObjectsTiming struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-// Special options for this build.
+// Options: Special options for this build.
 type Options struct {
 	DiskSizeGB            *int64                 `json:"diskSizeGb,string,omitempty"`    // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
 	Env                   []string               `json:"env,omitempty"`                  // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
@@ -89,14 +88,14 @@ type Options struct {
 	WorkerPool            *string                `json:"workerPool,omitempty"`           // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
 }
 
-// Volume describes a Docker container volume which is mounted into build steps
+// Volume: Volume describes a Docker container volume which is mounted into build steps
 // in order to persist files across build step execution.
 type Volume struct {
 	Name *string `json:"name,omitempty"` // Name of the volume to mount.; ; Volume names must be unique per build step and must be valid names for; Docker volumes. Each named volume must be used by at least two build steps.
 	Path *string `json:"path,omitempty"` // Path at which to mount the volume.; ; Paths must be absolute and cannot conflict with other volume paths on the; same build step or with certain reserved volume paths.
 }
 
-// TTL in queue for this build. If provided and the build is enqueued longer
+// QueueTTL: TTL in queue for this build. If provided and the build is enqueued longer
 // than this value, the build will expire and the build status will be
 // `EXPIRED`.
 //
@@ -106,7 +105,7 @@ type QueueTTL struct {
 	Seconds *int64 `json:"seconds,string,omitempty"` // Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
-// Results of the build.
+// Results: Results of the build.
 type Results struct {
 	ArtifactManifest *string         `json:"artifactManifest,omitempty"`    // Path to the artifact manifest. Only populated when artifacts are uploaded.
 	ArtifactTiming   *ArtifactTiming `json:"artifactTiming,omitempty"`      // Time to push all non-container artifacts.
@@ -116,7 +115,7 @@ type Results struct {
 	NumArtifacts     *int64          `json:"numArtifacts,string,omitempty"` // Number of artifacts uploaded. Only populated when artifacts are uploaded.
 }
 
-// Time to push all non-container artifacts.
+// ArtifactTiming: Time to push all non-container artifacts.
 //
 // Stores timing information for pushing all artifact objects.
 //
@@ -126,14 +125,14 @@ type ArtifactTiming struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-// An image built by the pipeline.
+// Image: An image built by the pipeline.
 type Image struct {
 	Digest     *string     `json:"digest,omitempty"`     // Docker Registry 2.0 digest.
 	Name       *string     `json:"name,omitempty"`       // Name used to push the container image to Google Container Registry, as; presented to `docker push`.
 	PushTiming *PushTiming `json:"pushTiming,omitempty"` // Stores timing information for pushing the specified image.
 }
 
-// Stores timing information for pushing the specified image.
+// PushTiming: Stores timing information for pushing the specified image.
 //
 // Stores timing information for pushing all artifact objects.
 //
@@ -143,20 +142,20 @@ type PushTiming struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-// Pairs a set of secret environment variables containing encrypted
+// Secret: Pairs a set of secret environment variables containing encrypted
 // values with the Cloud KMS key to use to decrypt the value.
 type Secret struct {
 	KmsKeyName *string           `json:"kmsKeyName,omitempty"` // Cloud KMS key name to use to decrypt these envs.
 	SecretEnv  map[string]string `json:"secretEnv,omitempty"`  // Map of environment variable name to its encrypted value.; ; Secret environment variables must be unique across all of a build's; secrets, and must be used by at least one build step. Values can be at most; 64 KB in size. There can be at most 100 secret values across all of a; build's secrets.
 }
 
-// The location of the source files to build.
+// Source: The location of the source files to build.
 type Source struct {
 	RepoSource    *RepoSourceClass    `json:"repoSource,omitempty"`    // If provided, get the source from this location in a Cloud Source; Repository.
 	StorageSource *StorageSourceClass `json:"storageSource,omitempty"` // If provided, get the source from this location in Google Cloud Storage.
 }
 
-// If provided, get the source from this location in a Cloud Source
+// RepoSourceClass: If provided, get the source from this location in a Cloud Source
 // Repository.
 //
 // Location of the source in a Google Cloud Source Repository.
@@ -171,7 +170,7 @@ type RepoSourceClass struct {
 	TagName       *string           `json:"tagName,omitempty"`       // Regex matching tags to build.; ; The syntax of the regular expressions accepted is the syntax accepted by; RE2 and described at https://github.com/google/re2/wiki/Syntax
 }
 
-// If provided, get the source from this location in Google Cloud Storage.
+// StorageSourceClass: If provided, get the source from this location in Google Cloud Storage.
 //
 // Location of the source in an archive file in Google Cloud Storage.
 type StorageSourceClass struct {
@@ -180,7 +179,7 @@ type StorageSourceClass struct {
 	Object     *string `json:"object,omitempty"`            // Google Cloud Storage object containing the source.
 }
 
-// A permanent fixed identifier for source.
+// SourceProvenance: A permanent fixed identifier for source.
 type SourceProvenance struct {
 	FileHashes            map[string]FileHashValue    `json:"fileHashes,omitempty"`            // Hash(es) of the build source, which can be used to verify that; the original source integrity was maintained in the build. Note that; `FileHashes` will only be populated if `BuildOptions` has requested a; `SourceProvenanceHash`.; ; The keys to this map are file paths used as build source and the values; contain the hash values for those files.; ; If the build source came in a single package such as a gzipped tarfile; (`.tar.gz`), the `FileHash` will be for the single path to that file.
 	ResolvedRepoSource    *ResolvedRepoSourceClass    `json:"resolvedRepoSource,omitempty"`    // A copy of the build's `source.repo_source`, if exists, with any; revisions resolved.
@@ -191,13 +190,13 @@ type FileHashValue struct {
 	FileHash []FileHashElement `json:"fileHash,omitempty"` // Collection of file hashes.
 }
 
-// Container message for hash values.
+// FileHashElement: Container message for hash values.
 type FileHashElement struct {
 	Type  *Type   `json:"type"`            // The type of hash that was performed.
 	Value *string `json:"value,omitempty"` // The hash value.
 }
 
-// A copy of the build's `source.repo_source`, if exists, with any
+// ResolvedRepoSourceClass: A copy of the build's `source.repo_source`, if exists, with any
 // revisions resolved.
 //
 // If provided, get the source from this location in a Cloud Source
@@ -215,7 +214,7 @@ type ResolvedRepoSourceClass struct {
 	TagName       *string           `json:"tagName,omitempty"`       // Regex matching tags to build.; ; The syntax of the regular expressions accepted is the syntax accepted by; RE2 and described at https://github.com/google/re2/wiki/Syntax
 }
 
-// A copy of the build's `source.storage_source`, if exists, with any
+// ResolvedStorageSourceClass: A copy of the build's `source.storage_source`, if exists, with any
 // generations resolved.
 //
 // If provided, get the source from this location in Google Cloud Storage.
@@ -227,7 +226,7 @@ type ResolvedStorageSourceClass struct {
 	Object     *string `json:"object,omitempty"`            // Google Cloud Storage object containing the source.
 }
 
-// A step in the build pipeline.
+// Step: A step in the build pipeline.
 type Step struct {
 	Args       []string     `json:"args,omitempty"`       // A list of arguments that will be presented to the step when it is started.; ; If the image used to run the step's container has an entrypoint, the `args`; are used as arguments to that entrypoint. If the image does not define; an entrypoint, the first element in args is used as the entrypoint,; and the remainder will be used as arguments.
 	Dir        *string      `json:"dir,omitempty"`        // Working directory to use when running this step's container.; ; If this value is a relative path, it is relative to the build's working; directory. If this value is absolute, it may be outside the build's working; directory, in which case the contents of the path may not be persisted; across build step executions, unless a `volume` for that path is specified.; ; If the build specifies a `RepoSource` with `dir` and a step with a `dir`,; which specifies an absolute path, the `RepoSource` `dir` is ignored for; the step's execution.
@@ -244,7 +243,7 @@ type Step struct {
 	WaitFor    []string     `json:"waitFor,omitempty"`    // The ID(s) of the step(s) that this build step depends on.; This build step will not start until all the build steps in `wait_for`; have completed successfully. If `wait_for` is empty, this build step will; start when all previous build steps in the `Build.Steps` list have; completed successfully.
 }
 
-// Stores timing information for pulling this build step's
+// PullTiming: Stores timing information for pulling this build step's
 // builder image only.
 //
 // Stores timing information for pushing all artifact objects.
@@ -255,7 +254,7 @@ type PullTiming struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-// Time limit for executing this build step. If not defined, the step has no
+// StepTimeout: Time limit for executing this build step. If not defined, the step has no
 // time limit and will be allowed to continue to run until either it completes
 // or the build itself times out.
 type StepTimeout struct {
@@ -263,7 +262,7 @@ type StepTimeout struct {
 	Seconds *int64 `json:"seconds,string,omitempty"` // Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
-// Stores timing information for executing this build step.
+// StepTiming: Stores timing information for executing this build step.
 //
 // Stores timing information for pushing all artifact objects.
 //
@@ -273,7 +272,7 @@ type StepTiming struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-// Amount of time that this build should be allowed to run, to second
+// BuildEventDataTimeout: Amount of time that this build should be allowed to run, to second
 // granularity. If this amount of time elapses, work on the build will cease
 // and the build status will be `TIMEOUT`.
 type BuildEventDataTimeout struct {
@@ -281,7 +280,7 @@ type BuildEventDataTimeout struct {
 	Seconds *int64 `json:"seconds,string,omitempty"` // Signed seconds of the span of time. Must be from -315,576,000,000; to +315,576,000,000 inclusive. Note: these bounds are computed from:; 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
 }
 
-// Stores timing information for pushing all artifact objects.
+// TimeSpan: Stores timing information for pushing all artifact objects.
 //
 // Start and end times for a build execution phase.
 type TimeSpan struct {
@@ -349,27 +348,27 @@ const (
 	Working       StatusEnum = "WORKING"
 )
 
-// Option to define build log streaming behavior to Google Cloud
+// LogStreamingOption: Option to define build log streaming behavior to Google Cloud
 // Storage.
 type LogStreamingOption struct {
 	Enum    *LogStreamingOptionEnum
 	Integer *int64
 }
 
-// Option to specify the logging mode, which determines where the logs are
+// Logging: Option to specify the logging mode, which determines where the logs are
 // stored.
 type Logging struct {
 	Enum    *LoggingEnum
 	Integer *int64
 }
 
-// Compute Engine machine type on which to run the build.
+// MachineType: Compute Engine machine type on which to run the build.
 type MachineType struct {
 	Enum    *MachineTypeEnum
 	Integer *int64
 }
 
-// Requested verifiability options.
+// RequestedVerifyOption: Requested verifiability options.
 type RequestedVerifyOption struct {
 	Enum    *RequestedVerifyOptionEnum
 	Integer *int64
@@ -381,14 +380,14 @@ type SourceProvenanceHash struct {
 	Integer *int64
 }
 
-// Option to specify behavior when there is an error in the substitution
+// SubstitutionOption: Option to specify behavior when there is an error in the substitution
 // checks.
 type SubstitutionOption struct {
 	Enum    *SubstitutionOptionEnum
 	Integer *int64
 }
 
-// The type of hash that was performed.
+// Type: The type of hash that was performed.
 type Type struct {
 	Enum    *SourceProvenanceHashEnum
 	Integer *int64
@@ -397,14 +396,4 @@ type Type struct {
 type Status struct {
 	Enum    *StatusEnum
 	Integer *int64
-}
-
-func UnmarshalBuildEventData(data []byte) (BuildEventData, error) {
-	var d BuildEventData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *BuildEventData) MarshalBuildEventData() ([]byte, error) {
-	return json.Marshal(p)
 }

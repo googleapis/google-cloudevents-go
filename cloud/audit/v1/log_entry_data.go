@@ -11,11 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package audit
 
-import "encoding/json"
-
-// The data within all Cloud Audit Logs log entry events.
+// LogEntryData: The data within all Cloud Audit Logs log entry events.
 type LogEntryData struct {
 	InsertID         *string           `json:"insertId,omitempty"`         // A unique identifier for the log entry.
 	Labels           map[string]string `json:"labels,omitempty"`           // A set of user-defined (key, value) data that provides additional; information about the log entry.
@@ -30,7 +29,7 @@ type LogEntryData struct {
 	Trace            *string           `json:"trace,omitempty"`            // Resource name of the trace associated with the log entry, if any. If it; contains a relative resource name, the name is assumed to be relative to; `//tracing.googleapis.com`. Example:; `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`
 }
 
-// Information about an operation associated with the log entry, if
+// Operation: Information about an operation associated with the log entry, if
 // applicable.
 type Operation struct {
 	First    *bool   `json:"first,omitempty"`    // True if this is the first log entry in the operation.
@@ -39,7 +38,7 @@ type Operation struct {
 	Producer *string `json:"producer,omitempty"` // An arbitrary producer identifier. The combination of `id` and; `producer` must be globally unique. Examples for `producer`:; `"MyDivision.MyBigCompany.com"`, `"github.com/MyProject/MyApplication"`.
 }
 
-// The log entry payload, which is always an AuditLog for Cloud Audit Log
+// ProtoPayload: The log entry payload, which is always an AuditLog for Cloud Audit Log
 // events.
 type ProtoPayload struct {
 	AuthenticationInfo    *AuthenticationInfo    `json:"authenticationInfo,omitempty"`      // Authentication information.
@@ -58,7 +57,7 @@ type ProtoPayload struct {
 	Status                *Status                `json:"status,omitempty"`                  // The status of the overall operation.
 }
 
-// Authentication information.
+// AuthenticationInfo: Authentication information.
 type AuthenticationInfo struct {
 	AuthoritySelector            *string                                `json:"authoritySelector,omitempty"`            // The authority selector specified by the requestor, if any.; It is not guaranteed that the principal was allowed to use this authority.
 	PrincipalEmail               *string                                `json:"principalEmail,omitempty"`               // The email address of the authenticated user (or service account on behalf; of third party principal) making the request. For privacy reasons, the; principal email address is redacted for all read-only operations that fail; with a "permission denied" error.
@@ -68,42 +67,42 @@ type AuthenticationInfo struct {
 	ThirdPartyPrincipal          *AuthenticationInfoThirdPartyPrincipal `json:"thirdPartyPrincipal,omitempty"`          // The third party identification (if any) of the authenticated user making; the request.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
 }
 
-// Identity delegation history of an authenticated service account.
+// ServiceAccountDelegationInfo: Identity delegation history of an authenticated service account.
 type ServiceAccountDelegationInfo struct {
 	FirstPartyPrincipal *FirstPartyPrincipal                             `json:"firstPartyPrincipal,omitempty"` // First party (Google) identity as the real authority.
 	ThirdPartyPrincipal *ServiceAccountDelegationInfoThirdPartyPrincipal `json:"thirdPartyPrincipal,omitempty"` // Third party identity as the real authority.
 }
 
-// First party (Google) identity as the real authority.
+// FirstPartyPrincipal: First party (Google) identity as the real authority.
 type FirstPartyPrincipal struct {
 	PrincipalEmail  *string          `json:"principalEmail,omitempty"`  // The email address of a Google account.
 	ServiceMetadata *ServiceMetadata `json:"serviceMetadata,omitempty"` // Metadata about the service that uses the service account.
 }
 
-// Metadata about the service that uses the service account.
+// ServiceMetadata: Metadata about the service that uses the service account.
 type ServiceMetadata struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// Third party identity as the real authority.
+// ServiceAccountDelegationInfoThirdPartyPrincipal: Third party identity as the real authority.
 type ServiceAccountDelegationInfoThirdPartyPrincipal struct {
 	ThirdPartyClaims *ThirdPartyClaims `json:"thirdPartyClaims,omitempty"` // Metadata about third party identity.
 }
 
-// Metadata about third party identity.
+// ThirdPartyClaims: Metadata about third party identity.
 type ThirdPartyClaims struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// The third party identification (if any) of the authenticated user making
+// AuthenticationInfoThirdPartyPrincipal: The third party identification (if any) of the authenticated user making
 // the request.
 // When the JSON object represented here has a proto equivalent, the proto
 // name will be indicated in the `@type` property.
 type AuthenticationInfoThirdPartyPrincipal struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// Authorization information for the operation.
+// AuthorizationInfo: Authorization information for the operation.
 type AuthorizationInfo struct {
 	Granted            *bool               `json:"granted,omitempty"`            // Whether or not authorization for `resource` and `permission`; was granted.
 	Permission         *string             `json:"permission,omitempty"`         // The required IAM permission.
@@ -111,7 +110,7 @@ type AuthorizationInfo struct {
 	ResourceAttributes *ResourceAttributes `json:"resourceAttributes,omitempty"` // Resource attributes used in IAM condition evaluation. This field contains; resource attributes like resource type and resource name.; ; To get the whole view of the attributes used in IAM; condition evaluation, the user must also look into; `AuditLogData.request_metadata.request_attributes`.
 }
 
-// Resource attributes used in IAM condition evaluation. This field contains
+// ResourceAttributes: Resource attributes used in IAM condition evaluation. This field contains
 // resource attributes like resource type and resource name.
 //
 // To get the whole view of the attributes used in IAM
@@ -124,23 +123,23 @@ type ResourceAttributes struct {
 	Type    *string           `json:"type,omitempty"`    // The type of the resource. The syntax is platform-specific because; different platforms define their resources differently.; ; For Google APIs, the type format must be "{service}/{kind}".
 }
 
-// Other service-specific data about the request, response, and other
+// Metadata: Other service-specific data about the request, response, and other
 // information associated with the current audited event.
 type Metadata struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// The operation request. This may not include all request parameters,
+// Request: The operation request. This may not include all request parameters,
 // such as those that are too large, privacy-sensitive, or duplicated
 // elsewhere in the log record.
 // It should never include user-generated data, such as file contents.
 // When the JSON object represented here has a proto equivalent, the proto
 // name will be indicated in the `@type` property.
 type Request struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// Metadata about the operation.
+// RequestMetadata: Metadata about the operation.
 type RequestMetadata struct {
 	CallerIP                *string                `json:"callerIp,omitempty"`                // The IP address of the caller.; For caller from internet, this will be public IPv4 or IPv6 address.; For caller from a Compute Engine VM with external IP address, this; will be the VM's external IP address. For caller from a Compute; Engine VM without external IP address, if the VM is in the same; organization (or project) as the accessed resource, `caller_ip` will; be the VM's internal IPv4 address, otherwise the `caller_ip` will be; redacted to "gce-internal-ip".; See https://cloud.google.com/compute/docs/vpc/ for more information.
 	CallerNetwork           *string                `json:"callerNetwork,omitempty"`           // The network of the caller.; Set only if the network host project is part of the same GCP organization; (or project) as the accessed resource.; See https://cloud.google.com/compute/docs/vpc/ for more information.; This is a scheme-less URI full resource name. For example:; ; "//compute.googleapis.com/projects/PROJECT_ID/global/networks/NETWORK_ID"
@@ -149,7 +148,7 @@ type RequestMetadata struct {
 	RequestAttributes       *RequestAttributes     `json:"requestAttributes,omitempty"`       // Request attributes used in IAM condition evaluation. This field contains; request attributes like request time and access levels associated with; the request.; ; ; To get the whole view of the attributes used in IAM; condition evaluation, the user must also look into; `AuditLog.authentication_info.resource_attributes`.
 }
 
-// The destination of a network activity, such as accepting a TCP connection.
+// DestinationAttributes: The destination of a network activity, such as accepting a TCP connection.
 // In a multi hop network activity, the destination represents the receiver of
 // the last hop. Only two fields are used in this message, Peer.port and
 // Peer.ip. These fields are optionally populated by those services utilizing
@@ -162,7 +161,7 @@ type DestinationAttributes struct {
 	RegionCode *string           `json:"regionCode,omitempty"`  // The CLDR country/region code associated with the above IP address.; If the IP address is private, the `region_code` should reflect the; physical location where this peer is running.
 }
 
-// Request attributes used in IAM condition evaluation. This field contains
+// RequestAttributes: Request attributes used in IAM condition evaluation. This field contains
 // request attributes like request time and access levels associated with
 // the request.
 //
@@ -185,7 +184,7 @@ type RequestAttributes struct {
 	Time     *string           `json:"time,omitempty"`        // The timestamp when the `destination` service receives the first byte of; the request.
 }
 
-// The request authentication. May be absent for unauthenticated requests.
+// Auth: The request authentication. May be absent for unauthenticated requests.
 // Derived from the HTTP request `Authorization` header or equivalent.
 type Auth struct {
 	AccessLevels []string `json:"accessLevels,omitempty"` // A list of access level resource names that allow resources to be; accessed by authenticated requester. It is part of Secure GCP processing; for the incoming request. An access level string has the format:; "//{api_service_name}/accessPolicies/{policy_id}/accessLevels/{short_name}"; ; Example:; "//accesscontextmanager.googleapis.com/accessPolicies/MY_POLICY_ID/accessLevels/MY_LEVEL"
@@ -195,7 +194,7 @@ type Auth struct {
 	Principal    *string  `json:"principal,omitempty"`    // The authenticated principal. Reflects the issuer (`iss`) and subject; (`sub`) claims within a JWT. The issuer and subject should be `/`; delimited, with `/` percent-encoded within the subject fragment. For; Google accounts, the principal format is:; "https://accounts.google.com/{id}"
 }
 
-// Structured claims presented with the credential. JWTs include
+// Claims: Structured claims presented with the credential. JWTs include
 // `{key: value}` pairs for standard and private claims. The following
 // is a subset of the standard required and optional claims that would
 // typically be presented for a Google-based JWT:
@@ -211,16 +210,16 @@ type Auth struct {
 // SAML assertions are similarly specified, but with an identity provider
 // dependent structure.
 type Claims struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// The resource location information.
+// ResourceLocation: The resource location information.
 type ResourceLocation struct {
 	CurrentLocations  []string `json:"currentLocations,omitempty"`  // The locations of a resource after the execution of the operation.; Requests to create or delete a location based resource must populate; the 'current_locations' field and not the 'original_locations' field.; For example:; ; "europe-west1-a"; "us-east1"; "nam3"
 	OriginalLocations []string `json:"originalLocations,omitempty"` // The locations of a resource prior to the execution of the operation.; Requests that mutate the resource's location must populate both the; 'original_locations' as well as the 'current_locations' fields.; For example:; ; "europe-west1-a"; "us-east1"; "nam3"
 }
 
-// The resource's original state before mutation. Present only for
+// ResourceOriginalState: The resource's original state before mutation. Present only for
 // operations which have successfully modified the targeted resource(s).
 // In general, this field should contain all changed fields, except those
 // that are already been included in `request`, `response`, `metadata` or
@@ -228,36 +227,36 @@ type ResourceLocation struct {
 // When the JSON object represented here has a proto equivalent,
 // the proto name will be indicated in the `@type` property.
 type ResourceOriginalState struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// The operation response. This may not include all response elements,
+// Response: The operation response. This may not include all response elements,
 // such as those that are too large, privacy-sensitive, or duplicated
 // elsewhere in the log record.
 // It should never include user-generated data, such as file contents.
 // When the JSON object represented here has a proto equivalent, the proto
 // name will be indicated in the `@type` property.
 type Response struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// Deprecated, use `metadata` field instead.
+// ServiceData: Deprecated, use `metadata` field instead.
 // Other service-specific data about the request, response, and other
 // activities.
 // When the JSON object represented here has a proto equivalent, the proto
 // name will be indicated in the `@type` property.
 type ServiceData struct {
-	Fields map[string]map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// The status of the overall operation.
+// Status: The status of the overall operation.
 type Status struct {
 	Code    *int64   `json:"code,string,omitempty"` // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
 	Details []Detail `json:"details,omitempty"`     // A list of messages that carry the error details.  There is a common set of; message types for APIs to use.
 	Message *string  `json:"message,omitempty"`     // A developer-facing error message, which should be in English. Any; user-facing error message should be localized and sent in the; [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
 }
 
-// `Any` contains an arbitrary serialized protocol buffer message along with a
+// Detail: `Any` contains an arbitrary serialized protocol buffer message along with a
 // URL that describes the type of the serialized message.
 //
 // Protobuf library provides support to pack/unpack Any values in the form
@@ -341,7 +340,7 @@ type Detail struct {
 	Value   *string `json:"value,omitempty"`   // Must be a valid serialized protocol buffer of the above specified type.
 }
 
-// The monitored resource that produced this log entry.
+// Resource: The monitored resource that produced this log entry.
 //
 // Example: a log entry that reports a database error would be associated with
 // the monitored resource designating the particular database that reported
@@ -365,18 +364,8 @@ const (
 	Warning   InsertID = "WARNING"
 )
 
-// The severity of the log entry.
+// Severity: The severity of the log entry.
 type Severity struct {
 	Enum    *InsertID
 	Integer *int64
-}
-
-func UnmarshalLogEntryData(data []byte) (LogEntryData, error) {
-	var d LogEntryData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *LogEntryData) MarshalLogEntryData() ([]byte, error) {
-	return json.Marshal(p)
 }

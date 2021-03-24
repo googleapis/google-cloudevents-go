@@ -11,17 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package analytics
 
-import "encoding/json"
-
-// The data within Firebase Analytics log events.
+// AnalyticsLogData: The data within Firebase Analytics log events.
 type AnalyticsLogData struct {
 	EventDim []EventDim `json:"eventDim,omitempty"` // A repeated record of event related dimensions.
 	UserDim  *UserDim   `json:"userDim,omitempty"`  // User related dimensions.
 }
 
-// Message containing information pertaining to the event.
+// EventDim: Message containing information pertaining to the event.
 type EventDim struct {
 	Date                    *string                   `json:"date,omitempty"`                           // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
 	Name                    *string                   `json:"name,omitempty"`                           // The name of this event.
@@ -31,7 +30,7 @@ type EventDim struct {
 	ValueInUsd              *float64                  `json:"valueInUsd,omitempty"`                     // Value param in USD.
 }
 
-// Value for Event Params and UserProperty can be of type string or int or
+// AnalyticsValue: Value for Event Params and UserProperty can be of type string or int or
 // float or double.
 type AnalyticsValue struct {
 	DoubleValue *float64 `json:"doubleValue,omitempty"`
@@ -40,7 +39,7 @@ type AnalyticsValue struct {
 	StringValue *string  `json:"stringValue,omitempty"`
 }
 
-// User related dimensions.
+// UserDim: User related dimensions.
 type UserDim struct {
 	AppInfo                  *AppInfo                `json:"appInfo,omitempty"`                         // App information.
 	BundleInfo               *BundleInfo             `json:"bundleInfo,omitempty"`                      // Information regarding the bundle in which these events were uploaded.
@@ -53,7 +52,7 @@ type UserDim struct {
 	UserProperties           map[string]UserProperty `json:"userProperties,omitempty"`                  // A repeated record of user properties set with the setUserProperty API.; https://firebase.google.com/docs/analytics/android/properties
 }
 
-// App information.
+// AppInfo: App information.
 type AppInfo struct {
 	AppID         *string `json:"appId,omitempty"`         // Unique application identifier within an app store.
 	AppInstanceID *string `json:"appInstanceId,omitempty"` // Unique id for this instance of the app.; Example: "71683BF9FA3B4B0D9535A1F05188BAF3"
@@ -62,13 +61,13 @@ type AppInfo struct {
 	AppVersion    *string `json:"appVersion,omitempty"`    // The app's version name; Examples: "1.0", "4.3.1.1.213361", "2.3 (1824253)", "v1.8b22p6"
 }
 
-// Information regarding the bundle in which these events were uploaded.
+// BundleInfo: Information regarding the bundle in which these events were uploaded.
 type BundleInfo struct {
 	BundleSequenceID            *int64 `json:"bundleSequenceId,string,omitempty"`            // Monotonically increasing index for each bundle set by SDK.
 	ServerTimestampOffsetMicros *int64 `json:"serverTimestampOffsetMicros,string,omitempty"` // Timestamp offset between collection time and upload time.
 }
 
-// Device information.
+// DeviceInfo: Device information.
 type DeviceInfo struct {
 	DeviceCategory              *string `json:"deviceCategory,omitempty"`                     // Device category.; Eg. tablet or mobile.
 	DeviceID                    *string `json:"deviceId,omitempty"`                           // Vendor specific device identifier. This is IDFV on iOS. Not used for; Android.; Example: "599F9C00-92DC-4B5C-9464-7971F01F8370"
@@ -83,7 +82,7 @@ type DeviceInfo struct {
 	UserDefaultLanguage         *string `json:"userDefaultLanguage,omitempty"`                // The user language.; Eg. "en-us", "en-za", "zh-tw", "jp"
 }
 
-// User's geographic information.
+// GeoInfo: User's geographic information.
 type GeoInfo struct {
 	City      *string `json:"city,omitempty"`      // The geographic city.; Eg. Sao Paulo
 	Continent *string `json:"continent,omitempty"` // The geographic continent.; Eg. Americas
@@ -91,13 +90,13 @@ type GeoInfo struct {
 	Region    *string `json:"region,omitempty"`    // The geographic region.; Eg. State of Sao Paulo
 }
 
-// Lifetime Value information about this user.
+// LtvInfo: Lifetime Value information about this user.
 type LtvInfo struct {
 	Currency *string  `json:"currency,omitempty"` // The currency corresponding to the revenue.
 	Revenue  *float64 `json:"revenue,omitempty"`  // The Lifetime Value revenue of this user.
 }
 
-// Information about marketing campaign which acquired the user.
+// TrafficSource: Information about marketing campaign which acquired the user.
 type TrafficSource struct {
 	UserAcquiredCampaign *string `json:"userAcquiredCampaign,omitempty"` // The name of the campaign which acquired the user.
 	UserAcquiredMedium   *string `json:"userAcquiredMedium,omitempty"`   // The name of the medium which acquired the user.
@@ -110,7 +109,7 @@ type UserProperty struct {
 	Value            *Value `json:"value,omitempty"`                   // Last set value of user property.
 }
 
-// Last set value of user property.
+// Value: Last set value of user property.
 //
 // Value for Event Params and UserProperty can be of type string or int or
 // float or double.
@@ -119,14 +118,4 @@ type Value struct {
 	FloatValue  *float64 `json:"floatValue,omitempty"`
 	IntValue    *int64   `json:"intValue,string,omitempty"`
 	StringValue *string  `json:"stringValue,omitempty"`
-}
-
-func UnmarshalAnalyticsLogData(data []byte) (AnalyticsLogData, error) {
-	var d AnalyticsLogData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *AnalyticsLogData) MarshalAnalyticsLogData() ([]byte, error) {
-	return json.Marshal(p)
 }

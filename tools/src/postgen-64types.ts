@@ -1,4 +1,3 @@
-
 /**
  * This file adds the "string" annotation to all numbers with 64 bits.
  *

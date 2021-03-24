@@ -11,21 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package scheduler
 
-import "encoding/json"
-
-// Scheduler job data.
+// SchedulerJobData: Scheduler job data.
 type SchedulerJobData struct {
 	CustomData *string `json:"customData,omitempty"` // The custom data the user specified when creating the scheduler source.
-}
-
-func UnmarshalSchedulerJobData(data []byte) (SchedulerJobData, error) {
-	var d SchedulerJobData
-	err := json.Unmarshal(data, &d)
-	return d, err
-}
-
-func (p *SchedulerJobData) MarshalSchedulerJobData() ([]byte, error) {
-	return json.Marshal(p)
 }

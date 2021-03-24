@@ -40,19 +40,22 @@ ${schema.description}
 ${schema.cloudeventTypes?.map((t: string) => `- \`${t}\``).join('\n')}
 
 #### Sample
+
 \`\`\`go
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
-	${goPackage} "${goPath}"
+	"${goPath}"
 )
 
 func main() {
 	data := []byte("CloudEvent Data in bytes")
 
-	e, err := ${goPackage}.Unmarshal${schema.name}(data)
+	var e ${goPackage}.${schema.name}
+	err := json.Unmarshal(data, &e)
 	if err != nil {
 		panic(err)
 	}
