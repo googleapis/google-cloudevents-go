@@ -52,7 +52,7 @@ type ProtoPayload struct {
 	ResourceName          *string                `json:"resourceName,omitempty"`            // The resource or collection that is the target of the operation.; The name is a scheme-less URI, not including the API service name.; For example:; ; "shelves/SHELF_ID/books"; "shelves/SHELF_ID/books/BOOK_ID"
 	ResourceOriginalState *ResourceOriginalState `json:"resourceOriginalState,omitempty"`   // The resource's original state before mutation. Present only for; operations which have successfully modified the targeted resource(s).; In general, this field should contain all changed fields, except those; that are already been included in `request`, `response`, `metadata` or; `service_data` fields.; When the JSON object represented here has a proto equivalent,; the proto name will be indicated in the `@type` property.
 	Response              *Response              `json:"response,omitempty"`                // The operation response. This may not include all response elements,; such as those that are too large, privacy-sensitive, or duplicated; elsewhere in the log record.; It should never include user-generated data, such as file contents.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
-	ServiceData           *ServiceData           `json:"serviceData,omitempty"`             // Deprecated, use `metadata` field instead.; Other service-specific data about the request, response, and other; activities.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
+	ServiceData           *ServiceData           `json:"serviceData,omitempty"`             // Deprecated: Use `metadata` field instead.; Other service-specific data about the request, response, and other; activities.; When the JSON object represented here has a proto equivalent, the proto; name will be indicated in the `@type` property.
 	ServiceName           *string                `json:"serviceName,omitempty"`             // The name of the API service performing the operation. For example,; `"datastore.googleapis.com"`.
 	Status                *Status                `json:"status,omitempty"`                  // The status of the overall operation.
 }
@@ -240,7 +240,7 @@ type Response struct {
 	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
 }
 
-// ServiceData: Deprecated, use `metadata` field instead.
+// ServiceData: Deprecated: Use `metadata` field instead.
 // Other service-specific data about the request, response, and other
 // activities.
 // When the JSON object represented here has a proto equivalent, the proto
