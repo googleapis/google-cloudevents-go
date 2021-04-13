@@ -23,7 +23,6 @@ Here's an exmaple of using this library with an event from Cloud Pub/Sub with da
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 
@@ -36,7 +35,7 @@ func main() {
       "attributes": {
         "key": "value"
       },
-      "data": "Q2xvdWQgUHViL1N1Yg==",
+      "data": "SGVsbG8sIFdvcmxkIQ==",
       "messageId": "136969346945"
     },
     "subscription": "projects/myproject/subscriptions/mysubscription"
@@ -47,11 +46,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	s, err := base64.URLEncoding.DecodeString(*e.Message.Data)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%+s\n", s)
+	fmt.Printf("%+s\n", e.Message.Data) // Hello, World!
 }
 ```
 
