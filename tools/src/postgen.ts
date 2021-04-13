@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import {fix64BitNumberFields} from './postgen-64types';
-const pascalcase = require('pascalcase');
+import {fixByteFields} from './postgen-bytetypes';
 const recursive = require("recursive-readdir");
 
 /**
@@ -9,19 +9,24 @@ const recursive = require("recursive-readdir");
  * 
  * Prerequisites:
  * - A `cloud/` folder with `*Data.go` files within subfolders.
+ * - A `firebase/` folder with `*Data.go` files within subfolders.
+ * - The cloned Google CloudEvents repo in `../google-cloudevents`
  * 
  * After gen, this postgen scripts modififies the files this way:
- * - Add package based on folder + version (i.e. "pubsubv1")
+ * - Add package based on folder (i.e. "pubsub")
+ * - Fixes 64 bit types on the structs.
+ * - Adds the correct Go package.
+ * - Fixes map of strings interfaces.
+ * - Fixes godoc string prefixes.
+ * - Fixes []byte fields.
  */
 
 // The abs path of the repo root
 const REPO_ROOT = path.dirname(process.cwd());
+const PROTO_ROOT = path.resolve(REPO_ROOT, '..', 'google-cloudevents', 'proto');
 
 /**
- * Runs post-gen processing on the generated files:
- * - Fixes 64 bit types on the structs.
- * - Adds the correct Go package.
- * - Adds JSON Unmarshal and Marshal functions.
+ * Runs post-gen processing on the generated files.
  */
 async function main() {
   const filePaths: string[] = [
@@ -31,18 +36,21 @@ async function main() {
   
   // For each schema
   filePaths.forEach(filePath => {
-    // Read file
-    const [typeFileContent] = [fs.readFileSync(filePath).toString()]
-      .map(fix64BitNumberFields)
-      .map(fixMapStringToInterface)
-      .map(fixTypeGoDocPrefix)
-    ;
-    
     // Get relative path info
     const relativePath = filePath.substr(REPO_ROOT.length + 1);
 
-    // Get Data field name from file path, in PascalCase
-    const dataField = pascalcase(path.parse(path.basename(filePath)).name);
+    // Get proto file
+    const relativeProtoPath = `google/events/${relativePath.split('/').slice(0, -1).join('/')}/data.proto`;
+    const protoPath = path.join(PROTO_ROOT, relativeProtoPath);
+    const protoFile = fs.readFileSync(protoPath).toString();
+
+    // Read file and apply fixes
+    const [typeFileContent] = [fs.readFileSync(filePath).toString()]
+      .map(fix64BitNumberFields)
+      .map((s: string) => fixByteFields(s, protoFile))
+      .map(fixMapStringToInterface)
+      .map(fixTypeGoDocPrefix)
+    ;
 
     // Get package info
     // 

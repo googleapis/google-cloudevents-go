@@ -192,8 +192,8 @@ type FileHashValue struct {
 
 // FileHashElement: Container message for hash values.
 type FileHashElement struct {
-	Type  *Type   `json:"type"`            // The type of hash that was performed.
-	Value *string `json:"value,omitempty"` // The hash value.
+	Type  *Type  `json:"type"`            // The type of hash that was performed.
+	Value []byte `json:"value,omitempty"` // The hash value.
 }
 
 // ResolvedRepoSourceClass: A copy of the build's `source.repo_source`, if exists, with any

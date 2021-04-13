@@ -25,7 +25,7 @@
  * as JSON schema does not have a representation for 64 bit numbers serialized as strings.
  * @see https://github.com/json-schema-org/json-schema-spec/issues/361
  * @param {string} golangFile
- * @returns {string} The golang file with fixed 64
+ * @returns {string} The golang file with fixed 64 bit number fields
  */
 export const fix64BitNumberFields = (golangFile: string) => {
   const lines = golangFile.split('\n');

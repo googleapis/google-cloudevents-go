@@ -16,5 +16,5 @@ package scheduler
 
 // SchedulerJobData: Scheduler job data.
 type SchedulerJobData struct {
-	CustomData *string `json:"customData,omitempty"` // The custom data the user specified when creating the scheduler source.
+	CustomData []byte `json:"customData,omitempty"` // The custom data the user specified when creating the scheduler source.
 }
