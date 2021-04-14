@@ -9,7 +9,7 @@ This library provides Go types for Google CloudEvent data.
 - Simple import and interface
 - Inline documentation for Go structs
 - 64 bit number parsing
-- Automatic decoded of base64 data
+- Automatic decoding of base64 data
 
 ## Installation
 

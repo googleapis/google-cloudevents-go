@@ -42,7 +42,10 @@ export const fixByteFields = (golangFile: string, protoFile: string) => {
   const protoLinesWithBytes: LineWithByte[] = [];
   protoLines.map((line: string) => {
     /**
-     * Include lines
+     * Include lines from our proto files.
+     * The two spaces in front are part of the file identifiers as we do not do AST parsing.
+     * An eventual solution to this would be to fix the byte fields upstream in the jsonschema
+     * and quicktype generators.
      * @example repeated bytes build_step_outputs = 6;
      * @example bytes data = 1;
      * @example bytes custom_data = 1;
