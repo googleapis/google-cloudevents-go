@@ -29,11 +29,19 @@ Guidelines](https://opensource.google/conduct/).
 
 ## Generating the Library
 
-**Note**: Before generating the package, set up Node.js 12+.
+### Prerequisites
 
-To generate this package, run
+- Clone this repo
+- Clone `https://github.com/googleapis/google-cloudevents` in the same directory as this repo
+- Install Node.js 12+
+- Install the `qt` CLI globally: https://github.com/googleapis/google-cloudevents/tree/master/tools/quicktype-wrapper
+
+### Generate
+
+To generate this package, run the following script:
 
 ``` sh
-chmod +x ./tools/gen.sh
 ./tools/gen.sh
 ```
+
+This will generate the source code for this repo.

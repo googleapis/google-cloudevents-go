@@ -36,7 +36,7 @@ type OldValue struct {
 type OldValueField struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     *string         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
 	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
 	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
@@ -51,7 +51,7 @@ type OldValueField struct {
 type MapValueField struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     *string         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
 	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
 	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
@@ -71,7 +71,7 @@ type MapValue struct {
 type ValueElement struct {
 	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
 	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     *string         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
 	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
 	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
 	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
