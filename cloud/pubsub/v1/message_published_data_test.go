@@ -16,18 +16,11 @@ package pubsub
 
 import (
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
 	"testing"
 )
 
 func TestMessagePublishedData(t *testing.T) {
-	rescueStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	data := []byte(`{
+	pubsub_data := []byte(`{
     "message": {
       "attributes": {
         "key": "value"
@@ -39,18 +32,13 @@ func TestMessagePublishedData(t *testing.T) {
   }`)
 
 	var e MessagePublishedData
-	err := json.Unmarshal(data, &e)
+	err := json.Unmarshal(pubsub_data, &e)
 	if err != nil {
 		panic(err)
 	}
+	data := string(e.Message.Data)
 
-	fmt.Printf("%+s", e.Message.Data)
-
-	w.Close()
-	out, _ := ioutil.ReadAll(r)
-	os.Stdout = rescueStdout
-
-	if string(out) != "Hello, World!" {
-		t.Errorf("Expected %s, got %s", "Hello, World!", out)
+	if data != "Hello, World!" {
+		t.Errorf("Expected %s, got %s", "Hello, World!", data)
 	}
 }
