@@ -29,10 +29,11 @@ const PROTO_ROOT = path.resolve(REPO_ROOT, '..', 'google-cloudevents', 'proto');
  * Runs post-gen processing on the generated files.
  */
 async function main() {
+  // Get all golang files, but ignore test files.
   const filePaths: string[] = [
     ...await recursive(`${REPO_ROOT}/cloud`),
     ...await recursive(`${REPO_ROOT}/firebase`),
-  ];
+  ].filter((filename: string) => !filename.includes('_test.go'));
   
   // For each schema
   filePaths.forEach(filePath => {
