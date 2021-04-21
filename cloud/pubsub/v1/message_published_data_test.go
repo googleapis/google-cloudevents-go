@@ -36,9 +36,8 @@ func TestMessagePublishedData(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	data := string(e.Message.Data)
 
-	if data != "Hello, World!" {
+	if data := string(e.Message.Data); data != "Hello, World!" {
 		t.Errorf("Expected %s, got %s", "Hello, World!", data)
 	}
 }
