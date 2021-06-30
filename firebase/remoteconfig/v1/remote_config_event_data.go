@@ -18,9 +18,9 @@ package remoteconfig
 type RemoteConfigEventData struct {
 	Description    *string       `json:"description,omitempty"`           // The user-provided description of the corresponding Remote Config template.
 	RollbackSource *int64        `json:"rollbackSource,string,omitempty"` // Only present if this version is the result of a rollback, and will be the; version number of the Remote Config template that was rolled-back to.
-	UpdateOrigin   *UpdateOrigin `json:"updateOrigin"`                    // Where the update action originated.
+	UpdateOrigin   *UpdateOrigin `json:"updateOrigin,omitempty"`          // Where the update action originated.
 	UpdateTime     *string       `json:"updateTime,omitempty"`            // When the Remote Config template was written to the Remote Config server.
-	UpdateType     *UpdateType   `json:"updateType"`                      // What type of update was made.
+	UpdateType     *UpdateType   `json:"updateType,omitempty"`            // What type of update was made.
 	UpdateUser     *UpdateUser   `json:"updateUser,omitempty"`            // Aggregation of all metadata fields about the account that performed the; update.
 	VersionNumber  *int64        `json:"versionNumber,string,omitempty"`  // The version number of the version's corresponding Remote Config template.
 }
@@ -33,32 +33,22 @@ type UpdateUser struct {
 	Name     *string `json:"name,omitempty"`     // Display name.
 }
 
-type UpdateOriginEnum string
+// Where the update action originated.
+type UpdateOrigin string
 
 const (
-	AdminSDKNode                        UpdateOriginEnum = "ADMIN_SDK_NODE"
-	Console                             UpdateOriginEnum = "CONSOLE"
-	RESTAPI                             UpdateOriginEnum = "REST_API"
-	RemoteConfigUpdateOriginUnspecified UpdateOriginEnum = "REMOTE_CONFIG_UPDATE_ORIGIN_UNSPECIFIED"
+	AdminSDKNode                        UpdateOrigin = "ADMIN_SDK_NODE"
+	Console                             UpdateOrigin = "CONSOLE"
+	RESTAPI                             UpdateOrigin = "REST_API"
+	RemoteConfigUpdateOriginUnspecified UpdateOrigin = "REMOTE_CONFIG_UPDATE_ORIGIN_UNSPECIFIED"
 )
 
-type UpdateTypeEnum string
+// What type of update was made.
+type UpdateType string
 
 const (
-	ForcedUpdate                      UpdateTypeEnum = "FORCED_UPDATE"
-	IncrementalUpdate                 UpdateTypeEnum = "INCREMENTAL_UPDATE"
-	RemoteConfigUpdateTypeUnspecified UpdateTypeEnum = "REMOTE_CONFIG_UPDATE_TYPE_UNSPECIFIED"
-	Rollback                          UpdateTypeEnum = "ROLLBACK"
+	ForcedUpdate                      UpdateType = "FORCED_UPDATE"
+	IncrementalUpdate                 UpdateType = "INCREMENTAL_UPDATE"
+	RemoteConfigUpdateTypeUnspecified UpdateType = "REMOTE_CONFIG_UPDATE_TYPE_UNSPECIFIED"
+	Rollback                          UpdateType = "ROLLBACK"
 )
-
-// UpdateOrigin: Where the update action originated.
-type UpdateOrigin struct {
-	Enum    *UpdateOriginEnum
-	Integer *int64
-}
-
-// UpdateType: What type of update was made.
-type UpdateType struct {
-	Enum    *UpdateTypeEnum
-	Integer *int64
-}

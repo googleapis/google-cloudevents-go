@@ -18,7 +18,7 @@ package firestore
 type DocumentEventData struct {
 	OldValue   *OldValue   `json:"oldValue,omitempty"`   // A Document object containing a pre-operation document snapshot.; This is only populated for update and delete events.
 	UpdateMask *UpdateMask `json:"updateMask,omitempty"` // A DocumentMask object that lists changed fields.; This is only populated for update events.
-	Value      *Value      `json:"value,omitempty"`      // A Document object containing a post-operation document snapshot.; This is not populated for delete events. (TODO: check this!)
+	Value      *Value      `json:"value,omitempty"`      // A Document object containing a post-operation document snapshot.; This is not populated for delete events.
 }
 
 // OldValue: A Document object containing a pre-operation document snapshot.
@@ -34,32 +34,32 @@ type OldValue struct {
 
 // OldValueField: A message that can hold any of the supported value types.
 type OldValueField struct {
-	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
-	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
-	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
-	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
-	MapValue       *MapValue       `json:"mapValue,omitempty"`            // A map value.
-	NullValue      *NullValueUnion `json:"nullValue"`                     // A null value.
-	ReferenceValue *string         `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
-	StringValue    *string         `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
-	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
+	ArrayValue     *ArrayValue    `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
+	BooleanValue   *bool          `json:"booleanValue,omitempty"`        // A boolean value.
+	BytesValue     []byte         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	DoubleValue    *float64       `json:"doubleValue,omitempty"`         // A double value.
+	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
+	IntegerValue   *int64         `json:"integerValue,string,omitempty"` // An integer value.
+	MapValue       *MapValue      `json:"mapValue,omitempty"`            // A map value.
+	NullValue      *NullValueEnum `json:"nullValue,omitempty"`           // A null value.
+	ReferenceValue *string        `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
+	StringValue    *string        `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
+	TimestampValue *string        `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
 // MapValueField: A message that can hold any of the supported value types.
 type MapValueField struct {
-	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
-	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
-	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
-	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
-	MapValue       *MapValue       `json:"mapValue,omitempty"`            // A map value.
-	NullValue      *NullValueUnion `json:"nullValue"`                     // A null value.
-	ReferenceValue *string         `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
-	StringValue    *string         `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
-	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
+	ArrayValue     *ArrayValue    `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
+	BooleanValue   *bool          `json:"booleanValue,omitempty"`        // A boolean value.
+	BytesValue     []byte         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	DoubleValue    *float64       `json:"doubleValue,omitempty"`         // A double value.
+	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
+	IntegerValue   *int64         `json:"integerValue,string,omitempty"` // An integer value.
+	MapValue       *MapValue      `json:"mapValue,omitempty"`            // A map value.
+	NullValue      *NullValueEnum `json:"nullValue,omitempty"`           // A null value.
+	ReferenceValue *string        `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
+	StringValue    *string        `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
+	TimestampValue *string        `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
 // MapValue: A map value.
@@ -69,17 +69,17 @@ type MapValue struct {
 
 // ValueElement: A message that can hold any of the supported value types.
 type ValueElement struct {
-	ArrayValue     *ArrayValue     `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
-	BooleanValue   *bool           `json:"booleanValue,omitempty"`        // A boolean value.
-	BytesValue     []byte          `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
-	DoubleValue    *float64        `json:"doubleValue,omitempty"`         // A double value.
-	GeoPointValue  *GeoPointValue  `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
-	IntegerValue   *int64          `json:"integerValue,string,omitempty"` // An integer value.
-	MapValue       *MapValue       `json:"mapValue,omitempty"`            // A map value.
-	NullValue      *NullValueUnion `json:"nullValue"`                     // A null value.
-	ReferenceValue *string         `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
-	StringValue    *string         `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
-	TimestampValue *string         `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
+	ArrayValue     *ArrayValue    `json:"arrayValue,omitempty"`          // An array value.; ; Cannot directly contain another array value, though can contain an; map which contains another array.
+	BooleanValue   *bool          `json:"booleanValue,omitempty"`        // A boolean value.
+	BytesValue     []byte         `json:"bytesValue,omitempty"`          // A bytes value.; ; Must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes are considered by queries.
+	DoubleValue    *float64       `json:"doubleValue,omitempty"`         // A double value.
+	GeoPointValue  *GeoPointValue `json:"geoPointValue,omitempty"`       // A geo point value representing a point on the surface of Earth.
+	IntegerValue   *int64         `json:"integerValue,string,omitempty"` // An integer value.
+	MapValue       *MapValue      `json:"mapValue,omitempty"`            // A map value.
+	NullValue      *NullValueEnum `json:"nullValue,omitempty"`           // A null value.
+	ReferenceValue *string        `json:"referenceValue,omitempty"`      // A reference to a document. For example:; `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
+	StringValue    *string        `json:"stringValue,omitempty"`         // A string value.; ; The string, represented as UTF-8, must not exceed 1 MiB - 89 bytes.; Only the first 1,500 bytes of the UTF-8 representation are considered by; queries.
+	TimestampValue *string        `json:"timestampValue,omitempty"`      // A timestamp value.; ; Precise only to microseconds. When stored, any additional precision is; rounded down.
 }
 
 // ArrayValue: An array value.
@@ -103,7 +103,7 @@ type UpdateMask struct {
 }
 
 // Value: A Document object containing a post-operation document snapshot.
-// This is not populated for delete events. (TODO: check this!)
+// This is not populated for delete events.
 //
 // A Document object containing a pre-operation document snapshot.
 // This is only populated for update and delete events.
@@ -116,14 +116,9 @@ type Value struct {
 	UpdateTime *string                  `json:"updateTime,omitempty"` // The time at which the document was last changed.; ; This value is initially set to the `create_time` then increases; monotonically with each change to the document. It can also be; compared to values from other documents and the `read_time` of a query.
 }
 
-type CreateTime string
+// A null value.
+type NullValueEnum string
 
 const (
-	NullValue CreateTime = "NULL_VALUE"
+	NullValue NullValueEnum = "NULL_VALUE"
 )
-
-// NullValueUnion: A null value.
-type NullValueUnion struct {
-	Enum    *CreateTime
-	Integer *int64
-}
