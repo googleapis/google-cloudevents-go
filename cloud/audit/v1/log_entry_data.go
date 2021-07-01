@@ -23,7 +23,7 @@ type LogEntryData struct {
 	ProtoPayload     *ProtoPayload     `json:"protoPayload,omitempty"`     // The log entry payload, which is always an AuditLog for Cloud Audit Log; events.
 	ReceiveTimestamp *string           `json:"receiveTimestamp,omitempty"` // The time the log entry was received by Logging.
 	Resource         *Resource         `json:"resource,omitempty"`         // The monitored resource that produced this log entry.; ; Example: a log entry that reports a database error would be associated with; the monitored resource designating the particular database that reported; the error.
-	Severity         *Severity         `json:"severity"`                   // The severity of the log entry.
+	Severity         *Severity         `json:"severity,omitempty"`         // The severity of the log entry.
 	SpanID           *string           `json:"spanId,omitempty"`           // The span ID within the trace associated with the log entry, if any.; ; For Trace spans, this is the same format that the Trace API v2 uses: a; 16-character hexadecimal encoding of an 8-byte array, such as; `000000000000004a`.
 	Timestamp        *string           `json:"timestamp,omitempty"`        // The time the event described by the log entry occurred.
 	Trace            *string           `json:"trace,omitempty"`            // Resource name of the trace associated with the log entry, if any. If it; contains a relative resource name, the name is assumed to be relative to; `//tracing.googleapis.com`. Example:; `projects/my-projectid/traces/06796866738c859f2f19b7cfb3214824`
@@ -350,22 +350,17 @@ type Resource struct {
 	Type   *string           `json:"type,omitempty"`   // Required. The monitored resource type. For example, the type of a; Compute Engine VM instance is `gce_instance`.
 }
 
-type InsertID string
+// The severity of the log entry.
+type Severity string
 
 const (
-	Alert     InsertID = "ALERT"
-	Critical  InsertID = "CRITICAL"
-	Debug     InsertID = "DEBUG"
-	Default   InsertID = "DEFAULT"
-	Emergency InsertID = "EMERGENCY"
-	Error     InsertID = "ERROR"
-	Info      InsertID = "INFO"
-	Notice    InsertID = "NOTICE"
-	Warning   InsertID = "WARNING"
+	Alert     Severity = "ALERT"
+	Critical  Severity = "CRITICAL"
+	Debug     Severity = "DEBUG"
+	Default   Severity = "DEFAULT"
+	Emergency Severity = "EMERGENCY"
+	Error     Severity = "ERROR"
+	Info      Severity = "INFO"
+	Notice    Severity = "NOTICE"
+	Warning   Severity = "WARNING"
 )
-
-// Severity: The severity of the log entry.
-type Severity struct {
-	Enum    *InsertID
-	Integer *int64
-}

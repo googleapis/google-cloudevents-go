@@ -25,5 +25,6 @@ type Message struct {
 	Attributes  map[string]string `json:"attributes,omitempty"`  // Attributes for this message.
 	Data        []byte            `json:"data,omitempty"`        // The binary data in the message.
 	MessageID   *string           `json:"messageId,omitempty"`   // ID of this message, assigned by the server when the message is published.; Guaranteed to be unique within the topic.
+	OrderingKey *string           `json:"orderingKey,omitempty"` // If non-empty, identifies related messages for which publish order should be; respected.
 	PublishTime *string           `json:"publishTime,omitempty"` // The time at which the message was published, populated by the server when; it receives the `Publish` call.
 }

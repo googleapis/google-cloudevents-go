@@ -32,7 +32,7 @@ type BuildEventData struct {
 	Source           *Source                `json:"source,omitempty"`           // The location of the source files to build.
 	SourceProvenance *SourceProvenance      `json:"sourceProvenance,omitempty"` // A permanent fixed identifier for source.
 	StartTime        *string                `json:"startTime,omitempty"`        // Time at which execution of the build was started.
-	Status           *Status                `json:"status"`                     // Status of the build.
+	Status           *Status                `json:"status,omitempty"`           // Status of the build.
 	StatusDetail     *string                `json:"statusDetail,omitempty"`     // Customer-readable message about the current status.
 	Steps            []Step                 `json:"steps,omitempty"`            // The operations to be performed on the workspace.
 	Substitutions    map[string]string      `json:"substitutions,omitempty"`    // Substitutions data for `Build` resource.
@@ -75,17 +75,17 @@ type ObjectsTiming struct {
 
 // Options: Special options for this build.
 type Options struct {
-	DiskSizeGB            *int64                 `json:"diskSizeGb,string,omitempty"`    // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
-	Env                   []string               `json:"env,omitempty"`                  // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
-	Logging               *Logging               `json:"logging"`                        // Option to specify the logging mode, which determines where the logs are; stored.
-	LogStreamingOption    *LogStreamingOption    `json:"logStreamingOption"`             // Option to define build log streaming behavior to Google Cloud; Storage.
-	MachineType           *MachineType           `json:"machineType"`                    // Compute Engine machine type on which to run the build.
-	RequestedVerifyOption *RequestedVerifyOption `json:"requestedVerifyOption"`          // Requested verifiability options.
-	SecretEnv             []string               `json:"secretEnv,omitempty"`            // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
-	SourceProvenanceHash  []SourceProvenanceHash `json:"sourceProvenanceHash,omitempty"` // Requested hash for SourceProvenance.
-	SubstitutionOption    *SubstitutionOption    `json:"substitutionOption"`             // Option to specify behavior when there is an error in the substitution; checks.
-	Volumes               []Volume               `json:"volumes,omitempty"`              // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
-	WorkerPool            *string                `json:"workerPool,omitempty"`           // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
+	DiskSizeGB            *int64                 `json:"diskSizeGb,string,omitempty"`     // Requested disk size for the VM that runs the build. Note that this is *NOT*; "disk free"; some of the space will be used by the operating system and; build utilities. Also note that this is the minimum disk size that will be; allocated for the build -- the build may run with a larger disk than; requested. At present, the maximum disk size is 1000GB; builds that request; more than the maximum are rejected with an error.
+	Env                   []string               `json:"env,omitempty"`                   // A list of global environment variable definitions that will exist for all; build steps in this build. If a variable is defined in both globally and in; a build step, the variable will use the build step value.; ; The elements are of the form "KEY=VALUE" for the environment variable "KEY"; being given the value "VALUE".
+	Logging               *Logging               `json:"logging,omitempty"`               // Option to specify the logging mode, which determines where the logs are; stored.
+	LogStreamingOption    *LogStreamingOption    `json:"logStreamingOption,omitempty"`    // Option to define build log streaming behavior to Google Cloud; Storage.
+	MachineType           *MachineType           `json:"machineType,omitempty"`           // Compute Engine machine type on which to run the build.
+	RequestedVerifyOption *RequestedVerifyOption `json:"requestedVerifyOption,omitempty"` // Requested verifiability options.
+	SecretEnv             []string               `json:"secretEnv,omitempty"`             // A list of global environment variables, which are encrypted using a Cloud; Key Management Service crypto key. These values must be specified in the; build's `Secret`. These variables will be available to all build steps; in this build.
+	SourceProvenanceHash  []SourceProvenanceHash `json:"sourceProvenanceHash,omitempty"`  // Requested hash for SourceProvenance.
+	SubstitutionOption    *SubstitutionOption    `json:"substitutionOption,omitempty"`    // Option to specify behavior when there is an error in the substitution; checks.
+	Volumes               []Volume               `json:"volumes,omitempty"`               // Global list of volumes to mount for ALL build steps; ; Each volume is created as an empty volume prior to starting the build; process. Upon completion of the build, volumes and their contents are; discarded. Global volume names and paths cannot conflict with the volumes; defined a build step.; ; Using a global volume in a build with only one step is not valid as; it is indicative of a build request with an incorrect configuration.
+	WorkerPool            *string                `json:"workerPool,omitempty"`            // Option to specify a `WorkerPool` for the build.; Format: projects/{project}/locations/{location}/workerPools/{workerPool}
 }
 
 // Volume: Volume describes a Docker container volume which is mounted into build steps
@@ -192,7 +192,7 @@ type FileHashValue struct {
 
 // FileHashElement: Container message for hash values.
 type FileHashElement struct {
-	Type  *Type  `json:"type"`            // The type of hash that was performed.
+	Type  *Type  `json:"type,omitempty"`  // The type of hash that was performed.
 	Value []byte `json:"value,omitempty"` // The hash value.
 }
 
@@ -236,7 +236,7 @@ type Step struct {
 	Name       *string      `json:"name,omitempty"`       // The name of the container image that will run this particular; build step.; ; If the image is available in the host's Docker daemon's cache, it; will be run directly. If not, the host will attempt to pull the image; first, using the builder service account's credentials if necessary.; ; The Docker daemon's cache will already have the latest versions of all of; the officially supported build steps; ; ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)).; The Docker daemon will also have cached many of the layers for some popular; images, like "ubuntu", "debian", but they will be refreshed at the time you; attempt to use them.; ; If you built an image in a previous build step, it will be stored in the; host's Docker daemon's cache and is available to use as the name for a; later build step.
 	PullTiming *PullTiming  `json:"pullTiming,omitempty"` // Stores timing information for pulling this build step's; builder image only.
 	SecretEnv  []string     `json:"secretEnv,omitempty"`  // A list of environment variables which are encrypted using a Cloud Key; Management Service crypto key. These values must be specified in the; build's `Secret`.
-	Status     *Status      `json:"status"`               // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
+	Status     *Status      `json:"status,omitempty"`     // Status of the build step. At this time, build step status is; only updated on build completion; step status is not updated in real-time; as the build progresses.
 	Timeout    *StepTimeout `json:"timeout,omitempty"`    // Time limit for executing this build step. If not defined, the step has no; time limit and will be allowed to continue to run until either it completes; or the build itself times out.
 	Timing     *StepTiming  `json:"timing,omitempty"`     // Stores timing information for executing this build step.
 	Volumes    []Volume     `json:"volumes,omitempty"`    // List of volumes to mount into the build step.; ; Each volume is created as an empty volume prior to execution of the; build step. Upon completion of the build, volumes and their contents are; discarded.; ; Using a named volume in only one step is not valid as it is indicative; of a build request with an incorrect configuration.
@@ -288,112 +288,82 @@ type TimeSpan struct {
 	StartTime *string `json:"startTime,omitempty"` // Start of time span.
 }
 
-type LogStreamingOptionEnum string
-
-const (
-	StreamDefault LogStreamingOptionEnum = "STREAM_DEFAULT"
-	StreamOff     LogStreamingOptionEnum = "STREAM_OFF"
-	StreamOn      LogStreamingOptionEnum = "STREAM_ON"
-)
-
-type LoggingEnum string
-
-const (
-	GcsOnly            LoggingEnum = "GCS_ONLY"
-	Legacy             LoggingEnum = "LEGACY"
-	LoggingUnspecified LoggingEnum = "LOGGING_UNSPECIFIED"
-)
-
-type MachineTypeEnum string
-
-const (
-	N1Highcpu32 MachineTypeEnum = "N1_HIGHCPU_32"
-	N1Highcpu8  MachineTypeEnum = "N1_HIGHCPU_8"
-	Unspecified MachineTypeEnum = "UNSPECIFIED"
-)
-
-type RequestedVerifyOptionEnum string
-
-const (
-	NotVerified RequestedVerifyOptionEnum = "NOT_VERIFIED"
-	Verified    RequestedVerifyOptionEnum = "VERIFIED"
-)
-
-type SourceProvenanceHashEnum string
-
-const (
-	Md5    SourceProvenanceHashEnum = "MD5"
-	None   SourceProvenanceHashEnum = "NONE"
-	Sha256 SourceProvenanceHashEnum = "SHA256"
-)
-
-type SubstitutionOptionEnum string
-
-const (
-	AllowLoose SubstitutionOptionEnum = "ALLOW_LOOSE"
-	MustMatch  SubstitutionOptionEnum = "MUST_MATCH"
-)
-
-type StatusEnum string
-
-const (
-	Cancelled     StatusEnum = "CANCELLED"
-	Expired       StatusEnum = "EXPIRED"
-	Failure       StatusEnum = "FAILURE"
-	InternalError StatusEnum = "INTERNAL_ERROR"
-	Queued        StatusEnum = "QUEUED"
-	StatusUnknown StatusEnum = "STATUS_UNKNOWN"
-	Success       StatusEnum = "SUCCESS"
-	Timeout       StatusEnum = "TIMEOUT"
-	Working       StatusEnum = "WORKING"
-)
-
-// LogStreamingOption: Option to define build log streaming behavior to Google Cloud
+// Option to define build log streaming behavior to Google Cloud
 // Storage.
-type LogStreamingOption struct {
-	Enum    *LogStreamingOptionEnum
-	Integer *int64
-}
+type LogStreamingOption string
 
-// Logging: Option to specify the logging mode, which determines where the logs are
+const (
+	StreamDefault LogStreamingOption = "STREAM_DEFAULT"
+	StreamOff     LogStreamingOption = "STREAM_OFF"
+	StreamOn      LogStreamingOption = "STREAM_ON"
+)
+
+// Option to specify the logging mode, which determines where the logs are
 // stored.
-type Logging struct {
-	Enum    *LoggingEnum
-	Integer *int64
-}
+type Logging string
 
-// MachineType: Compute Engine machine type on which to run the build.
-type MachineType struct {
-	Enum    *MachineTypeEnum
-	Integer *int64
-}
+const (
+	GcsOnly            Logging = "GCS_ONLY"
+	Legacy             Logging = "LEGACY"
+	LoggingUnspecified Logging = "LOGGING_UNSPECIFIED"
+)
 
-// RequestedVerifyOption: Requested verifiability options.
-type RequestedVerifyOption struct {
-	Enum    *RequestedVerifyOptionEnum
-	Integer *int64
-}
+// Compute Engine machine type on which to run the build.
+type MachineType string
+
+const (
+	N1Highcpu32 MachineType = "N1_HIGHCPU_32"
+	N1Highcpu8  MachineType = "N1_HIGHCPU_8"
+	Unspecified MachineType = "UNSPECIFIED"
+)
+
+// Requested verifiability options.
+type RequestedVerifyOption string
+
+const (
+	NotVerified RequestedVerifyOption = "NOT_VERIFIED"
+	Verified    RequestedVerifyOption = "VERIFIED"
+)
+
+// The type of hash that was performed.
+type Type string
+
+const (
+	Md5    Type = "MD5"
+	None   Type = "NONE"
+	Sha256 Type = "SHA256"
+)
+
+// Option to specify behavior when there is an error in the substitution
+// checks.
+type SubstitutionOption string
+
+const (
+	AllowLoose SubstitutionOption = "ALLOW_LOOSE"
+	MustMatch  SubstitutionOption = "MUST_MATCH"
+)
+
+// Status of the build.
+//
+// Status of the build step. At this time, build step status is
+// only updated on build completion; step status is not updated in real-time
+// as the build progresses.
+type Status string
+
+const (
+	Cancelled     Status = "CANCELLED"
+	Expired       Status = "EXPIRED"
+	Failure       Status = "FAILURE"
+	InternalError Status = "INTERNAL_ERROR"
+	Queued        Status = "QUEUED"
+	StatusUnknown Status = "STATUS_UNKNOWN"
+	Success       Status = "SUCCESS"
+	Timeout       Status = "TIMEOUT"
+	Working       Status = "WORKING"
+)
 
 type SourceProvenanceHash struct {
 	Double  *float64
-	Enum    *SourceProvenanceHashEnum
-	Integer *int64
-}
-
-// SubstitutionOption: Option to specify behavior when there is an error in the substitution
-// checks.
-type SubstitutionOption struct {
-	Enum    *SubstitutionOptionEnum
-	Integer *int64
-}
-
-// Type: The type of hash that was performed.
-type Type struct {
-	Enum    *SourceProvenanceHashEnum
-	Integer *int64
-}
-
-type Status struct {
-	Enum    *StatusEnum
+	Enum    *Type
 	Integer *int64
 }
