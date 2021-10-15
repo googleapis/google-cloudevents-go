@@ -16,12 +16,12 @@ package analytics
 
 // AnalyticsLogData: The data within Firebase Analytics log events.
 type AnalyticsLogData struct {
-	EventDim []EventDim `json:"eventDim,omitempty"` // A repeated record of event related dimensions.
-	UserDim  *UserDim   `json:"userDim,omitempty"`  // User related dimensions.
+	EventDim []EventDimensions `json:"eventDim,omitempty"` // A repeated record of event related dimensions.
+	UserDim  *UserDim          `json:"userDim,omitempty"`  // User related dimensions.
 }
 
-// EventDim: Message containing information pertaining to the event.
-type EventDim struct {
+// EventDimensions: Message containing information pertaining to the event.
+type EventDimensions struct {
 	Date                    *string                   `json:"date,omitempty"`                           // The date on which this event was logged.; (YYYYMMDD format in the registered timezone of your app.)
 	Name                    *string                   `json:"name,omitempty"`                           // The name of this event.
 	Params                  map[string]AnalyticsValue `json:"params,omitempty"`                         // A repeated record of the parameters associated with this event.
@@ -40,19 +40,23 @@ type AnalyticsValue struct {
 }
 
 // UserDim: User related dimensions.
+//
+// Message containing information about the user associated with the event.
 type UserDim struct {
-	AppInfo                  *AppInfo                `json:"appInfo,omitempty"`                         // App information.
-	BundleInfo               *BundleInfo             `json:"bundleInfo,omitempty"`                      // Information regarding the bundle in which these events were uploaded.
-	DeviceInfo               *DeviceInfo             `json:"deviceInfo,omitempty"`                      // Device information.
-	FirstOpenTimestampMicros *int64                  `json:"firstOpenTimestampMicros,string,omitempty"` // The time (in microseconds) at which the user first opened the app.
-	GeoInfo                  *GeoInfo                `json:"geoInfo,omitempty"`                         // User's geographic information.
-	LtvInfo                  *LtvInfo                `json:"ltvInfo,omitempty"`                         // Lifetime Value information about this user.
-	TrafficSource            *TrafficSource          `json:"trafficSource,omitempty"`                   // Information about marketing campaign which acquired the user.
-	UserID                   *string                 `json:"userId,omitempty"`                          // The user ID set via the setUserId API.
-	UserProperties           map[string]UserProperty `json:"userProperties,omitempty"`                  // A repeated record of user properties set with the setUserProperty API.; https://firebase.google.com/docs/analytics/android/properties
+	AppInfo                  *AppInfo                     `json:"appInfo,omitempty"`                         // App information.
+	BundleInfo               *BundleInfo                  `json:"bundleInfo,omitempty"`                      // Information regarding the bundle in which these events were uploaded.
+	DeviceInfo               *DeviceInfo                  `json:"deviceInfo,omitempty"`                      // Device information.
+	FirstOpenTimestampMicros *int64                       `json:"firstOpenTimestampMicros,string,omitempty"` // The time (in microseconds) at which the user first opened the app.
+	GeoInfo                  *GeoInfo                     `json:"geoInfo,omitempty"`                         // User's geographic information.
+	LtvInfo                  *LtvInfo                     `json:"ltvInfo,omitempty"`                         // Lifetime Value information about this user.
+	TrafficSource            *TrafficSource               `json:"trafficSource,omitempty"`                   // Information about marketing campaign which acquired the user.
+	UserID                   *string                      `json:"userId,omitempty"`                          // The user ID set via the setUserId API.
+	UserProperties           map[string]UserPropertyValue `json:"userProperties,omitempty"`                  // A repeated record of user properties set with the setUserProperty API.; https://firebase.google.com/docs/analytics/android/properties
 }
 
 // AppInfo: App information.
+//
+// Message which contains App Information.
 type AppInfo struct {
 	AppID         *string `json:"appId,omitempty"`         // Unique application identifier within an app store.
 	AppInstanceID *string `json:"appInstanceId,omitempty"` // Unique id for this instance of the app.; Example: "71683BF9FA3B4B0D9535A1F05188BAF3"
@@ -62,12 +66,17 @@ type AppInfo struct {
 }
 
 // BundleInfo: Information regarding the bundle in which these events were uploaded.
+//
+// Message containing information regarding the bundle in which these
+// events were uploaded.
 type BundleInfo struct {
 	BundleSequenceID            *int64 `json:"bundleSequenceId,string,omitempty"`            // Monotonically increasing index for each bundle set by SDK.
 	ServerTimestampOffsetMicros *int64 `json:"serverTimestampOffsetMicros,string,omitempty"` // Timestamp offset between collection time and upload time.
 }
 
 // DeviceInfo: Device information.
+//
+// Message containing device informations.
 type DeviceInfo struct {
 	DeviceCategory              *string `json:"deviceCategory,omitempty"`                     // Device category.; Eg. tablet or mobile.
 	DeviceID                    *string `json:"deviceId,omitempty"`                           // Vendor specific device identifier. This is IDFV on iOS. Not used for; Android.; Example: "599F9C00-92DC-4B5C-9464-7971F01F8370"
@@ -83,6 +92,8 @@ type DeviceInfo struct {
 }
 
 // GeoInfo: User's geographic information.
+//
+// User's geographic informaiton.
 type GeoInfo struct {
 	City      *string `json:"city,omitempty"`      // The geographic city.; Eg. Sao Paulo
 	Continent *string `json:"continent,omitempty"` // The geographic continent.; Eg. Americas
@@ -97,13 +108,17 @@ type LtvInfo struct {
 }
 
 // TrafficSource: Information about marketing campaign which acquired the user.
+//
+// Mesage containing marketing campaign information which acquired the user.
 type TrafficSource struct {
 	UserAcquiredCampaign *string `json:"userAcquiredCampaign,omitempty"` // The name of the campaign which acquired the user.
 	UserAcquiredMedium   *string `json:"userAcquiredMedium,omitempty"`   // The name of the medium which acquired the user.
 	UserAcquiredSource   *string `json:"userAcquiredSource,omitempty"`   // The name of the network which acquired the user.
 }
 
-type UserProperty struct {
+// UserPropertyValue: Predefined (eg: LTV) or custom properties (eg: birthday) stored on client
+// side and associated with subsequent HitBundles.
+type UserPropertyValue struct {
 	Index            *int64 `json:"index,string,omitempty"`            // Index for user property (one-based).
 	SetTimestampUsec *int64 `json:"setTimestampUsec,string,omitempty"` // UTC client time when user property was last set.
 	Value            *Value `json:"value,omitempty"`                   // Last set value of user property.

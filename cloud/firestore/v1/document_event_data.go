@@ -16,9 +16,9 @@ package firestore
 
 // DocumentEventData: The data within all Firestore document events.
 type DocumentEventData struct {
-	OldValue   *OldValue   `json:"oldValue,omitempty"`   // A Document object containing a pre-operation document snapshot.; This is only populated for update and delete events.
-	UpdateMask *UpdateMask `json:"updateMask,omitempty"` // A DocumentMask object that lists changed fields.; This is only populated for update events.
-	Value      *Value      `json:"value,omitempty"`      // A Document object containing a post-operation document snapshot.; This is not populated for delete events.
+	OldValue   *OldValue `json:"oldValue,omitempty"`   // A Document object containing a pre-operation document snapshot.; This is only populated for update and delete events.
+	UpdateMask *Mask     `json:"updateMask,omitempty"` // A DocumentMask object that lists changed fields.; This is only populated for update events.
+	Value      *Value    `json:"value,omitempty"`      // A Document object containing a post-operation document snapshot.; This is not populated for delete events.
 }
 
 // OldValue: A Document object containing a pre-operation document snapshot.
@@ -86,19 +86,29 @@ type ValueElement struct {
 //
 // Cannot directly contain another array value, though can contain an
 // map which contains another array.
+//
+// An array value.
 type ArrayValue struct {
 	Values []ValueElement `json:"values,omitempty"` // Values in the array.
 }
 
 // GeoPointValue: A geo point value representing a point on the surface of Earth.
+//
+// An object representing a latitude/longitude pair. This is expressed as a pair
+// of doubles representing degrees latitude and degrees longitude. Unless
+// specified otherwise, this must conform to the
+// <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84
+// standard</a>. Values must be within normalized ranges.
 type GeoPointValue struct {
 	Latitude  *float64 `json:"latitude,omitempty"`  // The latitude in degrees. It must be in the range [-90.0, +90.0].
 	Longitude *float64 `json:"longitude,omitempty"` // The longitude in degrees. It must be in the range [-180.0, +180.0].
 }
 
-// UpdateMask: A DocumentMask object that lists changed fields.
+// Mask: A DocumentMask object that lists changed fields.
 // This is only populated for update events.
-type UpdateMask struct {
+//
+// A set of field paths on a document.
+type Mask struct {
 	FieldPaths []string `json:"fieldPaths,omitempty"` // The list of field paths in the mask.; See [Document.fields][google.cloud.firestore.v1.events.Document.fields]; for a field path syntax reference.
 }
 

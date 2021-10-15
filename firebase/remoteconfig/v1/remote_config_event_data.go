@@ -21,13 +21,16 @@ type RemoteConfigEventData struct {
 	UpdateOrigin   *UpdateOrigin `json:"updateOrigin,omitempty"`          // Where the update action originated.
 	UpdateTime     *string       `json:"updateTime,omitempty"`            // When the Remote Config template was written to the Remote Config server.
 	UpdateType     *UpdateType   `json:"updateType,omitempty"`            // What type of update was made.
-	UpdateUser     *UpdateUser   `json:"updateUser,omitempty"`            // Aggregation of all metadata fields about the account that performed the; update.
+	UpdateUser     *User         `json:"updateUser,omitempty"`            // Aggregation of all metadata fields about the account that performed the; update.
 	VersionNumber  *int64        `json:"versionNumber,string,omitempty"`  // The version number of the version's corresponding Remote Config template.
 }
 
-// UpdateUser: Aggregation of all metadata fields about the account that performed the
+// User: Aggregation of all metadata fields about the account that performed the
 // update.
-type UpdateUser struct {
+//
+// All the fields associated with the person/service account
+// that wrote a Remote Config template.
+type User struct {
 	Email    *string `json:"email,omitempty"`    // Email address.
 	ImageURL *string `json:"imageUrl,omitempty"` // Image URL.
 	Name     *string `json:"name,omitempty"`     // Display name.

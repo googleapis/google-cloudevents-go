@@ -49,6 +49,8 @@ type StorageObjectData struct {
 
 // CustomerEncryption: Metadata of customer-supplied encryption key, if the object is encrypted by
 // such a key.
+//
+// Describes the customer-specified mechanism used to store the data at rest.
 type CustomerEncryption struct {
 	EncryptionAlgorithm *string `json:"encryptionAlgorithm,omitempty"` // The encryption algorithm.
 	KeySha256           *string `json:"keySha256,omitempty"`           // SHA256 hash value of the encryption key.
