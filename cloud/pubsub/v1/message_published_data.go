@@ -21,6 +21,8 @@ type MessagePublishedData struct {
 }
 
 // Message: The message that was published.
+//
+// A message published to a topic.
 type Message struct {
 	Attributes  map[string]string `json:"attributes,omitempty"`  // Attributes for this message.
 	Data        []byte            `json:"data,omitempty"`        // The binary data in the message.

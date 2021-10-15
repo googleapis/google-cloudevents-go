@@ -16,22 +16,16 @@ package auth
 
 // AuthEventData: The data within all Firebase Auth events.
 type AuthEventData struct {
-	CustomClaims  *CustomClaims   `json:"customClaims,omitempty"`  // User's custom claims, typically used to define user roles and propagated; to an authenticated user's ID token.
-	Disabled      *bool           `json:"disabled,omitempty"`      // Whether the user is disabled.
-	DisplayName   *string         `json:"displayName,omitempty"`   // The user's display name.
-	Email         *string         `json:"email,omitempty"`         // The user's primary email, if set.
-	EmailVerified *bool           `json:"emailVerified,omitempty"` // Whether or not the user's primary email is verified.
-	Metadata      *Metadata       `json:"metadata,omitempty"`      // Additional metadata about the user.
-	PhoneNumber   *string         `json:"phoneNumber,omitempty"`   // The user's phone number.
-	PhotoURL      *string         `json:"photoURL,omitempty"`      // The user's photo URL.
-	ProviderData  []ProviderDatum `json:"providerData,omitempty"`  // User's info at the providers
-	Uid           *string         `json:"uid,omitempty"`           // The user identifier in the Firebase app.
-}
-
-// CustomClaims: User's custom claims, typically used to define user roles and propagated
-// to an authenticated user's ID token.
-type CustomClaims struct {
-	Fields map[string]interface{} `json:"fields,omitempty"` // Unordered map of dynamically typed values.
+	CustomClaims  map[string]interface{} `json:"customClaims,omitempty"`  // User's custom claims, typically used to define user roles and propagated; to an authenticated user's ID token.
+	Disabled      *bool                  `json:"disabled,omitempty"`      // Whether the user is disabled.
+	DisplayName   *string                `json:"displayName,omitempty"`   // The user's display name.
+	Email         *string                `json:"email,omitempty"`         // The user's primary email, if set.
+	EmailVerified *bool                  `json:"emailVerified,omitempty"` // Whether or not the user's primary email is verified.
+	Metadata      *Metadata              `json:"metadata,omitempty"`      // Additional metadata about the user.
+	PhoneNumber   *string                `json:"phoneNumber,omitempty"`   // The user's phone number.
+	PhotoURL      *string                `json:"photoURL,omitempty"`      // The user's photo URL.
+	ProviderData  []UserInfo             `json:"providerData,omitempty"`  // User's info at the providers
+	Uid           *string                `json:"uid,omitempty"`           // The user identifier in the Firebase app.
 }
 
 // Metadata: Additional metadata about the user.
@@ -40,8 +34,8 @@ type Metadata struct {
 	LastSignInTime *string `json:"lastSignInTime,omitempty"` // The date the user last signed in.
 }
 
-// ProviderDatum: User's info at the identity provider
-type ProviderDatum struct {
+// UserInfo: User's info at the identity provider
+type UserInfo struct {
 	DisplayName *string `json:"displayName,omitempty"` // The display name for the linked provider.
 	Email       *string `json:"email,omitempty"`       // The email for the linked provider.
 	PhotoURL    *string `json:"photoURL,omitempty"`    // The photo URL for the linked provider.

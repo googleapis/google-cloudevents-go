@@ -16,6 +16,20 @@ package database
 
 // ReferenceEventData: The data within all Firebase Real Time Database reference events.
 type ReferenceEventData struct {
-	Data  map[string]interface{} `json:"data,omitempty"`  // The original data for the reference.
-	Delta map[string]interface{} `json:"delta,omitempty"` // The change in the reference data.
+	Data  *Data `json:"data"`  // `Value` represents a dynamically typed value which can be either; null, a number, a string, a boolean, a recursive struct value, or a; list of values. A producer of value is expected to set one of that; variants, absence of any variant indicates an error.; ; The JSON representation for `Value` is JSON value.
+	Delta *Data `json:"delta"` // `Value` represents a dynamically typed value which can be either; null, a number, a string, a boolean, a recursive struct value, or a; list of values. A producer of value is expected to set one of that; variants, absence of any variant indicates an error.; ; The JSON representation for `Value` is JSON value.
+}
+
+// Data: `Value` represents a dynamically typed value which can be either
+// null, a number, a string, a boolean, a recursive struct value, or a
+// list of values. A producer of value is expected to set one of that
+// variants, absence of any variant indicates an error.
+//
+// The JSON representation for `Value` is JSON value.
+type Data struct {
+	AnythingArray []interface{}
+	AnythingMap   map[string]interface{}
+	Bool          *bool
+	Double        *float64
+	String        *string
 }
