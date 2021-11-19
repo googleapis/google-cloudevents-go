@@ -22,6 +22,7 @@ type TestMatrixEventData struct {
 	OutcomeSummary       *OutcomeSummary `json:"outcomeSummary,omitempty"`       // Outcome summary of the test matrix.
 	ResultStorage        *ResultStorage  `json:"resultStorage,omitempty"`        // Locations where test results are stored.
 	State                *State          `json:"state,omitempty"`                // State of the test matrix.
+	TestMatrixID         *string         `json:"testMatrixId,omitempty"`         // ID of the test matrix this event belongs to.
 }
 
 // ClientInfo: Information provided by the client that created the test matrix.
