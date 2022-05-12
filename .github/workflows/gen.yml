@@ -25,12 +25,12 @@ jobs:
     steps:
     # Check out this client repo and schema source repo
     - name: Checkout client repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents-go
         path: google-cloudevents-go
     - name: Checkout this repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents
         path: google-cloudevents
