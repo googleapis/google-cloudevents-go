@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.0...v0.2.1) (2022-05-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency pascalcase to v2 ([#102](https://github.com/googleapis/google-cloudevents-go/issues/102)) ([868b08c](https://github.com/googleapis/google-cloudevents-go/commit/868b08cd730a504d4a6c20ad5e3e25aaf14f9b2a))
+
 ## [0.2.0](https://www.github.com/googleapis/google-cloudevents-go/compare/v0.1.1...v0.2.0) (2021-10-15)
 
 
