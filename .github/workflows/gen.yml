@@ -36,7 +36,7 @@ jobs:
         path: google-cloudevents
     # Setup Node
     - name: Setup Node for gen/postgen scripts
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: 14
     # Install the generator
