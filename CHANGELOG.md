@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.2](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.1...v0.2.2) (2022-05-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency node-fetch to v3.2.4 ([#97](https://github.com/googleapis/google-cloudevents-go/issues/97)) ([a4f4dd4](https://github.com/googleapis/google-cloudevents-go/commit/a4f4dd423f2ff502647efeb52fb6b5cb9b93c19e))
+
 ### [0.2.1](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.0...v0.2.1) (2022-05-18)
 
 
