@@ -32,6 +32,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 ## Repository Map
 
+```txt
 .
 ├── README.md
 ├── build.sh: Generate code for all types & run tests
@@ -45,6 +46,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 ├── go.sum
 ├── pb: Generated code (protobufs, tests, helpers)
 └── testing
+```
 
 ## Testing
 
