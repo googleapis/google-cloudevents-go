@@ -32,30 +32,6 @@ func TestParsingMessagePublishedData(t *testing.T) {
 	}
 }
 
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - TODO: "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingPubsubMessage(t *testing.T) {
-	cases := findTestData(t, "PubsubMessage")
-
-	for name, file := range cases {
-		data, err := os.ReadFile(file)
-		if err != nil {
-			t.Fatal("os.ReadFile:", err)
-		}
-
-		obj, err := UnmarshalPubsubMessage("application/json", data)
-		if err != nil {
-			t.Errorf("%s: parsing failed: %v", name, err)
-		} else {
-			t.Log(name, obj.String())
-		}
-	}
-}
-
 const (
 	DATA_TYPE = 0
 	EXTENSION = 1

@@ -83,6 +83,6 @@ done
 
 echo
 echo "########################################################"
-echo "# Running tests...
+echo "# Running tests..."
 
 GOOGLE_CLOUDEVENT_REPO_PATH=$(realpath $SOURCE_OF_TRUTH) go test ./...

@@ -99,6 +99,10 @@ func generateTypeUtils(gen *protogen.Plugin, file *protogen.File) *protogen.Gene
 		g.P()
 		g.P(`  return b, nil`)
 		g.P("}")
+
+		// Assumption: Only the first message in the proto is a top-level
+		// data type for CloudEvent payloads.
+		break
 	}
 
 	g.P("// CloudEventTypePrefix returns the prefix of the CloudEvent Type this data type supports.")
@@ -139,9 +143,12 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 		ProtoPkg: eventTypePrefix(file.GoImportPath.String(), "."),
 	}
 
-	dataTypes := make([]string, len(file.Messages))
+	// Assumption: Only the first message in the proto is a top-level
+	// data type for CloudEvent payloads.
+	dataTypes := make([]string, 1)
 	for i, msg := range file.Messages {
 		dataTypes[i] = msg.GoIdent.GoName
+		break
 	}
 	params.DataTypes = dataTypes
 
