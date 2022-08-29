@@ -342,5 +342,5 @@ func (m *LogSplit) JSON() ([]byte, error) {
 
 // CloudEventTypePrefix returns the prefix of the CloudEvent Type this data type supports.
 func CloudEventTypePrefix() string {
-	return "google.events.googleapis.google-cloudevents-go.pb.cloud.audit.v1"
+	return "google.events.cloud.audit.v1"
 }
