@@ -4,32 +4,48 @@ set -e
 
 SOURCE_OF_TRUTH="../google-cloudevents"
 
+export SNOWPEA_TEST_TEMPLATE_PATH="./generators/protoc-gen-go-snowpea"
+
 _generate() {
     SRC_DIR="${SOURCE_OF_TRUTH}/proto/google/events/"
     proto_src=$(realpath --relative-to="${SRC_DIR}" $1)
     code_dest=$(dirname "${proto_src}")
 
-    # TODO: Build process breaks on audit logs:
-    #     protoc-gen-go: unable to determine Go import path for "google/api/monitored_resource.proto"
-    # Please specify either:
-    # 	• a "go_package" option in the .proto source file, or
-    # 	• a "M" argument on the command line.
-    # See https://developers.google.com/protocol-buffers/docs/reference/go-generated#package for more information.
-    # --go_out: protoc-gen-go: Plugin failed with status code 1.
+    # TODO: Build process for audit logs hit issues on proto dependencies.
+    # After significant exploration, the solution:
+    # Add go_package declarations to relevant protos with package name overrides.
+    #  - option go_package = "github.com/googleapis/google-cloudevents-go/pb/cloud/audit/v1;v1";
+    #  - option go_package = "github.com/googleapis/google-cloudevents-go/pb/shared/google/apis/monitored_resource;monitored_resource";
+    # Use "module" output config.
     if [ "cloud/audit/v1/data.proto" = "${proto_src}" ]; then
+        set -x
+        protoc \
+            -I=../google-cloudevents/proto/google/events/ \
+            --go_out=. \
+            --go_opt=module=github.com/googleapis/google-cloudevents-go \
+            --go-snowpea_out=. \
+            --go-snowpea_opt=module=github.com/googleapis/google-cloudevents-go \
+            --proto_path=../google-cloudevents/proto \
+            --proto_path=../google-cloudevents/third_party/googleapis \
+            google/api/monitored_resource.proto cloud/audit/v1/data.proto
+        set +x
         return
     fi
 
-    echo
-    echo "generating ${proto_src}..."
     set -x
+    # to use snowpea generator, cd generators/protoc-gen-go-snowpea && go install.
     protoc -I=$SRC_DIR --go_out=. \
         --go_opt="M${proto_src}"="pb/${code_dest}" \
+        --go-snowpea_out=. \
+        --go-snowpea_opt="M${proto_src}"="pb/${code_dest}" \
         --proto_path="${SOURCE_OF_TRUTH}/proto" \
         --proto_path="${SOURCE_OF_TRUTH}/third_party/googleapis" \
         "${proto_src}"
     set +x
 }
+
 for i in $(find "${SOURCE_OF_TRUTH}/proto" -type f -name data.proto); do
   _generate $i
 done
+
+GOOGLE_CLOUDEVENT_REPO_PATH=$(realpath $SOURCE_OF_TRUTH) go test ./...
