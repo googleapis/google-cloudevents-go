@@ -1,0 +1,49 @@
+package {{ .Pkg }}
+
+import(
+    "log"
+    cloudevent "github.com/cloudevents/sdk-go/v2"
+    "github.com/googleapis/google-cloudevents-go/pb/cloud/pubsub/v1"
+)
+
+{{ range .DataTypes }}
+// [START eventarc_parse_data_cloudevent_{{ . }}]
+
+// parseEventDataFromCloudEvent provides a ready-to-use object from your event data.
+func parseEventDataFromCloudEvent(event cloudevent.Event) {
+    data, err := event.DataBytes()
+    if err != nil {
+        log.Fatal("event.DataBytes:", err)
+    }
+    
+    obj, err := pubsub.Unmarshal{{ . }}(event.DataContentType(), data)
+    if err != nil {
+        log.Fatal("pubsub.Unmarshal{{ . }}:", err)
+    }
+    log.Print(obj.Message.Data)
+}
+
+// [END eventarc_parse_data_cloudevent_{{ . }}]
+
+// [START eventarc_parse_data_http_{{ . }}]
+
+// parseEventDataFromRequest provides a ready-to-use object from your event data.
+func parseEventDataFromRequest(r *http.Request) {
+    // Does not exist: https://github.com/cloudevents/sdk-go/issues/766
+    event := cloudevent.EventFromRequest(r)
+    data, err := event.DataBytes()
+    if err != nil {
+        log.Fatal("event.DataBytes:", err)
+    }
+    
+    obj, err := pubsub.Unmarshal{{ . }}(event.DataContentType(), data)
+    if err != nil {
+        log.Fatal("pubsub.Unmarshal{{ . }}:", err)
+    }
+    log.Print(obj.Message.Data)
+}
+
+// [END eventarc_parse_data_http_{{ . }}]
+{{ end }}
+
+
