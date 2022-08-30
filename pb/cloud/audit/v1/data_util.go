@@ -25,10 +25,16 @@ func UnmarshalLogEntryData(datatype string, data []byte) (*LogEntryData, error) 
 }
 
 // UnmarshalStrictLogEntryData provides a typed object but errors on unknown fields.
-func UnmarshalStrictLogEntryData(data []byte) (*LogEntryData, error) {
+func UnmarshalStrictLogEntryData(datatype string, data []byte) (*LogEntryData, error) {
 	out := LogEntryData{}
-	if err := protojson.Unmarshal(data, &out); err != nil {
-		return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+
+	switch datatype {
+	case "application/json":
+		if err := protojson.Unmarshal(data, &out); err != nil {
+			return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+		}
+	default:
+		return nil, fmt.Errorf("data type %q not supported", datatype)
 	}
 
 	return &out, nil

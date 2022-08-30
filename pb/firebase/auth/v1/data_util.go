@@ -25,10 +25,16 @@ func UnmarshalAuthEventData(datatype string, data []byte) (*AuthEventData, error
 }
 
 // UnmarshalStrictAuthEventData provides a typed object but errors on unknown fields.
-func UnmarshalStrictAuthEventData(data []byte) (*AuthEventData, error) {
+func UnmarshalStrictAuthEventData(datatype string, data []byte) (*AuthEventData, error) {
 	out := AuthEventData{}
-	if err := protojson.Unmarshal(data, &out); err != nil {
-		return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+
+	switch datatype {
+	case "application/json":
+		if err := protojson.Unmarshal(data, &out); err != nil {
+			return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+		}
+	default:
+		return nil, fmt.Errorf("data type %q not supported", datatype)
 	}
 
 	return &out, nil

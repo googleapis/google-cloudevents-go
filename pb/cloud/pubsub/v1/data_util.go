@@ -25,10 +25,16 @@ func UnmarshalMessagePublishedData(datatype string, data []byte) (*MessagePublis
 }
 
 // UnmarshalStrictMessagePublishedData provides a typed object but errors on unknown fields.
-func UnmarshalStrictMessagePublishedData(data []byte) (*MessagePublishedData, error) {
+func UnmarshalStrictMessagePublishedData(datatype string, data []byte) (*MessagePublishedData, error) {
 	out := MessagePublishedData{}
-	if err := protojson.Unmarshal(data, &out); err != nil {
-		return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+
+	switch datatype {
+	case "application/json":
+		if err := protojson.Unmarshal(data, &out); err != nil {
+			return nil, fmt.Errorf("protojson.Unmarshal: %w", err)
+		}
+	default:
+		return nil, fmt.Errorf("data type %q not supported", datatype)
 	}
 
 	return &out, nil
