@@ -49,6 +49,15 @@ _generate() {
             --proto_path=../google-cloudevents/proto \
             --proto_path=../google-cloudevents/third_party/googleapis \
             google/api/monitored_resource.proto cloud/audit/v1/data.proto
+
+        echo "# - usage samples"
+        SNOWPEA_GENERATOR_MODE=samples protoc \
+            -I=../google-cloudevents/proto/google/events/ \
+            --go-snowpea_out=. \
+            --go-snowpea_opt="M${proto_src}"="samples/${code_dest}" \
+            --proto_path=../google-cloudevents/proto \
+            --proto_path=../google-cloudevents/third_party/googleapis \
+            google/api/monitored_resource.proto cloud/audit/v1/data.proto
         return
     fi
 
@@ -72,6 +81,14 @@ _generate() {
     SNOWPEA_GENERATOR_MODE=tests protoc -I=$SRC_DIR \
         --go-snowpea_out=. \
         --go-snowpea_opt="M${proto_src}"="pb/${code_dest}" \
+        --proto_path="${SOURCE_OF_TRUTH}/proto" \
+        --proto_path="${SOURCE_OF_TRUTH}/third_party/googleapis" \
+        "${proto_src}"
+
+    echo "# - usage samples"
+    SNOWPEA_GENERATOR_MODE=samples protoc -I=$SRC_DIR \
+        --go-snowpea_out=. \
+        --go-snowpea_opt="M${proto_src}"="samples/${code_dest}" \
         --proto_path="${SOURCE_OF_TRUTH}/proto" \
         --proto_path="${SOURCE_OF_TRUTH}/third_party/googleapis" \
         "${proto_src}"

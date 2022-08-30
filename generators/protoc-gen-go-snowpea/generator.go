@@ -33,11 +33,7 @@ func main() {
 			case "tests":
 				generateTests(gen, f)
 			case "samples":
-				// TODO: Fix protoc errors preventing us from building a samples/
-				// directory next to pb/. If we bring this back, make sure to init
-				// a separate go module in the samples dir.
-				// generateSamples(gen, f)
-				log.Print("Sample generation disabled: protogen errors")
+				generateSamples(gen, f)
 			default:
 				log.Fatal("SNOWPEA_GENERATOR_MODE must be utils, tests, or samples.")
 			}
@@ -175,7 +171,6 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 		break
 	}
 	params.DataTypes = dataTypes
-	//fmt.Printf("\n\nParams: %#v\n\n", params)
 
 	var b bytes.Buffer
 	if err := validationTestTpl.Execute(&b, params); err != nil {
@@ -192,7 +187,6 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 func generateSamples(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
 	last := strings.Split(file.GoImportPath.String(), "samples/")
 
-	//name := strings.Trim(strings.Join(strings.Split(last[len(last)-1], "/"), ""), "\"")
 	name := strings.Trim(last[len(last)-1], "\"")
 
 	filename := filepath.Join("samples/", name+"/sample.go")
@@ -201,9 +195,15 @@ func generateSamples(gen *protogen.Plugin, file *protogen.File) *protogen.Genera
 	params := TestParams{
 		Pkg: string(file.GoPackageName),
 	}
-	dataTypes := make([]string, len(file.Messages))
+
+	// Assumption: Only the first message in the proto is a top-level
+	// data type for CloudEvent payloads. This isn't safe as a single product
+	// could have multiple event types with distinct data payloads.
+	// Doing this during prototyping to keep volume of code generation manageable.
+	dataTypes := make([]string, 1)
 	for i, msg := range file.Messages {
 		dataTypes[i] = msg.GoIdent.GoName
+		break
 	}
 	params.DataTypes = dataTypes
 
