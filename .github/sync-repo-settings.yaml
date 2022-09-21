@@ -10,6 +10,6 @@ branchProtectionRules:
   requiresStrictStatusChecks: true
 permissionRules:
   - team: cloudevents-admins
-    permission: write
+    permission: push
   - team: torus-dpe
     permission: admin
