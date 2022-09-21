@@ -1,4 +1,11 @@
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - 'go.mod'
+      - 'go.sum'
+      - '**.go'
+      - '**.sh'
+
 name: Test
 jobs:
   test:
