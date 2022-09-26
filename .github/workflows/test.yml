@@ -5,6 +5,7 @@ on:
       - 'go.sum'
       - '**.go'
       - '**.sh'
+      - '.github/workflows/test.yml'
 
 name: Test
 jobs:
