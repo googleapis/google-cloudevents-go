@@ -27,7 +27,7 @@ information on using pull requests.
 This project follows [Google's Open Source Community
 Guidelines](https://opensource.google/conduct/).
 
-## Generating the Library
+## Generating the Library (quicktype)
 
 ### Prerequisites
 
@@ -45,3 +45,36 @@ To generate this package, run the following script:
 ```
 
 This will generate the source code for this repo.
+
+## Generating the Library (protobuf)
+
+```sh
+git clone https://github.com/googleapis/google-cloudevents-go
+cd google-cloudevents-go
+sh ./tools/setup-generator.sh
+export GENERATE_DATA_SOURCE=tmp/google-cloudevents
+export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
+sh ./generate-code.sh
+```
+
+### Manage the Data Source
+
+The "Data Source" are protos held in a GitHub Repository, specifically
+[googleapis/google-cloudevets](https://github.com/googleapis/google-cloudevents).
+You can use an existing clone of this repository:
+
+```sh
+cd /path/to/shared/repositories
+git clone https://github.com/googleapis/google-cloudevents --depth 1
+
+cd path/to/the/project
+git clone https://github.com/googleapis/google-cloudevents-go
+
+# Configure this before running the setup script to reuse the repository.
+export GENERATE_DATA_SOURCE=/path/to/shared/repositories/google-cloudevents
+sh ./tools/setup-generator.sh
+export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
+sh ./generate-code.sh
+```
+
+A similar "skip" does not exist for the protobuf library.
