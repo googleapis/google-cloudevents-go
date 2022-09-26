@@ -1,4 +1,12 @@
-on: [push, pull_request]
+on:
+  pull_request:
+    paths:
+      - 'go.mod'
+      - 'go.sum'
+      - '**.go'
+      - '**.sh'
+      - '.github/workflows/build.yml'
+
 name: Build
 jobs:
   test:
