@@ -40,14 +40,14 @@ echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
 # Required configuration.
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo
-  echo "Environment variable GENERATE_DATE_SOURCE not found."
+  echo "Environment variable 'GENERATE_DATE_SOURCE' not found."
   echo "Please run 'sh tools/setup-generator.sh' and follow the instructions."
   exit 1
 fi
 
 if [[ -z "${GENERATE_PROTOC_PATH}" ]]; then
   echo
-  echo "Environment variable GENERATE_PROTOC_PATH not found."
+  echo "Environment variable 'GENERATE_PROTOC_PATH' not found."
   echo "Please run 'sh tools/setup_generator.sh' and follow the instructions."
   exit 1
 fi

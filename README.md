@@ -14,7 +14,7 @@ This library provides Go types for Google CloudEvent data.
 
 ## Installation
 
-**Note**: This library requires Go 1.12+.
+**Note**: This library requires Go 1.12+ and is tested at Go 1.17+
 
 To install this package, run:
 
