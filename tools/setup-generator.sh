@@ -66,6 +66,10 @@ chmod +x $PROTOC
 
 echo "- Downloaded protobuf ${PROTOBUF_VERSION} for ${PROTOBUF_PLATFORM}"
 
+echo "- Downloading & installing the Go protocol buffers plugin..."
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+echo "- Protobuf tooling installation complete"
+
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo "- Cloning github.com/googleapis/google-cloudevents into tmp"
   # For the moment, just clone google-cloudevents. Later we might make
