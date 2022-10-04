@@ -80,8 +80,7 @@ GENERATION_METADATA
 # Clean up previously generated files.
 # - Prevent continued presence of files we no longer generate
 # - Troubleshooting assist to see what failed to generate
-# TODO: Uncomment when we are ready to remove the original type implementation.
-# rm -rf cloud firebase shared
+rm -rf cloud firebase shared
 
 # Generate proto code that is a dependency for an event type.
 # Module mappings for generation are different from module mappings
