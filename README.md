@@ -3,8 +3,8 @@
 
 This library has been unstable. We are working to make it production ready. For more details, see #113.
 
-You can access the previous development version of this library at its [latest
-commit](https://github.com/googleapis/google-cloudevents-go/tree/eabc4f975145db6a8a482109a9ec11ee8724dfb5/)
+You can access the previous development version of this library at its
+[latest commit](https://github.com/googleapis/google-cloudevents-go/tree/eabc4f975145db6a8a482109a9ec11ee8724dfb5/)
 
 # Google CloudEvents - Go
 
