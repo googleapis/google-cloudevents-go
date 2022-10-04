@@ -27,26 +27,7 @@ information on using pull requests.
 This project follows [Google's Open Source Community
 Guidelines](https://opensource.google/conduct/).
 
-## Generating the Library (quicktype)
-
-### Prerequisites
-
-- Clone this repo
-- Clone `https://github.com/googleapis/google-cloudevents` in the same directory as this repo
-- Install Node.js 12+
-- Install the `qt` CLI globally: https://github.com/googleapis/google-cloudevents/tree/master/tools/quicktype-wrapper
-
-### Generate
-
-To generate this package, run the following script:
-
-``` sh
-./tools/gen.sh
-```
-
-This will generate the source code for this repo.
-
-## Generating the Library (protobuf)
+## Generating the Library
 
 ```sh
 git clone https://github.com/googleapis/google-cloudevents-go
@@ -57,11 +38,14 @@ export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
 sh ./generate-code.sh
 ```
 
-### Manage the Data Source
+### Generating the Library (Locally modified protos)
 
-The "Data Source" are protos held in a GitHub Repository, specifically
+The "data source" for code generation is a collection of protos maintained in
 [googleapis/google-cloudevets](https://github.com/googleapis/google-cloudevents).
-You can use an existing clone of this repository:
+
+If you have a local copy of this repository, such as for trying modifications to
+those protos, you can use these instructions to use that copy instead of
+retrieving a new clone.
 
 ```sh
 cd /path/to/shared/repositories

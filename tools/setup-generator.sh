@@ -25,7 +25,7 @@ echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
 echo
 
 # Create a location for local tool installation.
-echo "- Removing exiting tmp/ directory"
+echo "- Removing existing tmp/ directory"
 rm -rf tmp
 mkdir tmp
 
