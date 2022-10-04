@@ -1,3 +1,4 @@
 handleGHRelease: true
 releaseType: go
 releaseLabel: "autorelease: published"
+bump-minor-pre-major: true
