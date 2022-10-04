@@ -29,6 +29,8 @@ Guidelines](https://opensource.google/conduct/).
 
 ## Generating the Library
 
+Generate the library using protobuf-based tooling.
+
 ```sh
 git clone https://github.com/googleapis/google-cloudevents-go
 cd google-cloudevents-go

@@ -29,4 +29,3 @@ To install this package, run:
 ``` sh
 go get -u github.com/googleapis/google-cloudevents-go
 ```
-
