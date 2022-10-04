@@ -3,8 +3,8 @@
 
 This library has been unstable. We are working to make it production ready. For more details, see #113.
 
-You can access the previous development version of this library at its [latest 
-commit](https://github.com/googleapis/google-cloudevents-go/tree/eabc4f975145db6a8a482109a9ec11ee8724dfb5/)
+You can access the previous development version of this library at its
+[latest commit](https://github.com/googleapis/google-cloudevents-go/tree/eabc4f975145db6a8a482109a9ec11ee8724dfb5/)
 
 # Google CloudEvents - Go
 
@@ -22,7 +22,7 @@ This library provides Go types for Google CloudEvent data.
 
 ## Installation
 
-**Note**: This library requires Go 1.11+.
+**Note**: This library requires Go 1.12+ and is tested at Go 1.17+
 
 To install this package, run:
 
