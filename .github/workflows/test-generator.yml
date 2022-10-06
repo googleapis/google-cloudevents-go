@@ -25,6 +25,7 @@ on:
     paths:
       - 'tools/**'
       - 'generate-code.sh'
+      - '.github/workflows/test-generator.yml'
 
 jobs:
   # Create a pull request.
