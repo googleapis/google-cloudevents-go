@@ -16,9 +16,9 @@
 # Setup environment for code generation:
 # - install protobuf tools in a local temp directory
 # - clone google-cloudevents repo if needed
-set -e
+set -eu
 
-name=$(basename $BASH_SOURCE)
+name=$(basename ${BASH_SOURCE:-$0})
 library_version=$(git rev-parse --short HEAD)
 library_date=$(git show -s --format=%ci "${library_version}")
 echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
