@@ -32,7 +32,7 @@ jobs:
   create_pr:
     runs-on: ubuntu-latest
     env:
-      GENERATE_DATA_SOURCE: tmp/google-cloudevents
+      GENERATE_DATA_SOURCE: protos/google-cloudevents
 
     steps:
     - name: Checkout this repository
@@ -55,8 +55,6 @@ jobs:
 
     - name: Run the generator
       run: |
-        # Spoke to soon.
-        ls -l tmp
         bash ./generate-code.sh
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
