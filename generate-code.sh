@@ -53,6 +53,8 @@ if [[ -z "${GENERATE_PROTOC_PATH}" ]]; then
   exit 1
 fi
 
+GENERATE_DATA_SOURCE=$(realpath "${GENERATE_DATA_SOURCE}")
+
 # Derive proto repo metadata.
 data_version=$(git -C "${GENERATE_DATA_SOURCE}" rev-parse --short HEAD)
 data_date=$(git -C "${GENERATE_DATA_SOURCE}" show -s --format=%ci "${data_version}")
