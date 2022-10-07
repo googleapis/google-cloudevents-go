@@ -41,7 +41,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents
-        path: env.GENERATE_DATA_SOURCE
+        path: ${{ env.GENERATE_DATA_SOURCE }}
 
     - name: Setup Go
       uses: actions/setup-go@v3
@@ -50,11 +50,11 @@ jobs:
 
     - name: Install the generator
       run: |
-        sh tools/setup-generator.sh
+        bash tools/setup-generator.sh
 
     - name: Run the generator
       run: |
-        sh ./generate-code.sh
+        bash ./generate-code.sh
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
     
