@@ -68,7 +68,7 @@ jobs:
       run: |
         rev=$(git rev-parse --short HEAD)
         echo "::set-output name=revision::$rev"
-      working-directory: env.GENERATE_DATA_SOURCE
+      working-directory: $${ env.GENERATE_DATA_SOURCE }
 
     - name: Create a pull request with updates
       # https://github.com/googleapis/code-suggester#Action
