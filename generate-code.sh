@@ -32,7 +32,7 @@ _heading() {
     echo
     echo "$(tput bold)${1}$(tput sgr0)"
   else
-    echo " -> ${1}"
+    echo "=> ${1}"
   fi
 }
 
