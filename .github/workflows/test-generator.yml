@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Test Go Library Generation
+name: Test Library Generation
 
 # Uses protos from HEAD of https://github.com/googleapis/google-cloudevents
 # and tooling from HEAD of this repository to update all generated code.
@@ -29,7 +29,7 @@ on:
 
 jobs:
   # Create a pull request.
-  create_pr:
+  test-generator:
     runs-on: ubuntu-latest
     env:
       GENERATE_DATA_SOURCE: protos/google-cloudevents
