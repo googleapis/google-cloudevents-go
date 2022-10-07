@@ -51,10 +51,12 @@ jobs:
 
     - name: Install the generator
       run: |
-        sh tools/setup-generator.sh
+        tools/setup-generator.sh
+      shell: bash
 
     - name: Run the generator
       run: |
-        sh ./generate-code.sh
+        ./generate-code.sh
+      shell: bash
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
