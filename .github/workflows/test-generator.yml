@@ -35,10 +35,10 @@ jobs:
       GENERATE_DATA_SOURCE: protos/google-cloudevents
 
     steps:
-    - name: Checkout this repository
+    - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
     
-    - name: Checkout data repository
+    - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents
