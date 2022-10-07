@@ -17,8 +17,8 @@ name: Test Library Generation
 # Uses protos from HEAD of https://github.com/googleapis/google-cloudevents
 # and tooling from HEAD of this repository to update all generated code.
 #
-# It creates a PR whose branch will include an unmodified snapshot of the
-# tooling used to generate changes.
+# If the generator process fails, the workflow will fail showing the toolchain
+# update in the Pull Request is not ready to merge.
 
 on:
   pull_request:
