@@ -55,6 +55,8 @@ jobs:
 
     - name: Run the generator
       run: |
+        # Spoke to soon.
+        ls -l tmp
         bash ./generate-code.sh
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
