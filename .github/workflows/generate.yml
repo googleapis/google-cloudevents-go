@@ -30,6 +30,9 @@ jobs:
   # Create a pull request.
   create_pr:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
     env:
       GENERATE_DATA_SOURCE: protos/google-cloudevents
 
