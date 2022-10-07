@@ -1,0 +1,109 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Generate Library & Open Pull Request
+
+# Uses protos from HEAD of https://github.com/googleapis/google-cloudevents
+# and tooling from HEAD of this repository to update all generated code.
+#
+# Creates a PR whose branch will include an unmodified snapshot of the
+# tooling used to generate changes.
+
+on:
+  schedule:
+    # Run at the end of every day. (10:10pm)
+    - cron: 10 22 * * *
+  workflow_dispatch:
+
+jobs:
+  # Create a pull request.
+  create-pr:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+    env:
+      GENERATE_DATA_SOURCE: protos/google-cloudevents
+
+    steps:
+    - name: Go Library > Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Proto Schemas > Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        repository: googleapis/google-cloudevents
+        path: ${{ env.GENERATE_DATA_SOURCE }}
+
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.x
+
+    - name: Install the generator
+      run: |
+        bash tools/setup-generator.sh
+
+    - name: Run the generator
+      run: |
+        bash ./generate-code.sh
+      env:
+        GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
+    
+    # This step identifies the github revision of the data source repository.
+    # This is used to create a detailed Pull Request description.
+    - name: Source Version
+      id: source-version
+      run: |
+        rev=$(git rev-parse --short HEAD)
+        echo "::set-output name=revision::$rev"
+      working-directory: $${ env.GENERATE_DATA_SOURCE }
+
+    - name: Create a pull request with updates
+      # https://github.com/googleapis/code-suggester#Action
+      uses: googleapis/code-suggester@v4
+      env:
+        # Provided by the GitHub Automation team
+        ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }}
+      with:
+        command: pr
+        upstream_owner: ${{ github.repository_owner }}
+        upstream_repo: 'google-cloudevents-go'
+
+        # Pull Request Title
+        title: 'feat: Run the code generator'
+        # Commit Message
+        message: 'feat: Run the code generator (${{ steps.source-version.outputs.revision }})'
+        description: |
+          :robot: Auto-generated Pull Request.
+
+          This PR was created from a recent update in the [google-cloudevents](https://github.com/googleapis/google-cloudevents) repository.
+          Specifically, the change at https://github.com/googleapis/google-cloudevents/commit/${{ steps.source-version.outputs.revision }}.
+
+          Future updates to the protos in that repository made before this PR is
+          merged will lead to a force push update of this Pull Request with
+          the latest changes.
+
+          * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ steps.source-version.outputs.revision }}/.github/workflows/generate.yml'
+          * **Generator Setup Script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/tools/setup-generator.sh'
+          * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/generate-code.sh'
+
+        # A static branch name and force pushes are meant to create
+        # a single open PR with all pending updates.
+        branch: 'generator'
+        force: true
+
+        fork: true # action automatically forks repo
+        git_dir: '.'
+        primary: 'main'

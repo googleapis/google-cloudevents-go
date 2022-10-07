@@ -18,11 +18,17 @@
 # - clone google-cloudevents repo if needed
 set -e
 
-name=$(basename $BASH_SOURCE)
+name=$(basename ${BASH_SOURCE:-$0})
 library_version=$(git rev-parse --short HEAD)
 library_date=$(git show -s --format=%ci "${library_version}")
 echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
+echo "working-directory: ${PWD}"
 echo
+
+if [ "${GENERATE_DATA_SOURCE:0:3}" = "tmp" ] || [ "${GENERATE_DATA_SOURCE:0:5}" = "./tmp"]; then
+  echo "setup-generator.sh will delete all contents of ./tmp. Currently GENERATE_DATA_SOURCE='${GENERATE_DATA_SOURCE}'."
+  exit 2
+fi
 
 # Create a location for local tool installation.
 echo "- Removing existing tmp/ directory"

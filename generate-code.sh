@@ -28,14 +28,19 @@ set -e
 
 # Output Utilities
 _heading() {
-  echo
-  echo "$(tput bold)${1}$(tput sgr0)"
+  if [ -t 1 ];  then
+    echo
+    echo "$(tput bold)${1}$(tput sgr0)"
+  else
+    echo "=> ${1}"
+  fi
 }
 
 name=$(basename "${BASH_SOURCE[0]}")
 library_version=$(git rev-parse --short HEAD)
 library_date=$(git show -s --format=%ci "${library_version}")
 echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
+echo "working-directory: ${PWD}"
 
 # Required configuration.
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
@@ -51,6 +56,8 @@ if [[ -z "${GENERATE_PROTOC_PATH}" ]]; then
   echo "Please run 'sh tools/setup_generator.sh' and follow the instructions."
   exit 1
 fi
+
+GENERATE_DATA_SOURCE=$(realpath "${GENERATE_DATA_SOURCE}")
 
 # Derive proto repo metadata.
 data_version=$(git -C "${GENERATE_DATA_SOURCE}" rev-parse --short HEAD)
