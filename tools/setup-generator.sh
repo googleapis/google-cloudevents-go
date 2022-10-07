@@ -22,6 +22,7 @@ name=$(basename ${BASH_SOURCE:-$0})
 library_version=$(git rev-parse --short HEAD)
 library_date=$(git show -s --format=%ci "${library_version}")
 echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
+echo "working-directory: ${PWD}"
 echo
 
 # Create a location for local tool installation.
