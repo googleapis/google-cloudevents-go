@@ -31,12 +31,17 @@ jobs:
   # Create a pull request.
   test-generator:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: library
     env:
       GENERATE_DATA_SOURCE: protos/google-cloudevents
 
     steps:
     - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
+      with:
+        path: library
     
     - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3

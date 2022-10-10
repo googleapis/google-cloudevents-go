@@ -33,12 +33,17 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}
       cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: library
     env:
-      GENERATE_DATA_SOURCE: protos/google-cloudevents
+      GENERATE_DATA_SOURCE: ../protos/google-cloudevents
 
     steps:
     - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
+      with:
+        path: library
 
     - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3
