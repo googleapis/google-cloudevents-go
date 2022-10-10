@@ -37,7 +37,7 @@ jobs:
       run:
         working-directory: library
     env:
-      GENERATE_DATA_SOURCE: ../protos/google-cloudevents
+      GENERATE_DATA_SOURCE: protos/google-cloudevents
 
     steps:
     - name: Go Library > Checkout Repository
