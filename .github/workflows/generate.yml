@@ -95,9 +95,9 @@ jobs:
           merged will lead to a force push update of this Pull Request with
           the latest changes.
 
-          * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ steps.source-version.outputs.revision }}/.github/workflows/generate.yml'
-          * **Generator Setup Script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/tools/setup-generator.sh'
-          * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/generate-code.sh'
+          * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ steps.source-version.outputs.revision }}/.github/workflows/generate.yml
+          * **Generator Setup Script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/tools/setup-generator.sh
+          * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/generate-code.sh
 
         # A static branch name and force pushes are meant to create
         # a single open PR with all pending updates.
