@@ -35,7 +35,8 @@ jobs:
       run:
         working-directory: library
     env:
-      GENERATE_DATA_SOURCE: protos/google-cloudevents
+      DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
+      GENERATE_DATA_SOURCE: ../protos-source-repo
 
     steps:
     - name: Go Library > Checkout Repository
@@ -47,7 +48,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents
-        path: ${{ env.GENERATE_DATA_SOURCE }}
+        path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Setup Go
       uses: actions/setup-go@v3
