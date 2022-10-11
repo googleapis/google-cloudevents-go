@@ -62,12 +62,12 @@ esac
 # for portability and being able to rely on the version being available
 # as soon as it's released on GitHub.
 echo "- Downloading protobuf tools..."
-cd tmp
+pushd tmp
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
   --output protobuf.zip
 (mkdir protobuf && cd protobuf && unzip -q ../protobuf.zip)
-cd ..
+popd
 chmod +x $PROTOC
 
 echo "- Downloaded protobuf ${PROTOBUF_VERSION} for ${PROTOBUF_PLATFORM}"
@@ -91,3 +91,6 @@ echo "- Usage: Configure the path to protobuf tools ('export GENERATE_PROTOC_PAT
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest}')"
 fi
+
+echo
+echo "You are ready to run 'sh generate-code.sh'"
