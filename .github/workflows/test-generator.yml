@@ -33,16 +33,18 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: library
+        working-directory: library # sync with env.LIBRARY_CHECKOUT_PATH
     env:
+      # Library & Data Source repos using side-by-side checkout.
+      LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
       DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
-      GENERATE_DATA_SOURCE: ../protos-source-repo
+      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
 
     steps:
     - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
       with:
-        path: library
+        path: ${{ env.LIBRARY_CHECKOUT_PATH }}
     
     - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3
