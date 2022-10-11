@@ -22,8 +22,8 @@ name: Generate Library & Open Pull Request
 
 on:
   schedule:
-    # Run at the end of every day. (10:10pm)
-    - cron: 10 22 * * *
+    # Run at the end of every day. (10:10pm PT, 5:10am UTC)
+    - cron: 10 5 * * *
   workflow_dispatch:
 
 jobs:
