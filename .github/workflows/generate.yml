@@ -33,18 +33,26 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}
       cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: library # sync with env.LIBRARY_CHECKOUT_PATH
     env:
-      GENERATE_DATA_SOURCE: protos/google-cloudevents
+      # Library & Data Source repos using side-by-side checkout.
+      LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
+      DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
+      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
 
     steps:
     - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
+      with:
+        path: ${{ env.LIBRARY_CHECKOUT_PATH }}
 
     - name: Proto Schemas > Checkout Repository
       uses: actions/checkout@v3
       with:
         repository: googleapis/google-cloudevents
-        path: ${{ env.GENERATE_DATA_SOURCE }}
+        path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Setup Go
       uses: actions/setup-go@v3
@@ -68,7 +76,7 @@ jobs:
       run: |
         rev=$(git rev-parse --short HEAD)
         echo "::set-output name=revision::$rev"
-      working-directory: ${{ env.GENERATE_DATA_SOURCE }}
+      working-directory: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Create a pull request with updates
       # https://github.com/googleapis/code-suggester#Action
@@ -105,5 +113,5 @@ jobs:
         force: true
 
         fork: true # action automatically forks repo
-        git_dir: '.'
+        git_dir: ${{ env.LIBRARY_CHECKOUT_PATH }}
         primary: 'main'
