@@ -117,7 +117,7 @@ jobs:
         primary: 'main'
 
     - name: Notify for failure
-      if: ${{ failure() }}
+      if: ${{ failure() && github.event_name == 'schedule' }}
       uses: actions/github-script@v6
       with:
         script: |
