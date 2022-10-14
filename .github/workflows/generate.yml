@@ -115,3 +115,15 @@ jobs:
         fork: true # action automatically forks repo
         git_dir: ${{ env.LIBRARY_CHECKOUT_PATH }}
         primary: 'main'
+
+    - name: Notify for failure
+      if: ${{ failure() && github.event_name == 'schedule' }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Library generation failed (${{ steps.source-version.outputs.revision }})',
+            body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+          });
