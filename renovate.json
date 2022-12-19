@@ -3,5 +3,8 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
-  "schedule": ["every 3 months on the first day of the month"]
+  "schedule": ["every 3 months on the first day of the month"],
+  "constraints": {
+    "go": "1.17"
+  }
 }
