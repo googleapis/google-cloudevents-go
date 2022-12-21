@@ -76,6 +76,11 @@ echo "- Downloading & installing the Go protocol buffers plugin..."
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 echo "- Protobuf tooling installation complete"
 
+echo "- Installing custom generators"
+pushd generators/protoc-gen-go-typevalidation
+go install .
+popd
+
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo "- Cloning github.com/googleapis/google-cloudevents into tmp"
   # For the moment, just clone google-cloudevents. Later we might make
@@ -89,7 +94,9 @@ echo
 echo "Configure environment for generate_code.sh:"
 echo "- Usage: Configure the path to protobuf tools ('export GENERATE_PROTOC_PATH=$PROTOC')"
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
-  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest}')"
+  # Use an absolute path for go test file loading.
+  dest_abs=$(realpath "${dest}")
+  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest_abs}')"
 fi
 
 echo

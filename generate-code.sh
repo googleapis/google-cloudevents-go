@@ -18,7 +18,8 @@
 #
 # Configuration:
 # - GENERATE_DATA_SOURCE: Path to google-cloudevent repo.
-# - GENERATE_PROTOC_PATH: Path to protobuf tool. 
+# - GENERATE_PROTOC_PATH: Path to protobuf tool.
+# - GENERATE_TEMPLATE_DIR: Location of gotemplate files for custom code generation.
 #
 # Usage:
 # - sh ./build.sh
@@ -57,6 +58,11 @@ if [[ -z "${GENERATE_PROTOC_PATH}" ]]; then
   exit 1
 fi
 
+if [[ -z "${GENERATE_TEMPLATE_DIR}" ]]; then
+  export GENERATE_TEMPLATE_DIR=$(realpath ./generators/templates)
+fi
+
+
 GENERATE_DATA_SOURCE=$(realpath "${GENERATE_DATA_SOURCE}")
 
 # Derive proto repo metadata.
@@ -72,6 +78,7 @@ _heading "Preparing to generate library..."
 echo "- Schema Source Repository: \t${GENERATE_DATA_SOURCE} (${data_version} on ${data_date})"
 echo "- Proto Source Directory: \t${src_dir}"
 echo "- Shared googleapis Protos: \t${googleapis_dir}"
+echo "- Custom Code Generator Templates: \t${GENERATE_TEMPLATE_DIR}"
 
 # Manifest file with details about how code was most recently generated.
 # Useful when troubleshooting without build logs.
@@ -128,7 +135,43 @@ _generateData() {
       "${proto_src}"
 }
 
+_generateValidationTests() {
+    # Source the schema protos.
+    proto_dir="${GENERATE_DATA_SOURCE}/proto"
+    proto_src=$(realpath --relative-to="${proto_dir}" "$1")
+    # Derive path to data.proto from event.proto.
+    data_src=$(dirname "${proto_src}")/data.proto
+    # Derive destination directory.
+    code_dest=$(dirname "$(dirname "${proto_src}")" | cut -d'/' -f3-)
+    # Product name & API version
+    product=$(basename "$code_dest")
+    version=$(basename "$(dirname "${proto_src}")")
+
+    # Explicit type versioning after v1.
+    if [[ "${version}" == "v1" ]]; then
+      version=""
+    fi
+
+    echo "- ${product}: ${proto_src} => ${code_dest}data${version}/data_test.go"
+
+    $GENERATE_PROTOC_PATH --go-typevalidation_out=. \
+        --go-typevalidation_opt="Mgoogle/events/cloudevent.proto"="github.com/googleapis/google-cloudevents-go/thirdparty/cloudevents;cloudevents" \
+        --go-typevalidation_opt="M${proto_src}"="${code_dest}data${version}" \
+        --go-typevalidation_opt="M${data_src}"="${code_dest}data${version};${product}data${version}" \
+        --proto_path="${proto_dir}" \
+        --proto_path="${googleapis_dir}" \
+        "${proto_src}"
+}
+
 _heading "Generating data type code in Go..."
 for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name data.proto); do
   _generateData "$i"
 done
+
+_heading "Generating validation tests..."
+for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name events.proto); do
+  _generateValidationTests "$i"
+done
+
+_heading "Running validation tests..."
+go test ./...
