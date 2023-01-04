@@ -111,6 +111,13 @@ _generateData() {
       version=""
     fi
 
+    # Skip unsupported products.
+    if [[ "${product}" == "pubsub" ]]; then
+      echo "- ${product}: skipping generation, not currently supported"
+      return
+    fi
+
+
     echo "- ${product}: ${proto_src} => ${code_dest}data${version}"
 
     $GENERATE_PROTOC_PATH --go_out=. \
