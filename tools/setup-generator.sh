@@ -94,9 +94,7 @@ echo
 echo "Configure environment for generate_code.sh:"
 echo "- Usage: Configure the path to protobuf tools ('export GENERATE_PROTOC_PATH=$PROTOC')"
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
-  # Use an absolute path for go test file loading.
-  dest_abs=$(realpath "${dest}")
-  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest_abs}')"
+  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest}')"
 fi
 
 echo
