@@ -77,7 +77,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 echo "- Protobuf tooling installation complete"
 
 echo "- Installing custom generators"
-pushd generators/protoc-gen-go-typevalidation
+pushd generators/protoc-gen-go-googlecetypes
 go install .
 popd
 

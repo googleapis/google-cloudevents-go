@@ -163,10 +163,10 @@ _generateValidationTests() {
 
     echo "- ${product}: ${proto_src} => ${code_dest}data${version}/data_test.go"
 
-    $GENERATE_PROTOC_PATH --go-typevalidation_out=. \
-        --go-typevalidation_opt="Mgoogle/events/cloudevent.proto"="github.com/googleapis/google-cloudevents-go/thirdparty/cloudevents;cloudevents" \
-        --go-typevalidation_opt="M${proto_src}"="${code_dest}data${version}" \
-        --go-typevalidation_opt="M${data_src}"="${code_dest}data${version};${product}data${version}" \
+    $GENERATE_PROTOC_PATH --go-googlecetypes_out=. \
+        --go-googlecetypes_opt="Mgoogle/events/cloudevent.proto"="github.com/googleapis/google-cloudevents-go/thirdparty/cloudevents;cloudevents" \
+        --go-googlecetypes_opt="M${proto_src}"="${code_dest}data${version}" \
+        --go-googlecetypes_opt="M${data_src}"="${code_dest}data${version};${product}data${version}" \
         --proto_path="${proto_dir}" \
         --proto_path="${googleapis_dir}" \
         "${proto_src}"
