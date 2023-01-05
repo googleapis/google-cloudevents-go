@@ -58,10 +58,12 @@ type TestParams struct {
 	Pkg string
 	// TestDataPath is the path from GENERATOR_DATA_PATH to examples for this event type family.
 	TestDataPath string
-	// ProtocVersion is the version of protoc used to generate code.
-	ProtocVersion string
 	// SourceFile is the proto used to generate code.
 	SourceFile string
+	// Protoc tooling versions.
+	ProtocVersion      string
+	ProtocGenGoVersion string
+	LibraryVersion     string
 }
 
 // generateTests generates test coverage per type.
@@ -82,6 +84,20 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 		protocVersion = fmt.Sprintf("v%v.%v.%v", v.GetMajor(), v.GetMinor(), v.GetPatch())
 	}
 	params.ProtocVersion = protocVersion
+
+	// Derive protoc-gen-go version.
+	pgcVersion := "(unknown)"
+	if v := os.Getenv("PROTOC_GEN_GO_VERSION"); v != "" {
+		pgcVersion = v
+	}
+	params.ProtocGenGoVersion = pgcVersion
+
+	// Derive current library version.
+	libVersion := "(unknown)"
+	if v := os.Getenv("LIBRARY_VERSION"); v != "" {
+		libVersion = v
+	}
+	params.LibraryVersion = libVersion
 
 	// Notes on parsing a proto message:
 	// msg.GoIdent.GoName => Event Name like "FunctionCreatedEvent"

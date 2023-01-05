@@ -91,6 +91,10 @@ tool_commit_hash: ${library_version}
 
 GENERATION_METADATA
 
+export PROTOC_GEN_GO_VERSION="$(protoc-gen-go --version | awk  '{print $2}')"
+export LIBRARY_VERSION="short-sha:${library_version} (${library_date})"
+
+
 # Clean up previously generated files.
 # - Prevent continued presence of files we no longer generate
 # - Troubleshooting assist to see what failed to generate
