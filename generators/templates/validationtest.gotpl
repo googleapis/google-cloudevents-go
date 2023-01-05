@@ -16,7 +16,6 @@
 // versions:
 // 	protoc        {{ .ProtocVersion }}
 // source: {{ .SourceFile }}
-// date: {{ .GenDate }}
 
 package {{ .Pkg }}_test
 
