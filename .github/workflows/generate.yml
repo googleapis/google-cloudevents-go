@@ -75,7 +75,7 @@ jobs:
       id: source-version
       run: |
         rev=$(git rev-parse --short HEAD)
-        echo "::set-output name=revision::$rev"
+        echo "revision=${rev}" >> $GITHUB_OUTPUT
       working-directory: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Create a pull request with updates
