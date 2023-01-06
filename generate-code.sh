@@ -65,8 +65,6 @@ data_date=$(git -C "${GENERATE_DATA_SOURCE}" show -s --format=%ci "${data_versio
 # Derive proto lookup paths.
 src_dir="${GENERATE_DATA_SOURCE}/proto/google/events"
 googleapis_dir="${GENERATE_DATA_SOURCE}/third_party/googleapis"
-# Prepare dependencies for build & generation.
-monitored_proto="google/api/monitored_resource.proto"
 
 _heading "Preparing to generate library..."
 echo "- Schema Source Repository: \t${GENERATE_DATA_SOURCE} (${data_version} on ${data_date})"
@@ -93,12 +91,14 @@ rm -rf cloud firebase shared
 # Module mappings for generation are different from module mappings
 # for import needed when configuring the dependents.
 _heading "Generating dependencies..."
-echo "- ${monitored_proto}"
+deps=$(find "${GENERATE_DATA_SOURCE}/third_party/googleapis/google/api" -type f -name *.proto)
+echo $deps |  xargs realpath --relative-to="${GENERATE_DATA_SOURCE}" | xargs printf -- '- %s\n'
 
+#/third_party/googleapis \
 $GENERATE_PROTOC_PATH --go_out=. \
-  --go_opt="M${monitored_proto}"="shared/google;google" \
-  --proto_path="${googleapis_dir}" \
-  "$googleapis_dir/${monitored_proto}"
+   --go_opt=module=github.com/googleapis/google-cloudevents-go \
+   --proto_path="${googleapis_dir}" \
+   "${deps}"
 
 _generateData() {
     proto_src=$(realpath --relative-to="${src_dir}" "$1")
@@ -122,7 +122,6 @@ _generateData() {
 
     $GENERATE_PROTOC_PATH --go_out=. \
       --go_opt="M${proto_src}"="${code_dest}data${version};${product}data${version}" \
-      --go_opt="M${monitored_proto}"="github.com/googleapis/google-cloudevents-go/shared/google;google" \
       --proto_path="${src_dir}" \
       --proto_path="${googleapis_dir}" \
       "${proto_src}"
