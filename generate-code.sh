@@ -22,8 +22,8 @@
 # - GENERATE_TEMPLATE_DIR: Location of gotemplate files for custom code generation.
 #
 # Usage:
-# - sh ./build.sh
-# - GENERATE_DATA_SOURCE=tmp/google-cloudevents GENERATE_PROTOC_PATH=protoc sh ./build.sh
+# - sh ./generate-code.sh
+# - GENERATE_DATA_SOURCE=tmp/google-cloudevents GENERATE_PROTOC_PATH=protoc sh ./generate-code.sh
 
 set -e
 
