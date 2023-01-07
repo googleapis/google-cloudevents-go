@@ -40,11 +40,11 @@ func CleanAcceptedUnknowns(b []byte, dataType string, typePrefix string) ([]byte
 	return b, nil
 }
 
-const (
-	DATA_TYPE = 0
-	EXTENSION = 1
-	TEST_CASE = 1
-)
+type dataTestCase struct {
+	Ext  string
+	Type string
+	Case string
+}
 
 // FindTestData identifies and loads relevant test cases for a given data type.
 func FindTestData(t *testing.T, dataType string, dataPath string) map[string]string {
@@ -54,23 +54,36 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 		t.Skip("test data: GENERATE_DATA_SOURCE environment variable not set")
 	}
 
-	testData := filepath.Join(testDataRoot, "testdata", dataPath)
+	// Tests are run from the working directory of the test file.
+	// Tests using this function are assumed to be nested two directories down
+	// from the repository root.
+	testData := filepath.Join("../..", testDataRoot, "testdata", dataPath)
+	testData, err := filepath.Abs(testData)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	files, err := os.ReadDir(testData)
 	if err != nil {
-		t.Skip("No test cases found: ioutil.ReadDir:", err)
+		t.Skip("No test cases found: os.ReadDir:", err)
 	}
 
 	cases := make(map[string]string, len(files))
 	for _, file := range files {
-		parts := strings.Split(file.Name(), ".")
-		if parts[EXTENSION] != "json" {
+		c := dataTestCase{
+			Ext: filepath.Ext(file.Name()),
+		}
+		if c.Ext != ".json" {
 			continue
 		}
-		metadata := strings.Split(parts[0], "-")
-		if metadata[DATA_TYPE] != dataType {
-			continue
+
+		metadata := strings.Split(strings.TrimSuffix(file.Name(), c.Ext), "-")
+		c.Type = metadata[0]
+		c.Case = metadata[1]
+
+		if c.Type == dataType {
+			cases[c.Case] = filepath.Join(testData, file.Name())
 		}
-		cases[metadata[TEST_CASE]] = filepath.Join(testData, file.Name())
 	}
 
 	if len(cases) == 0 {
