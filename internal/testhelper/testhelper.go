@@ -77,9 +77,11 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 			continue
 		}
 
-		metadata := strings.Split(strings.TrimSuffix(file.Name(), c.Ext), "-")
-		c.Type = metadata[0]
-		c.Case = metadata[1]
+		var ok bool
+		c.Type, c.Case, ok = strings.Cut(strings.TrimSuffix(file.Name(), c.Ext), "-")
+		if !ok {
+			c.Case = "default"
+		}
 
 		if c.Type == dataType {
 			cases[c.Case] = filepath.Join(testData, file.Name())
