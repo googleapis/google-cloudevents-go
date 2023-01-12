@@ -9,35 +9,41 @@ import (
 	"testing"
 )
 
-// CleanAcceptedUnknowns strips test data of undefined fields that we know will
-// be present in data payloads. These are exceptions for strict validation testing.
-// These are primarily '@type' fields injected as an artifact of protobuf.Unknown
-// being serialized into the data upstream from the event.
-func CleanAcceptedUnknowns(b []byte, dataType string, typePrefix string) ([]byte, error) {
-	switch {
-	case typePrefix == "google.events.cloud.pubsub.v1" && dataType == "MessagePublishedData":
-		var j map[string]interface{}
-		if err := json.Unmarshal(b, &j); err != nil {
-			return nil, fmt.Errorf("json.Unmarshal: %w", err)
-		}
-		m := j["message"].(map[string]interface{})
-		delete(m, "@type")
-		j["message"] = m
-		fmt.Println("Removed [message.@type] from test data.")
-		return json.Marshal(j)
-	case typePrefix == "google.events.cloud.audit.v1" && dataType == "LogEntryData":
-		var j map[string]interface{}
-		if err := json.Unmarshal(b, &j); err != nil {
-			return nil, fmt.Errorf("json.Unmarshal: %w", err)
-		}
-		m := j["protoPayload"].(map[string]interface{})
-		delete(m, "@type")
-		j["protoPayload"] = m
-		fmt.Println("Removed [protoPayload.@type] from test data.")
-		return json.Marshal(j)
+// PreparePubSubMessagePublishedData modifies data for protojson parsing.
+// - Remove fields protojson considers duplicate field names
+// - Remove @type properties
+func PreparePubSubMessagePublishedData(b []byte) ([]byte, error) {
+	var j map[string]interface{}
+	if err := json.Unmarshal(b, &j); err != nil {
+		return nil, fmt.Errorf("json.Unmarshal: %w", err)
 	}
+	m := j["message"].(map[string]interface{})
 
-	return b, nil
+	// Remove reserved @type field.
+	delete(m, "@type")
+	// Remove message_id field name conflict with messageId.
+	delete(m, "message_id")
+	// Remove publish_time field name conflict with publishTime.
+	delete(m, "publish_time")
+
+	j["message"] = m
+	return json.Marshal(j)
+}
+
+// PrepareAuditLogEntryData modifies data for protojson parsing.
+// - Remove @type properties
+func PrepareAuditLogEntryData(b []byte) ([]byte, error) {
+	var j map[string]interface{}
+	if err := json.Unmarshal(b, &j); err != nil {
+		return nil, fmt.Errorf("json.Unmarshal: %w", err)
+	}
+	m := j["protoPayload"].(map[string]interface{})
+
+	// Remove reserved @type field.
+	delete(m, "@type")
+
+	j["protoPayload"] = m
+	return json.Marshal(j)
 }
 
 type dataTestCase struct {

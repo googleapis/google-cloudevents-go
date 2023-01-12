@@ -60,6 +60,11 @@ type TestParams struct {
 	TestDataPath string
 	// SourceFile is the proto used to generate code.
 	SourceFile string
+	// PrepareFunction defines a function to call to clean up the data.
+	// If set, the strict subtest will be skipped and a "compatibility" subtest created instead.
+	// It is mapped to the DataType.
+	PrepareFunction map[string]string
+
 	// Protoc tooling versions.
 	ProtocVersion      string
 	ProtocGenGoVersion string
@@ -127,6 +132,17 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 
 	testDataPath := filepath.Join(SrcPrefix, filepath.Dir(params.SrcPath), product, version)
 	params.TestDataPath = testDataPath
+
+	// Identify if a data cleaning step is required and assign the cleanup function.
+	params.PrepareFunction = make(map[string]string, len(params.DataTypes))
+	for _, dataType := range params.DataTypes {
+		switch {
+		case params.TypePrefix == "google.events.cloud.pubsub.v1" && dataType == "MessagePublishedData":
+			params.PrepareFunction[dataType] = "testhelper.PreparePubSubMessagePublishedData"
+		case params.TypePrefix == "google.events.cloud.audit.v1" && dataType == "LogEntryData":
+			params.PrepareFunction[dataType] = "testhelper.PrepareAuditLogEntryData"
+		}
+	}
 
 	var b bytes.Buffer
 	if err := validationTestTpl.Execute(&b, params); err != nil {

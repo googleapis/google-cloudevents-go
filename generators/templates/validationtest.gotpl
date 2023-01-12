@@ -61,9 +61,21 @@ func TestParsing{{ . }}(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				cleanData, err := testhelper.CleanAcceptedUnknowns(data, "{{ . }}", "{{ $.TypePrefix }}")
+				{{ if (index $.PrepareFunction . ) -}}
+				t.Skip("Data is not compatible with strict processing.")
+				{{ else -}}
+				out := {{ $.Pkg }}.{{ . }}{}
+				if err := protojson.Unmarshal(data, &out); err != nil {
+					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
+				}
+				{{ end -}}
+			})
+
+			{{ if (index $.PrepareFunction . ) }}
+			t.Run("compatible", func(t *testing.T) {
+				cleanData, err := {{ index $.PrepareFunction . }}(data)
 				if err != nil {
-					t.Errorf("could not clean data for strict validation: %v", err)
+					t.Errorf("could not prepare data for strict validation: %v", err)
 				}
 
 				out := {{ $.Pkg }}.{{ . }}{}
@@ -71,6 +83,7 @@ func TestParsing{{ . }}(t *testing.T) {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
 			})
+			{{ end -}}
 		})
 	}
 }
