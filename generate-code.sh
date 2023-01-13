@@ -140,6 +140,7 @@ _generateValidationTests() {
     proto_dir="${GENERATE_DATA_SOURCE}/proto"
     proto_src=$(realpath --relative-to="${proto_dir}" "$1")
     # Derive path to data.proto from event.proto.
+    # This is consistently available but not currently a standard.
     data_src=$(dirname "${proto_src}")/data.proto
     # Derive destination directory.
     code_dest=$(dirname "$(dirname "${proto_src}")" | cut -d'/' -f3-)
