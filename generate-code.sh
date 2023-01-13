@@ -62,7 +62,6 @@ if [[ -z "${GENERATE_TEMPLATE_DIR}" ]]; then
   export GENERATE_TEMPLATE_DIR=$(realpath ./generators/templates)
 fi
 
-
 GENERATE_DATA_SOURCE=$(realpath "${GENERATE_DATA_SOURCE}")
 
 # Derive proto repo metadata.
@@ -81,7 +80,6 @@ echo "- Custom Code Generator Templates: \t${GENERATE_TEMPLATE_DIR}"
 # Manifest file with details about how code was most recently generated.
 # Useful when troubleshooting without build logs.
 cat > generated.txt <<GENERATION_METADATA
-created_date: $(date "+%Y-%m-%d %T %z")
 data_commit_date: ${data_date}
 data_commit_hash: ${data_version}
 tool_commit_date: ${library_date}
