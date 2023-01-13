@@ -1,50 +1,11 @@
 package testhelper
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 )
-
-// PreparePubSubMessagePublishedData modifies data for protojson parsing.
-// - Remove fields protojson considers duplicate field names
-// - Remove @type properties
-func PreparePubSubMessagePublishedData(b []byte) ([]byte, error) {
-	var j map[string]interface{}
-	if err := json.Unmarshal(b, &j); err != nil {
-		return nil, fmt.Errorf("json.Unmarshal: %w", err)
-	}
-	m := j["message"].(map[string]interface{})
-
-	// Remove reserved @type field.
-	delete(m, "@type")
-	// Remove message_id field name conflict with messageId.
-	delete(m, "message_id")
-	// Remove publish_time field name conflict with publishTime.
-	delete(m, "publish_time")
-
-	j["message"] = m
-	return json.Marshal(j)
-}
-
-// PrepareAuditLogEntryData modifies data for protojson parsing.
-// - Remove @type properties
-func PrepareAuditLogEntryData(b []byte) ([]byte, error) {
-	var j map[string]interface{}
-	if err := json.Unmarshal(b, &j); err != nil {
-		return nil, fmt.Errorf("json.Unmarshal: %w", err)
-	}
-	m := j["protoPayload"].(map[string]interface{})
-
-	// Remove reserved @type field.
-	delete(m, "@type")
-
-	j["protoPayload"] = m
-	return json.Marshal(j)
-}
 
 type dataTestCase struct {
 	Ext  string
@@ -55,16 +16,12 @@ type dataTestCase struct {
 // FindTestData identifies and loads relevant test cases for a given data type.
 func FindTestData(t *testing.T, dataType string, dataPath string) map[string]string {
 	t.Helper()
-	testDataRoot := os.Getenv("GENERATE_DATA_SOURCE")
-	if testDataRoot == "" {
+	root := os.Getenv("GENERATE_DATA_SOURCE")
+	if root == "" {
 		t.Skip("test data: GENERATE_DATA_SOURCE environment variable not set")
 	}
 
-	// Tests are run from the working directory of the test file.
-	// Tests using this function are assumed to be nested two directories down
-	// from the repository root.
-	testData := filepath.Join("../..", testDataRoot, "testdata", dataPath)
-	testData, err := filepath.Abs(testData)
+	testData, err := AbsDataPath(os.Getenv("GENERATE_DATA_SOURCE"), dataPath)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -99,4 +56,28 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 	}
 
 	return cases
+}
+
+// AbsDataPath normalizes relative or absolute paths for testing.
+func AbsDataPath(p, dataPath string) (target string, err error) {
+	target = p
+
+	if !filepath.IsAbs(p) {
+		target, err = filepath.Abs(p)
+		if err != nil {
+			return
+		}
+	}
+
+	// Check if the target path we've assembled to the parent repository exists.
+	// This helps identify misconfiguration instead of a lack of tests.
+	_, err = os.Stat(target)
+	if err != nil {
+		return
+	}
+
+	// Complete the absolute data path.
+	target = filepath.Join(target, "testdata", dataPath)
+
+	return
 }
