@@ -89,7 +89,7 @@ func TestParsing{{ . }}(t *testing.T) {
 			})
 
 			{{ if (index $.PrepareFunction . ) }}
-			t.Run("compatible", func(t *testing.T) {
+			t.Run("compatibility", func(t *testing.T) {
 				cleanData, err := {{ index $.PrepareFunction . }}(data)
 				if err != nil {
 					t.Errorf("could not prepare data for strict validation: %v", err)
