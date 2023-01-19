@@ -76,6 +76,11 @@ echo "- Downloading & installing the Go protocol buffers plugin..."
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 echo "- Protobuf tooling installation complete"
 
+echo "- Installing custom generators"
+pushd generators/protoc-gen-go-googlecetypes
+go install .
+popd
+
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo "- Cloning github.com/googleapis/google-cloudevents into tmp"
   # For the moment, just clone google-cloudevents. Later we might make

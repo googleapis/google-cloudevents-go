@@ -25,6 +25,7 @@ on:
     paths:
       - 'tools/**'
       - 'generate-code.sh'
+      - 'internal/**'
       - '.github/workflows/test-generator.yml'
 
 jobs:
