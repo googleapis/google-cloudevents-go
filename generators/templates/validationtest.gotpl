@@ -22,7 +22,6 @@
 package {{ .Pkg }}_test
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"testing"
