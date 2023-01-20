@@ -40,7 +40,7 @@ jobs:
       # Library & Data Source repos using side-by-side checkout.
       LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
       DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
-      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
+      GENERATE_DATA_SOURCE: $(realpath ../protos-source-repo)
 
     steps:
     - name: Go Library > Checkout Repository
