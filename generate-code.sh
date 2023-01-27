@@ -182,3 +182,8 @@ done
 
 _heading "Running validation tests..."
 go test -v ./...
+
+_heading "Running example tests..."
+pushd examples >/dev/null
+go test -v ./...
+popd >/dev/null
