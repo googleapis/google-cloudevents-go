@@ -30,6 +30,10 @@ jobs:
   # Create a pull request.
   create-pr:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     concurrency:
       group: ${{ github.workflow }}
       cancel-in-progress: true
