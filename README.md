@@ -1,14 +1,6 @@
-
-# Under Heavy Development
-
-This library is not ready for use. We are working to make it ready. For more details, see #113.
-
-You can access the previous development version of this library at
-[v0.2.3](https://github.com/googleapis/google-cloudevents-go/tree/v0.2.3)
-
 # Google CloudEvents - Go
 
-[![GoDoc](https://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://pkg.go.dev/mod/github.com/googleapis/google-cloudevents-go) [![unstable](http://badges.github.io/stability-badges/dist/unstable.svg)](http://github.com/badges/stability-badges)
+[![GoDoc](https://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://pkg.go.dev/mod/github.com/googleapis/google-cloudevents-go) [![Preview](https://img.shields.io/badge/stability-preview-orange?style=flat-square)](https://cloud.google.com/products#section-22)
 
 This library provides Go types for Google CloudEvent data.
 
