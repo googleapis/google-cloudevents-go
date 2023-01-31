@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.3.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.3...v0.3.0) (2023-01-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* clear json-schema based version of the Go library ([#117](https://github.com/googleapis/google-cloudevents-go/issues/117))
+
+### Features
+
+* Generate type definition package godoc ([#142](https://github.com/googleapis/google-cloudevents-go/issues/142)) ([b9e2108](https://github.com/googleapis/google-cloudevents-go/commit/b9e2108ebc539fe8d2565da60b70c1a3f1478ee7))
+* Run the code generator ([#129](https://github.com/googleapis/google-cloudevents-go/issues/129)) ([4d9f2db](https://github.com/googleapis/google-cloudevents-go/commit/4d9f2db181810f528ba351d8c2b3d758c4c93a0b))
+* Run the code generator ([#148](https://github.com/googleapis/google-cloudevents-go/issues/148)) ([322c786](https://github.com/googleapis/google-cloudevents-go/commit/322c786abef2dfa47cce9a2d082ed83e47f5b10e))
+* Tooling to generate types from protos ([#115](https://github.com/googleapis/google-cloudevents-go/issues/115)) ([82e971b](https://github.com/googleapis/google-cloudevents-go/commit/82e971b95f34e445d1eb51ff202be9441ec4c906))
+
+
+### Bug Fixes
+
+* Correct testdata lookup for deeply nested types ([#143](https://github.com/googleapis/google-cloudevents-go/issues/143)) ([797a7c1](https://github.com/googleapis/google-cloudevents-go/commit/797a7c1e4bc19f556367330e213a7da3aa95aae7))
+* **generator:** Cron schedule in timezone UTC ([#131](https://github.com/googleapis/google-cloudevents-go/issues/131)) ([9f61d6d](https://github.com/googleapis/google-cloudevents-go/commit/9f61d6d0d13bc36246ae7df19258d99247aed0ee))
+* **generator:** Github action source-version syntax error ([#127](https://github.com/googleapis/google-cloudevents-go/issues/127)) ([3c2d689](https://github.com/googleapis/google-cloudevents-go/commit/3c2d6895c4043f1043ef4de191b354859858230a))
+* **generator:** Use side-by-side repositories ([#130](https://github.com/googleapis/google-cloudevents-go/issues/130)) ([521da22](https://github.com/googleapis/google-cloudevents-go/commit/521da225b7e85d6901bdc316b9542d1060aad29e))
+* Skip unsupported pubsub event type ([#140](https://github.com/googleapis/google-cloudevents-go/issues/140)) ([6c4d4e4](https://github.com/googleapis/google-cloudevents-go/commit/6c4d4e4c144439c269a66fd86e076673db7041cd))
+* **testing:** Generator workflow syntax error ([#151](https://github.com/googleapis/google-cloudevents-go/issues/151)) ([ef63a63](https://github.com/googleapis/google-cloudevents-go/commit/ef63a63ea939a736fe1d92597826e3abd01565a6))
+* **testing:** Sort test cases per data package ([#156](https://github.com/googleapis/google-cloudevents-go/issues/156)) ([030cf6d](https://github.com/googleapis/google-cloudevents-go/commit/030cf6dced4d3ac2748a32e760f53f17fffd698e))
+
+
+### Code Refactoring
+
+* Clear json-schema based version of the Go library ([#117](https://github.com/googleapis/google-cloudevents-go/issues/117)) ([ee45e63](https://github.com/googleapis/google-cloudevents-go/commit/ee45e636b4393792ab0fbccb237c35081fc87e18))
+
 ## [0.2.3](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.2...v0.2.3) (2022-07-14)
 
 
