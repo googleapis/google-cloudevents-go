@@ -159,8 +159,6 @@ _generateValidationTests() {
       return
     fi
 
-    echo "- ${product}: ${proto_src} => ${code_dest}data${version}/data_test.go"
-
     $GENERATE_PROTOC_PATH --go-googlecetypes_out=. \
         --go-googlecetypes_opt="Mgoogle/events/cloudevent.proto"="github.com/googleapis/google-cloudevents-go/thirdparty/cloudevents;cloudevents" \
         --go-googlecetypes_opt="M${proto_src}"="${code_dest}data${version}" \
@@ -175,15 +173,11 @@ for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name data.proto); do
   _generateData "$i"
 done
 
-_heading "Generating validation tests..."
+_heading "Generating validation tests and godoc..."
 for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name events.proto); do
   _generateValidationTests "$i"
 done
 
 _heading "Running validation tests..."
-go test -v ./...
-
-_heading "Running example tests..."
-pushd examples >/dev/null
-go test -v ./...
-popd >/dev/null
+# Run with GOFLAGS="-v" for verbose output.
+go test ./...
