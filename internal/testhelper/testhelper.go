@@ -8,8 +8,11 @@ import (
 )
 
 type dataTestCase struct {
-	Ext  string
+	// Ext is the test data file extension, used to inform data format.
+	Ext string
+	// Type is the CloudEvent data type inferred from the testdata filename.
 	Type string
+	// Case is the testing use case inferred from the testdata filename.
 	Case string
 }
 
@@ -18,14 +21,19 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 	t.Helper()
 	root := os.Getenv("GENERATE_DATA_SOURCE")
 	if root == "" {
-		t.Skip("test data: GENERATE_DATA_SOURCE environment variable not set")
+		t.Fatal("test data: GENERATE_DATA_SOURCE environment variable not set")
 	}
 
-	testData, err := AbsDataPath(os.Getenv("GENERATE_DATA_SOURCE"), dataPath)
+	_, err := os.Stat(root)
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("test data: GENERATE_DATA_SOURCE environment variable not set to an existing base path.\nSet this variable to the local path of the google-cloudevents repository.")
 	}
 
+	if !filepath.IsAbs(root) {
+		t.Fatal("test data: GENERATE_DATA_SOURCE environment variable not an absolute path")
+	}
+
+	testData := filepath.Join(root, "testdata", dataPath)
 	files, err := os.ReadDir(testData)
 	if err != nil {
 		t.Skip("No test cases found: os.ReadDir:", err)
@@ -36,7 +44,7 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 		c := dataTestCase{
 			Ext: filepath.Ext(file.Name()),
 		}
-		if c.Ext != ".json" {
+		if c.Ext != ".json" && c.Ext != ".proto" {
 			continue
 		}
 
@@ -56,28 +64,4 @@ func FindTestData(t *testing.T, dataType string, dataPath string) map[string]str
 	}
 
 	return cases
-}
-
-// AbsDataPath normalizes relative or absolute paths for testing.
-func AbsDataPath(p, dataPath string) (target string, err error) {
-	target = p
-
-	if !filepath.IsAbs(p) {
-		target, err = filepath.Abs(p)
-		if err != nil {
-			return
-		}
-	}
-
-	// Check if the target path we've assembled to the parent repository exists.
-	// This helps identify misconfiguration instead of a lack of tests.
-	_, err = os.Stat(target)
-	if err != nil {
-		return
-	}
-
-	// Complete the absolute data path.
-	target = filepath.Join(target, "testdata", dataPath)
-
-	return
 }

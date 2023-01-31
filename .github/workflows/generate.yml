@@ -44,9 +44,7 @@ jobs:
       # Library & Data Source repos using side-by-side checkout.
       LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
       DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
-      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
 
-    steps:
     - name: Go Library > Checkout Repository
       uses: actions/checkout@v3
       with:
@@ -57,6 +55,9 @@ jobs:
       with:
         repository: googleapis/google-cloudevents
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
+
+    - name: Set Environment
+      run: echo "GENERATE_DATA_SOURCE=$(realpath ../protos-source-repo)" >> $GITHUB_ENV
 
     - name: Setup Go
       uses: actions/setup-go@v3
