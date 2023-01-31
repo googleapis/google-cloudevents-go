@@ -7,16 +7,21 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"text/template"
 
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
 const TypePrefix = "google.events."
 const SrcPrefix = "google/events/"
 
 func main() {
+	log.SetOutput(os.Stderr)
+	log.SetFlags(0)
+
 	protogen.Options{}.Run(func(gen *protogen.Plugin) error {
 		for _, f := range gen.Files {
 			if !f.Generate {
@@ -30,6 +35,7 @@ func main() {
 			}
 
 			generateTests(gen, f)
+			generateDocs(gen, f)
 
 		}
 		return nil
@@ -152,5 +158,86 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 	g.P(b.String())
 	b.Reset()
 
+	logGeneratedFileFromProto(file, filename)
+
 	return g
+}
+
+// generateDocs generates package docs.
+func generateDocs(gen *protogen.Plugin, file *protogen.File) *protogen.GeneratedFile {
+	filename := filepath.Join(filepath.Dir(file.GeneratedFilenamePrefix), "doc.go")
+	g := gen.NewGeneratedFile(filename, file.GoImportPath)
+
+	product := getCustomField(gen, file.Desc.Options(), "cloud_event_product")
+	if product == "" {
+		panic("could not parse product name")
+	}
+	g.P("// Package ", string(file.GoPackageName), " provides ", product, " type definitions for CloudEvent data payloads.")
+	g.P("//")
+	g.P("// # Supported CloudEvent Types")
+	g.P("//")
+	for _, msg := range file.Messages {
+		// Access the comment describing the event type:
+		// d := strings.TrimSpace(strings.TrimPrefix(msg.Comments.Leading.String(), "// "))
+		t := getCustomField(gen, msg.Desc.Options(), "cloud_event_type")
+		if t != "" {
+			g.P("//   - ", t)
+		}
+	}
+
+	g.P("package ", string(file.GoPackageName))
+
+	logGeneratedFileFromProto(file, filename)
+
+	return g
+}
+
+// getCustomField retrieves a field defined in the google/events/cloud_event.proto.
+// Custom options are complex to reflect:
+// - https://github.com/golang/protobuf/issues/1260.
+// - https://github.com/jhump/protoreflect/issues/377
+//
+// This approach renders all options to a string then parses the value based on
+// looking up the field number assigned in the extension descriptor.
+func getCustomField(gen *protogen.Plugin, options protoreflect.ProtoMessage, name string) string {
+	var id int
+	for _, file := range gen.Request.ProtoFile {
+		if *file.Name != "google/events/cloudevent.proto" {
+			continue
+		}
+		for _, ext := range file.GetExtension() {
+			if *ext.Name == name {
+				id = int(*ext.Number)
+				break
+			}
+		}
+	}
+
+	return parseValueFromOptions(options, strconv.Itoa(id))
+}
+
+// parseValueFromOptionString extracts the value associated with a particular
+// field number from the Stringified options.
+func parseValueFromOptions(o protoreflect.ProtoMessage, id string) string {
+	// Example section of s: 11716487:\"API Gateway\"
+	s := fmt.Sprintf("%v", o)
+	// Split on the options ID.
+	a := strings.Split(s, id)
+	if len(a) < 2 {
+		return ""
+	}
+
+	// Data is formatted as the value in the next set of doublequotes.
+	b := strings.Split(a[1], `"`)
+	if len(b) < 2 {
+		return ""
+	}
+
+	return b[1]
+}
+
+func logGeneratedFileFromProto(file *protogen.File, filename string) {
+	re := regexp.MustCompile("^(.+)data")
+	m := re.FindStringSubmatch(string(file.GoPackageName))
+	log.Printf("- %s: %s => %s", m[1], file.Desc.Path(), filename)
 }
