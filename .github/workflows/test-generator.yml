@@ -57,6 +57,7 @@ jobs:
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
     - name: Set Environment
+      # Validation Test execution requires absolute path to testdata.
       run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" | tee -a $GITHUB_ENV
 
     - name: Setup Go
