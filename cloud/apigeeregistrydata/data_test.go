@@ -16,13 +16,12 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.28.1
-// 	protoc-gen-go-googlecetypes  short-sha:906043c (2023-01-19 12:42:43 -0800)
+// 	protoc-gen-go-googlecetypes  short-sha:2cd193f (2023-01-31 11:10:48 -0800)
 // source: google/events/cloud/apigeeregistry/v1/events.proto
 
 package apigeeregistrydata_test
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -32,30 +31,14 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-func TestMain(m *testing.M) {
-	// Tests default the working directory to the test file directory.
-	//
-	// The process of running the generator then the tests will most likely be
-	// done from the module root.
-	//
-	// This resets the working directory of the tests to the module root so the
-	// environment config can be reused across generator & tests.
-	err := os.Chdir("../..")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	os.Exit(m.Run())
-}
-
 // Validate the type can parse test data.
 // Goals:
 // - "Loose" parsing confirms the expected library experience
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiSpecEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiSpecEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingApiDeploymentEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ApiDeploymentEventData", "google/events/cloud/apigeeregistry/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -69,7 +52,7 @@ func TestParsingApiSpecEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiSpecEventData{}
+				out := apigeeregistrydata.ApiDeploymentEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -77,7 +60,7 @@ func TestParsingApiSpecEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiSpecEventData{}
+				out := apigeeregistrydata.ApiDeploymentEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -210,8 +193,8 @@ func TestParsingApiVersionEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiDeploymentEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiDeploymentEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingApiSpecEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ApiSpecEventData", "google/events/cloud/apigeeregistry/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -225,7 +208,7 @@ func TestParsingApiDeploymentEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiDeploymentEventData{}
+				out := apigeeregistrydata.ApiSpecEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -233,7 +216,7 @@ func TestParsingApiDeploymentEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiDeploymentEventData{}
+				out := apigeeregistrydata.ApiSpecEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
