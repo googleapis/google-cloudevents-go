@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"text/template"
@@ -125,6 +126,7 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 	for i := range dataTypeMap {
 		dataTypeSlice = append(dataTypeSlice, i)
 	}
+	sort.Strings(dataTypeSlice)
 	params.DataTypes = dataTypeSlice
 
 	// Create TestDataPath like "google/events/cloud/functions/v1"
