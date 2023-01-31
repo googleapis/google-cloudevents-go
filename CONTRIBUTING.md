@@ -27,7 +27,42 @@ information on using pull requests.
 This project follows [Google's Open Source Community
 Guidelines](https://opensource.google/conduct/).
 
-## Generating the Library
+## Seeing Changes in this Library
+
+Most of this library is created via code generation. Changes merged that affect
+the code generation tooling will not be seen until:
+
+* The nightly job that evaluates changes is run and opens a PR
+* The PR is reviewed and merged
+
+## Making Changes
+
+### Modifying Data Types
+
+The data types offered by this library are generated from protobuf. Changes will
+not be accepted.
+
+### Modifying Validation Tests
+
+Validation tests are generated based on metadata in the protos that are used to
+define the event data types. This is a custom generator that can be modified.
+
+Once test generation is modified, the code update made by running the generator
+will include the test updates.
+
+* **Modify the template code:** generators/templates/validationtest.gotpl
+* **Modify the template parameter creation**: generators/protoc-gen-go-googlecetypes/generator.go
+
+If you modify the protoc-gen-go-googlecetypes Go code, the generator will not pick
+up your changes unless you run `go install` from inside the `protoc-gen-go-googlecetypes`
+directory.
+
+### Adding Validation Test Cases
+
+Send a PR to the [google-cloudevents parent repository](https://github.com/googleapis/google-cloudevents)
+to add or update a complete JSON test case in the testdata directory.
+
+## Generating the Library Locally
 
 Generate the library using protobuf-based tooling.
 
@@ -35,12 +70,12 @@ Generate the library using protobuf-based tooling.
 git clone https://github.com/googleapis/google-cloudevents-go
 cd google-cloudevents-go
 sh ./tools/setup-generator.sh
-export GENERATE_DATA_SOURCE=tmp/google-cloudevents
+export GENERATE_DATA_SOURCE=$(realpath tmp/google-cloudevents)
 export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
 sh ./generate-code.sh
 ```
 
-### Generating the Library (Locally modified protos)
+### Generating the Library Locally (With local protos)
 
 The "data source" for code generation is a collection of protos maintained in
 [googleapis/google-cloudevets](https://github.com/googleapis/google-cloudevents).
@@ -57,7 +92,7 @@ cd path/to/the/project
 git clone https://github.com/googleapis/google-cloudevents-go
 
 # Configure this before running the setup script to reuse the repository.
-export GENERATE_DATA_SOURCE=/path/to/shared/repositories/google-cloudevents
+export GENERATE_DATA_SOURCE=/absolute/path/to/shared/repositories/google-cloudevents
 sh ./tools/setup-generator.sh
 export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
 sh ./generate-code.sh
