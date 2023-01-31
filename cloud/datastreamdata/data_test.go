@@ -16,13 +16,12 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.28.1
-// 	protoc-gen-go-googlecetypes  short-sha:906043c (2023-01-19 12:42:43 -0800)
+// 	protoc-gen-go-googlecetypes  short-sha:2cd193f (2023-01-31 11:10:48 -0800)
 // source: google/events/cloud/datastream/v1/events.proto
 
 package datastreamdata_test
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -31,61 +30,6 @@ import (
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
-
-func TestMain(m *testing.M) {
-	// Tests default the working directory to the test file directory.
-	//
-	// The process of running the generator then the tests will most likely be
-	// done from the module root.
-	//
-	// This resets the working directory of the tests to the module root so the
-	// environment config can be reused across generator & tests.
-	err := os.Chdir("../..")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	os.Exit(m.Run())
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingPrivateConnectionEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "PrivateConnectionEventData", "google/events/cloud/datastream/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.PrivateConnectionEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.PrivateConnectionEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
 
 // Validate the type can parse test data.
 // Goals:
@@ -117,6 +61,45 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 
 			t.Run("strict", func(t *testing.T) {
 				out := datastreamdata.ConnectionProfileEventData{}
+				if err := protojson.Unmarshal(data, &out); err != nil {
+					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
+				}
+			})
+
+		})
+	}
+}
+
+// Validate the type can parse test data.
+// Goals:
+// - "Loose" parsing confirms the expected library experience
+// - "Strict" parsing confirms:
+//   - no deleted or renamed fields in protos covered in test data
+//   - test data does not carry unknown fields
+func TestParsingRouteEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "RouteEventData", "google/events/cloud/datastream/v1")
+
+	for name, file := range cases {
+		t.Run(name, func(t *testing.T) {
+			data, err := os.ReadFile(file)
+			if err != nil {
+				t.Fatal("os.ReadFile:", err)
+			}
+
+			if ext := filepath.Ext(file); ext != ".json" {
+				t.Fatalf("test support for %q data not implemented", ext)
+			}
+
+			t.Run("loose", func(t *testing.T) {
+				out := datastreamdata.RouteEventData{}
+				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
+				if err := pj.Unmarshal(data, &out); err != nil {
+					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
+				}
+			})
+
+			t.Run("strict", func(t *testing.T) {
+				out := datastreamdata.RouteEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -171,8 +154,8 @@ func TestParsingStreamEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingRouteEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "RouteEventData", "google/events/cloud/datastream/v1")
+func TestParsingPrivateConnectionEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "PrivateConnectionEventData", "google/events/cloud/datastream/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -186,7 +169,7 @@ func TestParsingRouteEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.RouteEventData{}
+				out := datastreamdata.PrivateConnectionEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -194,7 +177,7 @@ func TestParsingRouteEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.RouteEventData{}
+				out := datastreamdata.PrivateConnectionEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
