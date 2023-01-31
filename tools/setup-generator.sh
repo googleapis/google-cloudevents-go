@@ -98,7 +98,7 @@ echo
 echo "Configure environment for generate_code.sh:"
 echo "- Usage: Configure the path to protobuf tools ('export GENERATE_PROTOC_PATH=$PROTOC')"
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
-  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=\$(realpath ${dest})')"
+  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=\"\$PWD/${dest}\")"
 fi
 
 echo

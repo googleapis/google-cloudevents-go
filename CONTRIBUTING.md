@@ -70,7 +70,7 @@ Generate the library using protobuf-based tooling.
 git clone https://github.com/googleapis/google-cloudevents-go
 cd google-cloudevents-go
 sh ./tools/setup-generator.sh
-export GENERATE_DATA_SOURCE=$(realpath tmp/google-cloudevents)
+export GENERATE_DATA_SOURCE="${PWD}/tmp/google-cloudevents"
 export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
 sh ./generate-code.sh
 ```
