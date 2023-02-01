@@ -74,10 +74,18 @@ jobs:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
         GOFLAGS: "-v"
     
+    - name: View generator output
+      if: ${{ failure() }}
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
+      run: |
+        git add -N . # Needed if files are untracked
+        git diff
+
     # This step identifies the github revision of the data source repository.
     # This is used to create a detailed Pull Request description.
     - name: Source Version
       id: source-version
+      if: ${{ always() }}
       run: |
         rev=$(git rev-parse --short HEAD)
         echo "revision=${rev}" | tee -a $GITHUB_OUTPUT
@@ -130,5 +138,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             title: 'Library generation failed (${{ steps.source-version.outputs.revision }})',
-            body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            body: `See [failed job](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
           });
