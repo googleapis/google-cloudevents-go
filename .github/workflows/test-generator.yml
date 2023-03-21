@@ -15,30 +15,34 @@
 name: Test Library Generation
 
 # Uses protos from HEAD of https://github.com/googleapis/google-cloudevents
-# and tooling from HEAD of this repository to update all generated code.
+# and tooling from the current branch to check library generation.
 #
-# If the generator process fails, the workflow will fail showing the toolchain
-# update in the Pull Request is not ready to merge.
+# If the generator fails, the check will fail. If the generator succeeds
+# tests will run to establish changes in the tooling, event schemas, and testdata
+# have not fallen out of sync.
 
 on:
   pull_request:
+    # Sync with test-generator-fallback.yml on.pull_request.paths-ignore
     paths:
       - 'tools/**'
       - 'generate-code.sh'
+      - 'internal/**'
       - '.github/workflows/test-generator.yml'
 
 jobs:
-  # Create a pull request.
+
   test-generator:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: library # sync with env.LIBRARY_CHECKOUT_PATH
+    permissions:
+      contents: read
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     env:
       # Library & Data Source repos using side-by-side checkout.
       LIBRARY_CHECKOUT_PATH: library # sync with defaults.run.working-directory
       DATA_SOURCE_CHECKOUT_PATH: protos-source-repo
-      GENERATE_DATA_SOURCE: ../protos-source-repo # data relative to library working directory
 
     steps:
     - name: Go Library > Checkout Repository
@@ -52,17 +56,29 @@ jobs:
         repository: googleapis/google-cloudevents
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
 
+    - name: Set Environment
+      # Validation Test execution requires absolute path to testdata.
+      run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" | tee -a $GITHUB_ENV
+
     - name: Setup Go
       uses: actions/setup-go@v3
       with:
         go-version: 1.19.x
 
     - name: Install the generator
-      run: |
-        bash tools/setup-generator.sh
+      run: bash tools/setup-generator.sh
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
 
     - name: Run the generator
-      run: |
-        bash ./generate-code.sh
+      run: bash ./generate-code.sh
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
+        GOFLAGS: "-v"
+
+    - name: View generator output
+      if: ${{ always() }}
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
+      run: |
+        git add -N . # Needed if files are untracked
+        git diff --ignore-all-space --ignore-blank-lines

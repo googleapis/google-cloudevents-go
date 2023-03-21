@@ -18,11 +18,12 @@
 #
 # Configuration:
 # - GENERATE_DATA_SOURCE: Path to google-cloudevent repo.
-# - GENERATE_PROTOC_PATH: Path to protobuf tool. 
+# - GENERATE_PROTOC_PATH: Path to protobuf tool.
+# - GENERATE_TEMPLATE_DIR: Location of gotemplate files for custom code generation.
 #
 # Usage:
-# - sh ./build.sh
-# - GENERATE_DATA_SOURCE=tmp/google-cloudevents GENERATE_PROTOC_PATH=protoc sh ./build.sh
+# - sh ./generate-code.sh
+# - GENERATE_DATA_SOURCE=tmp/google-cloudevents GENERATE_PROTOC_PATH=protoc sh ./generate-code.sh
 
 set -e
 
@@ -57,6 +58,10 @@ if [[ -z "${GENERATE_PROTOC_PATH}" ]]; then
   exit 1
 fi
 
+if [[ -z "${GENERATE_TEMPLATE_DIR}" ]]; then
+  export GENERATE_TEMPLATE_DIR=$(realpath ./generators/templates)
+fi
+
 GENERATE_DATA_SOURCE=$(realpath "${GENERATE_DATA_SOURCE}")
 
 # Derive proto repo metadata.
@@ -65,24 +70,26 @@ data_date=$(git -C "${GENERATE_DATA_SOURCE}" show -s --format=%ci "${data_versio
 # Derive proto lookup paths.
 src_dir="${GENERATE_DATA_SOURCE}/proto/google/events"
 googleapis_dir="${GENERATE_DATA_SOURCE}/third_party/googleapis"
-# Prepare dependencies for build & generation.
-monitored_proto="google/api/monitored_resource.proto"
 
 _heading "Preparing to generate library..."
 echo "- Schema Source Repository: \t${GENERATE_DATA_SOURCE} (${data_version} on ${data_date})"
 echo "- Proto Source Directory: \t${src_dir}"
 echo "- Shared googleapis Protos: \t${googleapis_dir}"
+echo "- Custom Code Generator Templates: \t${GENERATE_TEMPLATE_DIR}"
 
 # Manifest file with details about how code was most recently generated.
 # Useful when troubleshooting without build logs.
 cat > generated.txt <<GENERATION_METADATA
-created_date: $(date "+%Y-%m-%d %T %z")
 data_commit_date: ${data_date}
 data_commit_hash: ${data_version}
 tool_commit_date: ${library_date}
 tool_commit_hash: ${library_version}
 
 GENERATION_METADATA
+
+export PROTOC_GEN_GO_VERSION="$(protoc-gen-go --version | awk  '{print $2}')"
+export LIBRARY_VERSION="short-sha:${library_version} (${library_date})"
+
 
 # Clean up previously generated files.
 # - Prevent continued presence of files we no longer generate
@@ -93,12 +100,14 @@ rm -rf cloud firebase shared
 # Module mappings for generation are different from module mappings
 # for import needed when configuring the dependents.
 _heading "Generating dependencies..."
-echo "- ${monitored_proto}"
+deps=$(find "${GENERATE_DATA_SOURCE}/third_party/googleapis/google/api" -type f -name *.proto)
+echo $deps |  xargs realpath --relative-to="${GENERATE_DATA_SOURCE}" | xargs printf -- '- %s\n'
 
+#/third_party/googleapis \
 $GENERATE_PROTOC_PATH --go_out=. \
-  --go_opt="M${monitored_proto}"="shared/google;google" \
-  --proto_path="${googleapis_dir}" \
-  "$googleapis_dir/${monitored_proto}"
+   --go_opt=module=github.com/googleapis/google-cloudevents-go \
+   --proto_path="${googleapis_dir}" \
+   "${deps}"
 
 _generateData() {
     proto_src=$(realpath --relative-to="${src_dir}" "$1")
@@ -111,17 +120,64 @@ _generateData() {
       version=""
     fi
 
+    # Skip unsupported products.
+    if [[ "${product}" == "pubsub" ]]; then
+      echo "- ${product}: skipping generation, not currently supported"
+      return
+    fi
+
     echo "- ${product}: ${proto_src} => ${code_dest}data${version}"
 
     $GENERATE_PROTOC_PATH --go_out=. \
       --go_opt="M${proto_src}"="${code_dest}data${version};${product}data${version}" \
-      --go_opt="M${monitored_proto}"="github.com/googleapis/google-cloudevents-go/shared/google;google" \
       --proto_path="${src_dir}" \
       --proto_path="${googleapis_dir}" \
       "${proto_src}"
+}
+
+_generateValidationTests() {
+    # Source the schema protos.
+    proto_dir="${GENERATE_DATA_SOURCE}/proto"
+    proto_src=$(realpath --relative-to="${proto_dir}" "$1")
+    # Derive path to data.proto from event.proto.
+    # This is consistently available but not currently a standard.
+    data_src=$(dirname "${proto_src}")/data.proto
+    # Derive destination directory.
+    code_dest=$(dirname "$(dirname "${proto_src}")" | cut -d'/' -f3-)
+    # Product name & API version
+    product=$(basename "$code_dest")
+    version=$(basename "$(dirname "${proto_src}")")
+
+    # Explicit type versioning after v1.
+    if [[ "${version}" == "v1" ]]; then
+      version=""
+    fi
+
+    # Skip unsupported products.
+    if [[ "${product}" == "pubsub" ]]; then
+      echo "- ${product}: skipping generation, not currently supported"
+      return
+    fi
+
+    $GENERATE_PROTOC_PATH --go-googlecetypes_out=. \
+        --go-googlecetypes_opt="Mgoogle/events/cloudevent.proto"="github.com/googleapis/google-cloudevents-go/thirdparty/cloudevents;cloudevents" \
+        --go-googlecetypes_opt="M${proto_src}"="${code_dest}data${version}" \
+        --go-googlecetypes_opt="M${data_src}"="${code_dest}data${version};${product}data${version}" \
+        --proto_path="${proto_dir}" \
+        --proto_path="${googleapis_dir}" \
+        "${proto_src}"
 }
 
 _heading "Generating data type code in Go..."
 for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name data.proto); do
   _generateData "$i"
 done
+
+_heading "Generating validation tests and godoc..."
+for i in $(find "${GENERATE_DATA_SOURCE}/proto" -type f -name events.proto); do
+  _generateValidationTests "$i"
+done
+
+_heading "Running validation tests..."
+# Run with GOFLAGS="-v" for verbose output.
+go test ./...

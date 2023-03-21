@@ -25,9 +25,11 @@ echo "google-cloudevents-go > ${name} (${library_version} on ${library_date})"
 echo "working-directory: ${PWD}"
 echo
 
-if [ "${GENERATE_DATA_SOURCE:0:3}" = "tmp" ] || [ "${GENERATE_DATA_SOURCE:0:5}" = "./tmp"]; then
-  echo "setup-generator.sh will delete all contents of ./tmp. Currently GENERATE_DATA_SOURCE='${GENERATE_DATA_SOURCE}'."
-  exit 2
+if [ "${GENERATE_DATA_SOURCE:0:3}" = "tmp" ] || [ "${GENERATE_DATA_SOURCE:0:5}" = "./tmp" ]; then
+  if [ -d "${GENERATE_DATA_SOURCE}" ]; then
+    echo "setup-generator.sh will delete all contents of ./tmp. Currently GENERATE_DATA_SOURCE='${GENERATE_DATA_SOURCE}'."
+    exit 2
+  fi
 fi
 
 # Create a location for local tool installation.
@@ -62,12 +64,12 @@ esac
 # for portability and being able to rely on the version being available
 # as soon as it's released on GitHub.
 echo "- Downloading protobuf tools..."
-pushd tmp
+pushd tmp 1>/dev/null
 curl -sSL \
   https://github.com/protocolbuffers/protobuf/releases/download/v$PROTOBUF_VERSION/protoc-$PROTOBUF_VERSION-$PROTOBUF_PLATFORM.zip \
   --output protobuf.zip
 (mkdir protobuf && cd protobuf && unzip -q ../protobuf.zip)
-popd
+popd 1>/dev/null
 chmod +x $PROTOC
 
 echo "- Downloaded protobuf ${PROTOBUF_VERSION} for ${PROTOBUF_PLATFORM}"
@@ -76,6 +78,11 @@ echo "- Downloading & installing the Go protocol buffers plugin..."
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 echo "- Protobuf tooling installation complete"
 
+echo "- Installing custom generators"
+pushd generators/protoc-gen-go-googlecetypes 1>/dev/null
+go install .
+popd 1>/dev/null
+
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   echo "- Cloning github.com/googleapis/google-cloudevents into tmp"
   # For the moment, just clone google-cloudevents. Later we might make
@@ -83,13 +90,15 @@ if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
   # as we don't need history.
   dest='tmp/google-cloudevents'
   git clone https://github.com/googleapis/google-cloudevents "${dest}" -q --depth 1
+else
+  echo "- Skipping new clone of github.com/googleapis/google-cloudevents, GENERATE_DATA_SOURCE variable already set"
 fi
 
 echo
 echo "Configure environment for generate_code.sh:"
 echo "- Usage: Configure the path to protobuf tools ('export GENERATE_PROTOC_PATH=$PROTOC')"
 if [[ -z "${GENERATE_DATA_SOURCE}" ]]; then
-  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=${dest}')"
+  echo "- Usage: Configure the path to proto definitions ('export GENERATE_DATA_SOURCE=\"\$PWD/${dest}\")"
 fi
 
 echo
