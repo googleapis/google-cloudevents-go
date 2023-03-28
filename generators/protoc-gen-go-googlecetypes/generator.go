@@ -130,7 +130,7 @@ func generateTests(gen *protogen.Plugin, file *protogen.File) *protogen.Generate
 	params.DataTypes = dataTypeSlice
 
 	// Create TestDataPath like "google/events/cloud/functions/v1"
-	re := regexp.MustCompile(`(v\d)$`)
+	re := regexp.MustCompile(`(v\d+(\w+\d+)?)$`)
 	version := re.FindString(string(file.GoPackageName))
 	product := strings.TrimSuffix(string(file.GoPackageName), version)
 	product = strings.TrimSuffix(product, "data")
