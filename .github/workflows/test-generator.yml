@@ -75,3 +75,10 @@ jobs:
       env:
         GENERATE_PROTOC_PATH: tmp/protobuf/bin/protoc
         GOFLAGS: "-v"
+
+    - name: View generator output
+      if: ${{ always() }}
+      working-directory: ${{ env.LIBRARY_CHECKOUT_PATH }}
+      run: |
+        git add -N . # Needed if files are untracked
+        git diff --ignore-all-space --ignore-blank-lines
