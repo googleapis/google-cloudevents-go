@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.3.0...v0.4.0) (2023-03-30)
+
+
+### Features
+
+* Add support for new Event Type: DataFlow v1beta3 ([8504df3](https://github.com/googleapis/google-cloudevents-go/commit/8504df35ac0d25d907f960019cee432e60653d0d))
+
+
+### Bug Fixes
+
+* Support event type pre-release versions ([#160](https://github.com/googleapis/google-cloudevents-go/issues/160)) ([58aab52](https://github.com/googleapis/google-cloudevents-go/commit/58aab5260f1a2af84591e0dbc524582f685f6e5d))
+
 ## [0.3.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.2.3...v0.3.0) (2023-01-31)
 
 
