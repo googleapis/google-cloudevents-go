@@ -17,16 +17,16 @@
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
 // 	protoc-gen-go-googlecetypes  short-sha:58aab52 (2023-03-30 11:21:58 -0700)
-// source: google/events/firebase/database/v1/events.proto
+// source: google/events/cloud/dataflow/v1beta3/events.proto
 
-package databasedata_test
+package dataflowdatav1beta3_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/firebase/databasedata"
+	"github.com/googleapis/google-cloudevents-go/cloud/dataflowdatav1beta3"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -37,8 +37,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingReferenceEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ReferenceEventData", "google/events/firebase/database/v1")
+func TestParsingJobEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "JobEventData", "google/events/cloud/dataflow/v1beta3")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestParsingReferenceEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := databasedata.ReferenceEventData{}
+				out := dataflowdatav1beta3.JobEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -60,7 +60,7 @@ func TestParsingReferenceEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := databasedata.ReferenceEventData{}
+				out := dataflowdatav1beta3.JobEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
