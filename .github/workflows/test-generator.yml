@@ -61,7 +61,7 @@ jobs:
       run: echo "GENERATE_DATA_SOURCE=${PWD}/${DATA_SOURCE_CHECKOUT_PATH}" | tee -a $GITHUB_ENV
 
     - name: Setup Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v4
       with:
         go-version: 1.19.x
 
