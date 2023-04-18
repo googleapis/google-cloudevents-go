@@ -25,10 +25,11 @@ on:
   pull_request:
     # Sync with test-generator-fallback.yml on.pull_request.paths-ignore
     paths:
-      - 'tools/**'
-      - 'generate-code.sh'
-      - 'internal/**'
       - '.github/workflows/test-generator.yml'
+      - 'generate-code.sh'
+      - 'generators/**'
+      - 'internal/**'
+      - 'tools/**'
 
 jobs:
 
