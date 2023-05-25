@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.4.0...v0.5.0) (2023-05-25)
+
+
+### Features
+
+* Run the code generator (08ff8b4) ([#162](https://github.com/googleapis/google-cloudevents-go/issues/162)) ([d6ae4ff](https://github.com/googleapis/google-cloudevents-go/commit/d6ae4ffe75b73207a5f3fa9e73152236e6f4680c))
+
+
+### Bug Fixes
+
+* **deps:** Update google.golang.org/genproto digest to daa745c ([#163](https://github.com/googleapis/google-cloudevents-go/issues/163)) ([1c823a8](https://github.com/googleapis/google-cloudevents-go/commit/1c823a8929478cdeb99a2f43f106d277eafb7b94))
+* **deps:** Update module google.golang.org/protobuf to v1.30.0 ([#164](https://github.com/googleapis/google-cloudevents-go/issues/164)) ([e11c4a1](https://github.com/googleapis/google-cloudevents-go/commit/e11c4a1ec21999cbdb2e32a149fe7743246f5d65))
+
 ## [0.4.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.3.0...v0.4.0) (2023-03-30)
 
 
