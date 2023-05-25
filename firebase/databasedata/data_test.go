@@ -16,7 +16,7 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
-// 	protoc-gen-go-googlecetypes  short-sha:58aab52 (2023-03-30 11:21:58 -0700)
+// 	protoc-gen-go-googlecetypes  short-sha:e11c4a1 (2023-04-20 21:09:22 -0700)
 // source: google/events/firebase/database/v1/events.proto
 
 package databasedata_test
