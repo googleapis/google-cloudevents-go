@@ -17,16 +17,16 @@
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
 // 	protoc-gen-go-googlecetypes  short-sha:e11c4a1 (2023-04-20 21:09:22 -0700)
-// source: google/events/cloud/certificatemanager/v1/events.proto
+// source: google/events/cloud/gkebackup/v1/events.proto
 
-package certificatemanagerdata_test
+package gkebackupdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/certificatemanagerdata"
+	"github.com/googleapis/google-cloudevents-go/cloud/gkebackupdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -37,8 +37,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingCertificateEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "CertificateEventData", "google/events/cloud/certificatemanager/v1")
+func TestParsingBackupEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "BackupEventData", "google/events/cloud/gkebackup/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestParsingCertificateEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateEventData{}
+				out := gkebackupdata.BackupEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -60,7 +60,7 @@ func TestParsingCertificateEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateEventData{}
+				out := gkebackupdata.BackupEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -76,8 +76,8 @@ func TestParsingCertificateEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingCertificateIssuanceConfigEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "CertificateIssuanceConfigEventData", "google/events/cloud/certificatemanager/v1")
+func TestParsingBackupPlanEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "BackupPlanEventData", "google/events/cloud/gkebackup/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -91,7 +91,7 @@ func TestParsingCertificateIssuanceConfigEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateIssuanceConfigEventData{}
+				out := gkebackupdata.BackupPlanEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -99,7 +99,7 @@ func TestParsingCertificateIssuanceConfigEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateIssuanceConfigEventData{}
+				out := gkebackupdata.BackupPlanEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -115,8 +115,8 @@ func TestParsingCertificateIssuanceConfigEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingCertificateMapEntryEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "CertificateMapEntryEventData", "google/events/cloud/certificatemanager/v1")
+func TestParsingRestoreEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "RestoreEventData", "google/events/cloud/gkebackup/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -130,7 +130,7 @@ func TestParsingCertificateMapEntryEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateMapEntryEventData{}
+				out := gkebackupdata.RestoreEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -138,7 +138,7 @@ func TestParsingCertificateMapEntryEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateMapEntryEventData{}
+				out := gkebackupdata.RestoreEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -154,8 +154,8 @@ func TestParsingCertificateMapEntryEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingCertificateMapEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "CertificateMapEventData", "google/events/cloud/certificatemanager/v1")
+func TestParsingRestorePlanEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "RestorePlanEventData", "google/events/cloud/gkebackup/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -169,7 +169,7 @@ func TestParsingCertificateMapEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateMapEventData{}
+				out := gkebackupdata.RestorePlanEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -177,46 +177,7 @@ func TestParsingCertificateMapEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := certificatemanagerdata.CertificateMapEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingDnsAuthorizationEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "DnsAuthorizationEventData", "google/events/cloud/certificatemanager/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := certificatemanagerdata.DnsAuthorizationEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := certificatemanagerdata.DnsAuthorizationEventData{}
+				out := gkebackupdata.RestorePlanEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
