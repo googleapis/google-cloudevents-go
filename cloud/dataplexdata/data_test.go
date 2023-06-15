@@ -16,7 +16,7 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
-// 	protoc-gen-go-googlecetypes  short-sha:e11c4a1 (2023-04-20 21:09:22 -0700)
+// 	protoc-gen-go-googlecetypes  short-sha:15d4dad (2023-05-25 11:11:02 -0700)
 // source: google/events/cloud/dataplex/v1/events.proto
 
 package dataplexdata_test
