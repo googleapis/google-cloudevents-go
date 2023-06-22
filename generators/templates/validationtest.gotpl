@@ -16,7 +16,6 @@
 // versions:
 // 	protoc       				 {{ .ProtocVersion }}
 // 	protoc-gen-go 				 {{ .ProtocGenGoVersion }}
-// 	protoc-gen-go-googlecetypes  {{ .LibraryVersion }}
 // source: {{ .SourceFile }}
 
 package {{ .Pkg }}_test
