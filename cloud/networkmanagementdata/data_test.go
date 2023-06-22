@@ -17,16 +17,16 @@
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
 // 	protoc-gen-go-googlecetypes  short-sha:74c44f2 (2023-06-15 15:43:30 -0700)
-// source: google/events/cloud/clouddms/v1/events.proto
+// source: google/events/cloud/networkmanagement/v1/events.proto
 
-package clouddmsdata_test
+package networkmanagementdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/clouddmsdata"
+	"github.com/googleapis/google-cloudevents-go/cloud/networkmanagementdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -37,8 +37,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingConnectionProfileEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ConnectionProfileEventData", "google/events/cloud/clouddms/v1")
+func TestParsingConnectivityTestEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ConnectivityTestEventData", "google/events/cloud/networkmanagement/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -52,7 +52,7 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := clouddmsdata.ConnectionProfileEventData{}
+				out := networkmanagementdata.ConnectivityTestEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -60,46 +60,7 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := clouddmsdata.ConnectionProfileEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingMigrationJobEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "MigrationJobEventData", "google/events/cloud/clouddms/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := clouddmsdata.MigrationJobEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := clouddmsdata.MigrationJobEventData{}
+				out := networkmanagementdata.ConnectivityTestEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
