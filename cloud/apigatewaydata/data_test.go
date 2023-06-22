@@ -16,7 +16,6 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.30.0
-// 	protoc-gen-go-googlecetypes  short-sha:74c44f2 (2023-06-15 15:43:30 -0700)
 // source: google/events/cloud/apigateway/v1/events.proto
 
 package apigatewaydata_test
