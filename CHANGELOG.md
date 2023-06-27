@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.5.0...v0.6.0) (2023-06-27)
+
+
+### Features
+
+* Run the code generator (1300be8) ([#171](https://github.com/googleapis/google-cloudevents-go/issues/171)) ([74c44f2](https://github.com/googleapis/google-cloudevents-go/commit/74c44f20b0ce858b128c1e19b8d0436470ccd757))
+* Run the code generator (45395fe) ([#173](https://github.com/googleapis/google-cloudevents-go/issues/173)) ([dd77933](https://github.com/googleapis/google-cloudevents-go/commit/dd779339a48877382e5eb816a50b890ccd9405c8))
+* Run the code generator (45395fe) ([#176](https://github.com/googleapis/google-cloudevents-go/issues/176)) ([238d825](https://github.com/googleapis/google-cloudevents-go/commit/238d825a1c9fea635bc4cf60120c39b530f6a0b5))
+* Run the code generator (45395fe) ([#177](https://github.com/googleapis/google-cloudevents-go/issues/177)) ([af89ff7](https://github.com/googleapis/google-cloudevents-go/commit/af89ff7873cf17caac21af1b2f9ea9b96a4e23ef))
+
+
+### Bug Fixes
+
+* Remove library version from test headers ([#175](https://github.com/googleapis/google-cloudevents-go/issues/175)) ([86fd204](https://github.com/googleapis/google-cloudevents-go/commit/86fd204b7a2d50b791cc2bae3133ecf6164b50fd))
+
 ## [0.5.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.4.0...v0.5.0) (2023-05-25)
 
 
