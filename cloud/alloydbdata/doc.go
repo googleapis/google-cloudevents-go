@@ -1,4 +1,4 @@
-// Package alloydbdata provides AlloyDB type definitions for CloudEvent data payloads.
+// Package alloydbdata provides AlloyDB for PostgreSQL type definitions for CloudEvent data payloads.
 //
 // # Supported CloudEvent Types
 //
