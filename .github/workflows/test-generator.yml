@@ -47,12 +47,12 @@ jobs:
 
     steps:
     - name: Go Library > Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: ${{ env.LIBRARY_CHECKOUT_PATH }}
     
     - name: Proto Schemas > Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: googleapis/google-cloudevents
         path: ${{ env.DATA_SOURCE_CHECKOUT_PATH }}
