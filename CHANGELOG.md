@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.7.1...v0.8.0) (2024-01-08)
+
+
+### Features
+
+* Add google.cloud.datastore.entity.v1.*.withAuthContext event types ([#196](https://github.com/googleapis/google-cloudevents-go/issues/196)) ([e596ab7](https://github.com/googleapis/google-cloudevents-go/commit/e596ab744e99445a8a2c6b23d0cc59714207cf4f))
+
+
+### Bug Fixes
+
+* **deps:** Update google.golang.org/genproto digest to 995d672 ([#189](https://github.com/googleapis/google-cloudevents-go/issues/189)) ([40e253f](https://github.com/googleapis/google-cloudevents-go/commit/40e253fd80c5b5433916e0e21effe700fcdf423d))
+* **deps:** Update google.golang.org/genproto/googleapis/rpc digest to 995d672 ([#190](https://github.com/googleapis/google-cloudevents-go/issues/190)) ([9291a1f](https://github.com/googleapis/google-cloudevents-go/commit/9291a1f14eef3a33cf99a64d284ce034d21b4696))
+* **deps:** Update module google.golang.org/protobuf to v1.32.0 ([#191](https://github.com/googleapis/google-cloudevents-go/issues/191)) ([2cf5cb4](https://github.com/googleapis/google-cloudevents-go/commit/2cf5cb4415e862beeb1234243eade91ffae3573c))
+
 ## [0.7.1](https://github.com/googleapis/google-cloudevents-go/compare/v0.7.0...v0.7.1) (2023-11-02)
 
 
