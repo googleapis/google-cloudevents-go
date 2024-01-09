@@ -103,23 +103,25 @@ jobs:
         upstream_repo: 'google-cloudevents-go'
 
         # Pull Request Title
-        title: 'feat: Run the code generator'
+        title: 'feat: Update generated code (${{ steps.source-version.outputs.revision }})'
         # Commit Message
-        message: 'feat: Run the code generator (${{ steps.source-version.outputs.revision }})'
+        message: 'feat: Update generated code (${{ steps.source-version.outputs.revision }})'
         description: |
           :robot: Auto-generated Pull Request.
 
-          This PR was created from a recent update in the [google-cloudevents](https://github.com/googleapis/google-cloudevents) repository.
-          Specifically, the change at https://github.com/googleapis/google-cloudevents/commit/${{ steps.source-version.outputs.revision }}.
+          This PR was created from the latest update to the [google-cloudevents](https://github.com/googleapis/google-cloudevents) repository.
 
           Future updates to the protos in that repository made before this PR is
           merged will lead to a force push update of this Pull Request with
           the latest changes.
 
-          * **Generator configuration:** https://github.com/${{ github.repository }}/blob/${{ steps.source-version.outputs.revision }}/.github/workflows/generate.yml
-          * **Generator Setup Script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/tools/setup-generator.sh
-          * **Generator script:** https://github.com/${{ github.repository }}/blob/${{ github.sha }}/generate-code.sh
+          * [Source Protos](https://github.com/googleapis/google-cloudevents/commit/${{ steps.source-version.outputs.revision }})
+          * [Generator Workflow configuration](https://github.com/${{ github.repository }}/blob/${{ steps.source-version.outputs.revision }}/.github/workflows/generate.yml)
+          * [Generator Setup Script](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/tools/setup-generator.sh)
+          * [Generator Script](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/generate-code.sh)
+          * [Workflow Run Log](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}),
 
+          Triggering Event: ${{ github.event_name }}
         # A static branch name and force pushes are meant to create
         # a single open PR with all pending updates.
         branch: 'generator'
