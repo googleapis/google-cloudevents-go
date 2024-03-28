@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.33.0
-// source: google/events/firebase/remoteconfig/v1/events.proto
+// source: google/events/cloud/batch/v1/events.proto
 
-package remoteconfigdata_test
+package batchdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/firebase/remoteconfigdata"
+	"github.com/googleapis/google-cloudevents-go/cloud/batchdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingRemoteConfigEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "RemoteConfigEventData", "google/events/firebase/remoteconfig/v1")
+func TestParsingJobEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "JobEventData", "google/events/cloud/batch/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingRemoteConfigEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := remoteconfigdata.RemoteConfigEventData{}
+				out := batchdata.JobEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,7 @@ func TestParsingRemoteConfigEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := remoteconfigdata.RemoteConfigEventData{}
+				out := batchdata.JobEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
