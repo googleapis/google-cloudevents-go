@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.33.0
-// source: google/events/firebase/remoteconfig/v1/events.proto
+// source: google/events/cloud/speech/v1/events.proto
 
-package remoteconfigdata_test
+package speechdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/firebase/remoteconfigdata"
+	"github.com/googleapis/google-cloudevents-go/cloud/speechdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingRemoteConfigEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "RemoteConfigEventData", "google/events/firebase/remoteconfig/v1")
+func TestParsingCustomClassEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "CustomClassEventData", "google/events/cloud/speech/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingRemoteConfigEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := remoteconfigdata.RemoteConfigEventData{}
+				out := speechdata.CustomClassEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,46 @@ func TestParsingRemoteConfigEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := remoteconfigdata.RemoteConfigEventData{}
+				out := speechdata.CustomClassEventData{}
+				if err := protojson.Unmarshal(data, &out); err != nil {
+					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
+				}
+			})
+
+		})
+	}
+}
+
+// Validate the type can parse test data.
+// Goals:
+// - "Loose" parsing confirms the expected library experience
+// - "Strict" parsing confirms:
+//   - no deleted or renamed fields in protos covered in test data
+//   - test data does not carry unknown fields
+func TestParsingPhraseSetEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "PhraseSetEventData", "google/events/cloud/speech/v1")
+
+	for name, file := range cases {
+		t.Run(name, func(t *testing.T) {
+			data, err := os.ReadFile(file)
+			if err != nil {
+				t.Fatal("os.ReadFile:", err)
+			}
+
+			if ext := filepath.Ext(file); ext != ".json" {
+				t.Fatalf("test support for %q data not implemented", ext)
+			}
+
+			t.Run("loose", func(t *testing.T) {
+				out := speechdata.PhraseSetEventData{}
+				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
+				if err := pj.Unmarshal(data, &out); err != nil {
+					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
+				}
+			})
+
+			t.Run("strict", func(t *testing.T) {
+				out := speechdata.PhraseSetEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
