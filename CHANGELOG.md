@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.9.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.8.0...v0.9.0) (2024-04-19)
+
+
+### Features
+
+* Run the code generator (253fda0) ([#204](https://github.com/googleapis/google-cloudevents-go/issues/204)) ([378fd48](https://github.com/googleapis/google-cloudevents-go/commit/378fd4852f729d7590fc8852cae1911dd71ba604))
+
+
+### Bug Fixes
+
+* **deps:** Update google.golang.org/genproto/googleapis/rpc digest to 8c6c420 ([#203](https://github.com/googleapis/google-cloudevents-go/issues/203)) ([3530e19](https://github.com/googleapis/google-cloudevents-go/commit/3530e191618698dc3e9c74bfbdf32abb3c0d5841))
+
 ## [0.8.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.7.1...v0.8.0) (2024-03-29)
 
 
