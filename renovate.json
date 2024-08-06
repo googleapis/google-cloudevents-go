@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:base",
+    "config:base"
   ],
   "schedule": ["every month on the first day of the month"],
   "constraints": {
