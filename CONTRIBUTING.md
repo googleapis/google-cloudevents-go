@@ -98,4 +98,18 @@ export GENERATE_PROTOC_PATH=tmp/protobuf/bin/protoc
 sh ./generate-code.sh
 ```
 
-A similar "skip" does not exist for the protobuf library.
+### Troubleshooting
+
+#### Support in `realpath` for `--relative-to`
+
+Running the `generate-code.sh` script might result in an error similar to:
+
+```
+/bin/realpath: illegal option -- -
+```
+
+OSX and other environments do not have a version of the `realpath` command
+that includes support for `--relative-to`.
+
+On OSX, this can be fixed by installing `coreutils`, such as via this
+[homebrew formulae](https://formulae.brew.sh/formula/coreutils).
