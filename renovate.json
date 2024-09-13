@@ -4,6 +4,6 @@
   ],
   "schedule": ["every month on the first day of the month"],
   "constraints": {
-    "go": "1.20"
+    "go": "1.21"
   }
 }
