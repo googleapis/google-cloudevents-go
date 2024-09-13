@@ -2,4 +2,4 @@ module github.com/googleapis/google-cloudevents-go/generators/protoc-gen-go-goog
 
 go 1.20
 
-require google.golang.org/protobuf v1.33.0
+require google.golang.org/protobuf v1.34.2
