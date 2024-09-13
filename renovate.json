@@ -1,10 +1,9 @@
 {
   "extends": [
-    "config:base",
-    ":disableDependencyDashboard"
+    "config:base"
   ],
-  "schedule": ["every 3 months on the first day of the month"],
+  "schedule": ["every month on the first day of the month"],
   "constraints": {
-    "go": "1.17"
+    "go": "1.21"
   }
 }
