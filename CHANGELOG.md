@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.9.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.8.0...v0.9.0) (2024-09-26)
+
+
+### Features
+
+* Add Cloud Deploy Event Types ([#204](https://github.com/googleapis/google-cloudevents-go/issues/204)) ([378fd48](https://github.com/googleapis/google-cloudevents-go/commit/378fd4852f729d7590fc8852cae1911dd71ba604))
+* Add Cloud Scheduler created, updated, and deleted event types ([#206](https://github.com/googleapis/google-cloudevents-go/issues/206)) ([16d7643](https://github.com/googleapis/google-cloudevents-go/commit/16d7643c1a2c1229c1712a55571a812a1be5ad11))
+* Run the code generator (a5f31a9) ([#269](https://github.com/googleapis/google-cloudevents-go/issues/269)) ([e23cb17](https://github.com/googleapis/google-cloudevents-go/commit/e23cb178f5a40f8f6cceb3e8208d38698d612c51))
+
+
+### Bug Fixes
+
+* **ci:** Fix go version min dependency for failing builds ([#267](https://github.com/googleapis/google-cloudevents-go/issues/267)) ([6f31753](https://github.com/googleapis/google-cloudevents-go/commit/6f31753828df4cecc5cf3746f8946c01282de9f4))
+* **deps:** Update google.golang.org/genproto digest to 2c9e96a ([#227](https://github.com/googleapis/google-cloudevents-go/issues/227)) ([1b32592](https://github.com/googleapis/google-cloudevents-go/commit/1b32592c45bf5c4ffff97297beb25c803f8d0ec5))
+* **deps:** Update google.golang.org/genproto/googleapis/rpc digest to 8af14fe ([#228](https://github.com/googleapis/google-cloudevents-go/issues/228)) ([2490ba9](https://github.com/googleapis/google-cloudevents-go/commit/2490ba97de64131e1a6e95ecd7230c6d0f308435))
+* **deps:** Update google.golang.org/genproto/googleapis/rpc digest to 8c6c420 ([#203](https://github.com/googleapis/google-cloudevents-go/issues/203)) ([3530e19](https://github.com/googleapis/google-cloudevents-go/commit/3530e191618698dc3e9c74bfbdf32abb3c0d5841))
+* **deps:** Update module google.golang.org/protobuf to v1.34.2 ([#229](https://github.com/googleapis/google-cloudevents-go/issues/229)) ([dfac9c3](https://github.com/googleapis/google-cloudevents-go/commit/dfac9c39a37991676e777fc3758456e82aed1dbd))
+* **renovate:** Schedule syntax ([#271](https://github.com/googleapis/google-cloudevents-go/issues/271)) ([aa388e3](https://github.com/googleapis/google-cloudevents-go/commit/aa388e3994c3c965d43f06eb5c573d03b1d4d207))
+
 ## [0.8.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.7.1...v0.8.0) (2024-03-29)
 
 
