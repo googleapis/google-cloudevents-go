@@ -34,7 +34,13 @@ var cloudEventPayload = []byte(`
 
 func Example() {
 	data := storagedata.StorageObjectData{}
-	if err := protojson.Unmarshal(cloudEventPayload, &data); err != nil {
+
+	// If you omit `DiscardUnknown`, protojson.Unmarshal returns an error
+	// when encountering a new or unknown field.
+	options := protojson.UnmarshalOptions{
+		DiscardUnknown: true,
+	}
+	if err := options.Unmarshal(cloudEventPayload, &data); err != nil {
 		log.Fatal("protojson.Unmarshal: ", err)
 	}
 
