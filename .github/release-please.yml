@@ -16,3 +16,4 @@ handleGHRelease: true
 releaseType: go
 releaseLabel: "autorelease: published"
 bumpMinorPreMajor: true
+tagPullRequestNumber: true
