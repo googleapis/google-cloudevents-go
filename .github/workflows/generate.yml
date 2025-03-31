@@ -93,7 +93,7 @@ jobs:
 
     - name: Create a pull request with updates
       # https://github.com/googleapis/code-suggester#Action
-      uses: googleapis/code-suggester@v4
+      uses: googleapis/code-suggester@v5
       env:
         # Provided by the GitHub Automation team
         ACCESS_TOKEN: ${{ secrets.YOSHI_CODE_BOT_TOKEN }}
