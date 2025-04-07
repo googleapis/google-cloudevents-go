@@ -61,7 +61,7 @@ jobs:
     - name: Setup Go
       uses: actions/setup-go@v5
       with:
-        go-version: 1.19.x
+        go-version: 1.23.x
 
     - name: Install the generator
       run: bash tools/setup-generator.sh
