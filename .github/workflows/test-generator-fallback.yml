@@ -27,6 +27,7 @@ on:
       - 'generators/**'
       - 'internal/**'
       - 'tools/**'
+      - 'go.*'
 
 jobs:
   test-generator:
