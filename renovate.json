@@ -1,8 +1,10 @@
 {
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-  "schedule": ["on the first day of the month"],
+  "schedule": [
+    "on the first day of the month"
+  ],
   "constraints": {
     "go": "1.23"
   }
