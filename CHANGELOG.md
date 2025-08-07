@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/googleapis/google-cloudevents-go/compare/v0.10.0...v0.10.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* **deps:** Update google.golang.org/genproto digest to f173205 ([#298](https://github.com/googleapis/google-cloudevents-go/issues/298)) ([727ebde](https://github.com/googleapis/google-cloudevents-go/commit/727ebde97a3863c735d60b3632f94a428dbb0ea8))
+
 ## [0.10.0](https://github.com/googleapis/google-cloudevents-go/compare/v0.9.0...v0.10.0) (2025-06-27)
 
 
