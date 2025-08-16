@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.36.7
-// source: google/events/cloud/apigeeregistry/v1/events.proto
+// source: google/events/firebase/dataconnect/v1/events.proto
 
-package apigeeregistrydata_test
+package dataconnectdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/apigeeregistrydata"
+	"github.com/googleapis/google-cloudevents-go/firebase/dataconnectdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiDeploymentEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiDeploymentEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingConnectorEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ConnectorEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingApiDeploymentEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiDeploymentEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,7 @@ func TestParsingApiDeploymentEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiDeploymentEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -75,8 +75,8 @@ func TestParsingApiDeploymentEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingMutationEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "MutationEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -90,7 +90,7 @@ func TestParsingApiEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiEventData{}
+				out := dataconnectdata.MutationEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -98,7 +98,7 @@ func TestParsingApiEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiEventData{}
+				out := dataconnectdata.MutationEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -114,8 +114,8 @@ func TestParsingApiEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiSpecEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiSpecEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingSchemaEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "SchemaEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -129,7 +129,7 @@ func TestParsingApiSpecEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiSpecEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -137,7 +137,7 @@ func TestParsingApiSpecEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiSpecEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -153,8 +153,8 @@ func TestParsingApiSpecEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingApiVersionEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ApiVersionEventData", "google/events/cloud/apigeeregistry/v1")
+func TestParsingServiceEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ServiceEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -168,7 +168,7 @@ func TestParsingApiVersionEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.ApiVersionEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -176,46 +176,7 @@ func TestParsingApiVersionEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.ApiVersionEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingInstanceEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "InstanceEventData", "google/events/cloud/apigeeregistry/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := apigeeregistrydata.InstanceEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := apigeeregistrydata.InstanceEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
