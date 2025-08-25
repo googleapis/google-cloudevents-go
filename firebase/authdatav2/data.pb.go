@@ -1,4 +1,4 @@
-// Copyright 2020 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 // versions:
 // 	protoc-gen-go v1.36.8
 // 	protoc        v3.21.6
-// source: firebase/auth/v1/data.proto
+// source: firebase/auth/v2/data.proto
 
-package authdata
+package authdatav2
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -40,6 +40,61 @@ const (
 // The data within all Firebase Auth events.
 type AuthEventData struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
+	// This is not populated for delete events.
+	Value *User `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	// This is only populated for update and delete events.
+	OldValue      *User `protobuf:"bytes,2,opt,name=old_value,json=oldValue,proto3" json:"old_value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AuthEventData) Reset() {
+	*x = AuthEventData{}
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AuthEventData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AuthEventData) ProtoMessage() {}
+
+func (x *AuthEventData) ProtoReflect() protoreflect.Message {
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AuthEventData.ProtoReflect.Descriptor instead.
+func (*AuthEventData) Descriptor() ([]byte, []int) {
+	return file_firebase_auth_v2_data_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AuthEventData) GetValue() *User {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *AuthEventData) GetOldValue() *User {
+	if x != nil {
+		return x.OldValue
+	}
+	return nil
+}
+
+// The user for this Firebase Auth event.
+type User struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The user identifier in the Firebase app.
 	Uid string `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
 	// The user's primary email, if set.
@@ -49,7 +104,7 @@ type AuthEventData struct {
 	// The user's display name.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The user's photo URL.
-	Photo_URL string `protobuf:"bytes,5,opt,name=photo_URL,json=photoURL,proto3" json:"photo_URL,omitempty"`
+	PhotoUrl string `protobuf:"bytes,5,opt,name=photo_url,json=photoURL,proto3" json:"photo_url,omitempty"`
 	// Whether the user is disabled.
 	Disabled bool `protobuf:"varint,6,opt,name=disabled,proto3" json:"disabled,omitempty"`
 	// Additional metadata about the user.
@@ -65,21 +120,21 @@ type AuthEventData struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *AuthEventData) Reset() {
-	*x = AuthEventData{}
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[0]
+func (x *User) Reset() {
+	*x = User{}
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *AuthEventData) String() string {
+func (x *User) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AuthEventData) ProtoMessage() {}
+func (*User) ProtoMessage() {}
 
-func (x *AuthEventData) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[0]
+func (x *User) ProtoReflect() protoreflect.Message {
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -90,75 +145,75 @@ func (x *AuthEventData) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AuthEventData.ProtoReflect.Descriptor instead.
-func (*AuthEventData) Descriptor() ([]byte, []int) {
-	return file_firebase_auth_v1_data_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
+	return file_firebase_auth_v2_data_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AuthEventData) GetUid() string {
+func (x *User) GetUid() string {
 	if x != nil {
 		return x.Uid
 	}
 	return ""
 }
 
-func (x *AuthEventData) GetEmail() string {
+func (x *User) GetEmail() string {
 	if x != nil {
 		return x.Email
 	}
 	return ""
 }
 
-func (x *AuthEventData) GetEmailVerified() bool {
+func (x *User) GetEmailVerified() bool {
 	if x != nil {
 		return x.EmailVerified
 	}
 	return false
 }
 
-func (x *AuthEventData) GetDisplayName() string {
+func (x *User) GetDisplayName() string {
 	if x != nil {
 		return x.DisplayName
 	}
 	return ""
 }
 
-func (x *AuthEventData) GetPhoto_URL() string {
+func (x *User) GetPhotoUrl() string {
 	if x != nil {
-		return x.Photo_URL
+		return x.PhotoUrl
 	}
 	return ""
 }
 
-func (x *AuthEventData) GetDisabled() bool {
+func (x *User) GetDisabled() bool {
 	if x != nil {
 		return x.Disabled
 	}
 	return false
 }
 
-func (x *AuthEventData) GetMetadata() *UserMetadata {
+func (x *User) GetMetadata() *UserMetadata {
 	if x != nil {
 		return x.Metadata
 	}
 	return nil
 }
 
-func (x *AuthEventData) GetProviderData() []*UserInfo {
+func (x *User) GetProviderData() []*UserInfo {
 	if x != nil {
 		return x.ProviderData
 	}
 	return nil
 }
 
-func (x *AuthEventData) GetPhoneNumber() string {
+func (x *User) GetPhoneNumber() string {
 	if x != nil {
 		return x.PhoneNumber
 	}
 	return ""
 }
 
-func (x *AuthEventData) GetCustomClaims() *structpb.Struct {
+func (x *User) GetCustomClaims() *structpb.Struct {
 	if x != nil {
 		return x.CustomClaims
 	}
@@ -178,7 +233,7 @@ type UserMetadata struct {
 
 func (x *UserMetadata) Reset() {
 	*x = UserMetadata{}
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[1]
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -190,7 +245,7 @@ func (x *UserMetadata) String() string {
 func (*UserMetadata) ProtoMessage() {}
 
 func (x *UserMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[1]
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -203,7 +258,7 @@ func (x *UserMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserMetadata.ProtoReflect.Descriptor instead.
 func (*UserMetadata) Descriptor() ([]byte, []int) {
-	return file_firebase_auth_v1_data_proto_rawDescGZIP(), []int{1}
+	return file_firebase_auth_v2_data_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UserMetadata) GetCreateTime() *timestamppb.Timestamp {
@@ -230,7 +285,7 @@ type UserInfo struct {
 	// The display name for the linked provider.
 	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The photo URL for the linked provider.
-	Photo_URL string `protobuf:"bytes,4,opt,name=photo_URL,json=photoURL,proto3" json:"photo_URL,omitempty"`
+	PhotoUrl string `protobuf:"bytes,4,opt,name=photo_url,json=photoURL,proto3" json:"photo_url,omitempty"`
 	// The linked provider ID (e.g. "google.com" for the Google provider).
 	ProviderId    string `protobuf:"bytes,5,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -239,7 +294,7 @@ type UserInfo struct {
 
 func (x *UserInfo) Reset() {
 	*x = UserInfo{}
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[2]
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -251,7 +306,7 @@ func (x *UserInfo) String() string {
 func (*UserInfo) ProtoMessage() {}
 
 func (x *UserInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_auth_v1_data_proto_msgTypes[2]
+	mi := &file_firebase_auth_v2_data_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -264,7 +319,7 @@ func (x *UserInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserInfo.ProtoReflect.Descriptor instead.
 func (*UserInfo) Descriptor() ([]byte, []int) {
-	return file_firebase_auth_v1_data_proto_rawDescGZIP(), []int{2}
+	return file_firebase_auth_v2_data_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UserInfo) GetUid() string {
@@ -288,9 +343,9 @@ func (x *UserInfo) GetDisplayName() string {
 	return ""
 }
 
-func (x *UserInfo) GetPhoto_URL() string {
+func (x *UserInfo) GetPhotoUrl() string {
 	if x != nil {
-		return x.Photo_URL
+		return x.PhotoUrl
 	}
 	return ""
 }
@@ -302,20 +357,23 @@ func (x *UserInfo) GetProviderId() string {
 	return ""
 }
 
-var File_firebase_auth_v1_data_proto protoreflect.FileDescriptor
+var File_firebase_auth_v2_data_proto protoreflect.FileDescriptor
 
-const file_firebase_auth_v1_data_proto_rawDesc = "" +
+const file_firebase_auth_v2_data_proto_rawDesc = "" +
 	"\n" +
-	"\x1bfirebase/auth/v1/data.proto\x12\x1egoogle.events.firebase.auth.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb4\x03\n" +
-	"\rAuthEventData\x12\x10\n" +
+	"\x1bfirebase/auth/v2/data.proto\x12\x1egoogle.events.firebase.auth.v2\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8e\x01\n" +
+	"\rAuthEventData\x12:\n" +
+	"\x05value\x18\x01 \x01(\v2$.google.events.firebase.auth.v2.UserR\x05value\x12A\n" +
+	"\told_value\x18\x02 \x01(\v2$.google.events.firebase.auth.v2.UserR\boldValue\"\xab\x03\n" +
+	"\x04User\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12%\n" +
 	"\x0eemail_verified\x18\x03 \x01(\bR\remailVerified\x12!\n" +
 	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12\x1b\n" +
-	"\tphoto_URL\x18\x05 \x01(\tR\bphotoURL\x12\x1a\n" +
+	"\tphoto_url\x18\x05 \x01(\tR\bphotoURL\x12\x1a\n" +
 	"\bdisabled\x18\x06 \x01(\bR\bdisabled\x12H\n" +
-	"\bmetadata\x18\a \x01(\v2,.google.events.firebase.auth.v1.UserMetadataR\bmetadata\x12M\n" +
-	"\rprovider_data\x18\b \x03(\v2(.google.events.firebase.auth.v1.UserInfoR\fproviderData\x12!\n" +
+	"\bmetadata\x18\a \x01(\v2,.google.events.firebase.auth.v2.UserMetadataR\bmetadata\x12M\n" +
+	"\rprovider_data\x18\b \x03(\v2(.google.events.firebase.auth.v2.UserInfoR\fproviderData\x12!\n" +
 	"\fphone_number\x18\t \x01(\tR\vphoneNumber\x12<\n" +
 	"\rcustom_claims\x18\n" +
 	" \x01(\v2\x17.google.protobuf.StructR\fcustomClaims\"\x92\x01\n" +
@@ -327,63 +385,67 @@ const file_firebase_auth_v1_data_proto_rawDesc = "" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12!\n" +
 	"\fdisplay_name\x18\x03 \x01(\tR\vdisplayName\x12\x1b\n" +
-	"\tphoto_URL\x18\x04 \x01(\tR\bphotoURL\x12\x1f\n" +
+	"\tphoto_url\x18\x04 \x01(\tR\bphotoURL\x12\x1f\n" +
 	"\vprovider_id\x18\x05 \x01(\tR\n" +
-	"providerIdBp\xaa\x02'Google.Events.Protobuf.Firebase.Auth.V1\xca\x02\x1eGoogle\\Events\\Firebase\\Auth\\V1\xea\x02\"Google::Events::Firebase::Auth::V1b\x06proto3"
+	"providerIdB\x94\x01\n" +
+	"\"com.google.events.firebase.auth.v2\xaa\x02'Google.Events.Protobuf.Firebase.Auth.V2\xca\x02\x1eGoogle\\Events\\Firebase\\Auth\\V2\xea\x02\"Google::Events::Firebase::Auth::V2b\x06proto3"
 
 var (
-	file_firebase_auth_v1_data_proto_rawDescOnce sync.Once
-	file_firebase_auth_v1_data_proto_rawDescData []byte
+	file_firebase_auth_v2_data_proto_rawDescOnce sync.Once
+	file_firebase_auth_v2_data_proto_rawDescData []byte
 )
 
-func file_firebase_auth_v1_data_proto_rawDescGZIP() []byte {
-	file_firebase_auth_v1_data_proto_rawDescOnce.Do(func() {
-		file_firebase_auth_v1_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_firebase_auth_v1_data_proto_rawDesc), len(file_firebase_auth_v1_data_proto_rawDesc)))
+func file_firebase_auth_v2_data_proto_rawDescGZIP() []byte {
+	file_firebase_auth_v2_data_proto_rawDescOnce.Do(func() {
+		file_firebase_auth_v2_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_firebase_auth_v2_data_proto_rawDesc), len(file_firebase_auth_v2_data_proto_rawDesc)))
 	})
-	return file_firebase_auth_v1_data_proto_rawDescData
+	return file_firebase_auth_v2_data_proto_rawDescData
 }
 
-var file_firebase_auth_v1_data_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_firebase_auth_v1_data_proto_goTypes = []any{
-	(*AuthEventData)(nil),         // 0: google.events.firebase.auth.v1.AuthEventData
-	(*UserMetadata)(nil),          // 1: google.events.firebase.auth.v1.UserMetadata
-	(*UserInfo)(nil),              // 2: google.events.firebase.auth.v1.UserInfo
-	(*structpb.Struct)(nil),       // 3: google.protobuf.Struct
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+var file_firebase_auth_v2_data_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_firebase_auth_v2_data_proto_goTypes = []any{
+	(*AuthEventData)(nil),         // 0: google.events.firebase.auth.v2.AuthEventData
+	(*User)(nil),                  // 1: google.events.firebase.auth.v2.User
+	(*UserMetadata)(nil),          // 2: google.events.firebase.auth.v2.UserMetadata
+	(*UserInfo)(nil),              // 3: google.events.firebase.auth.v2.UserInfo
+	(*structpb.Struct)(nil),       // 4: google.protobuf.Struct
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
-var file_firebase_auth_v1_data_proto_depIdxs = []int32{
-	1, // 0: google.events.firebase.auth.v1.AuthEventData.metadata:type_name -> google.events.firebase.auth.v1.UserMetadata
-	2, // 1: google.events.firebase.auth.v1.AuthEventData.provider_data:type_name -> google.events.firebase.auth.v1.UserInfo
-	3, // 2: google.events.firebase.auth.v1.AuthEventData.custom_claims:type_name -> google.protobuf.Struct
-	4, // 3: google.events.firebase.auth.v1.UserMetadata.create_time:type_name -> google.protobuf.Timestamp
-	4, // 4: google.events.firebase.auth.v1.UserMetadata.last_sign_in_time:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+var file_firebase_auth_v2_data_proto_depIdxs = []int32{
+	1, // 0: google.events.firebase.auth.v2.AuthEventData.value:type_name -> google.events.firebase.auth.v2.User
+	1, // 1: google.events.firebase.auth.v2.AuthEventData.old_value:type_name -> google.events.firebase.auth.v2.User
+	2, // 2: google.events.firebase.auth.v2.User.metadata:type_name -> google.events.firebase.auth.v2.UserMetadata
+	3, // 3: google.events.firebase.auth.v2.User.provider_data:type_name -> google.events.firebase.auth.v2.UserInfo
+	4, // 4: google.events.firebase.auth.v2.User.custom_claims:type_name -> google.protobuf.Struct
+	5, // 5: google.events.firebase.auth.v2.UserMetadata.create_time:type_name -> google.protobuf.Timestamp
+	5, // 6: google.events.firebase.auth.v2.UserMetadata.last_sign_in_time:type_name -> google.protobuf.Timestamp
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
-func init() { file_firebase_auth_v1_data_proto_init() }
-func file_firebase_auth_v1_data_proto_init() {
-	if File_firebase_auth_v1_data_proto != nil {
+func init() { file_firebase_auth_v2_data_proto_init() }
+func file_firebase_auth_v2_data_proto_init() {
+	if File_firebase_auth_v2_data_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firebase_auth_v1_data_proto_rawDesc), len(file_firebase_auth_v1_data_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firebase_auth_v2_data_proto_rawDesc), len(file_firebase_auth_v2_data_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_firebase_auth_v1_data_proto_goTypes,
-		DependencyIndexes: file_firebase_auth_v1_data_proto_depIdxs,
-		MessageInfos:      file_firebase_auth_v1_data_proto_msgTypes,
+		GoTypes:           file_firebase_auth_v2_data_proto_goTypes,
+		DependencyIndexes: file_firebase_auth_v2_data_proto_depIdxs,
+		MessageInfos:      file_firebase_auth_v2_data_proto_msgTypes,
 	}.Build()
-	File_firebase_auth_v1_data_proto = out.File
-	file_firebase_auth_v1_data_proto_goTypes = nil
-	file_firebase_auth_v1_data_proto_depIdxs = nil
+	File_firebase_auth_v2_data_proto = out.File
+	file_firebase_auth_v2_data_proto_goTypes = nil
+	file_firebase_auth_v2_data_proto_depIdxs = nil
 }

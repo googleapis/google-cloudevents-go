@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.36.8
-// source: google/events/cloud/datastream/v1/events.proto
+// source: google/events/firebase/dataconnect/v1/events.proto
 
-package datastreamdata_test
+package dataconnectdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/datastreamdata"
+	"github.com/googleapis/google-cloudevents-go/firebase/dataconnectdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingConnectionProfileEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ConnectionProfileEventData", "google/events/cloud/datastream/v1")
+func TestParsingConnectorEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ConnectorEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.ConnectionProfileEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,7 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.ConnectionProfileEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -75,8 +75,8 @@ func TestParsingConnectionProfileEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingPrivateConnectionEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "PrivateConnectionEventData", "google/events/cloud/datastream/v1")
+func TestParsingMutationEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "MutationEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -90,7 +90,7 @@ func TestParsingPrivateConnectionEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.PrivateConnectionEventData{}
+				out := dataconnectdata.MutationEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -98,7 +98,7 @@ func TestParsingPrivateConnectionEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.PrivateConnectionEventData{}
+				out := dataconnectdata.MutationEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -114,8 +114,8 @@ func TestParsingPrivateConnectionEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingRouteEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "RouteEventData", "google/events/cloud/datastream/v1")
+func TestParsingSchemaEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "SchemaEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -129,7 +129,7 @@ func TestParsingRouteEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.RouteEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -137,7 +137,7 @@ func TestParsingRouteEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.RouteEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -153,8 +153,8 @@ func TestParsingRouteEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingStreamEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "StreamEventData", "google/events/cloud/datastream/v1")
+func TestParsingServiceEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ServiceEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -168,7 +168,7 @@ func TestParsingStreamEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := datastreamdata.StreamEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -176,7 +176,7 @@ func TestParsingStreamEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := datastreamdata.StreamEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
