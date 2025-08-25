@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.36.8
-// source: google/events/cloud/cloudbuild/v1/events.proto
+// source: google/events/firebase/auth/v2/events.proto
 
-package cloudbuilddata_test
+package authdatav2_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/cloudbuilddata"
+	"github.com/googleapis/google-cloudevents-go/firebase/authdatav2"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingBuildEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "BuildEventData", "google/events/cloud/cloudbuild/v1")
+func TestParsingAuthEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "AuthEventData", "google/events/firebase/auth/v2")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingBuildEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := cloudbuilddata.BuildEventData{}
+				out := authdatav2.AuthEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,7 @@ func TestParsingBuildEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := cloudbuilddata.BuildEventData{}
+				out := authdatav2.AuthEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
