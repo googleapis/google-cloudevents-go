@@ -16,16 +16,16 @@
 // versions:
 // 	protoc       				 v3.21.6
 // 	protoc-gen-go 				 v1.36.10
-// source: google/events/cloud/networkconnectivity/v1/events.proto
+// source: google/events/firebase/dataconnect/v1/events.proto
 
-package networkconnectivitydata_test
+package dataconnectdata_test
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/googleapis/google-cloudevents-go/cloud/networkconnectivitydata"
+	"github.com/googleapis/google-cloudevents-go/firebase/dataconnectdata"
 	"github.com/googleapis/google-cloudevents-go/internal/testhelper"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -36,8 +36,8 @@ import (
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingHubEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "HubEventData", "google/events/cloud/networkconnectivity/v1")
+func TestParsingConnectorEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ConnectorEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -51,7 +51,7 @@ func TestParsingHubEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.HubEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -59,7 +59,7 @@ func TestParsingHubEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.HubEventData{}
+				out := dataconnectdata.ConnectorEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -75,8 +75,8 @@ func TestParsingHubEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingServiceClassEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ServiceClassEventData", "google/events/cloud/networkconnectivity/v1")
+func TestParsingMutationEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "MutationEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -90,7 +90,7 @@ func TestParsingServiceClassEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceClassEventData{}
+				out := dataconnectdata.MutationEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -98,7 +98,7 @@ func TestParsingServiceClassEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceClassEventData{}
+				out := dataconnectdata.MutationEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -114,8 +114,8 @@ func TestParsingServiceClassEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingServiceConnectionMapEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ServiceConnectionMapEventData", "google/events/cloud/networkconnectivity/v1")
+func TestParsingSchemaEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "SchemaEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -129,7 +129,7 @@ func TestParsingServiceConnectionMapEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionMapEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -137,7 +137,7 @@ func TestParsingServiceConnectionMapEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionMapEventData{}
+				out := dataconnectdata.SchemaEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
@@ -153,8 +153,8 @@ func TestParsingServiceConnectionMapEventData(t *testing.T) {
 // - "Strict" parsing confirms:
 //   - no deleted or renamed fields in protos covered in test data
 //   - test data does not carry unknown fields
-func TestParsingServiceConnectionPolicyEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ServiceConnectionPolicyEventData", "google/events/cloud/networkconnectivity/v1")
+func TestParsingServiceEventData(t *testing.T) {
+	cases := testhelper.FindTestData(t, "ServiceEventData", "google/events/firebase/dataconnect/v1")
 
 	for name, file := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -168,7 +168,7 @@ func TestParsingServiceConnectionPolicyEventData(t *testing.T) {
 			}
 
 			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionPolicyEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
 				if err := pj.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
@@ -176,85 +176,7 @@ func TestParsingServiceConnectionPolicyEventData(t *testing.T) {
 			})
 
 			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionPolicyEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingServiceConnectionTokenEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "ServiceConnectionTokenEventData", "google/events/cloud/networkconnectivity/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionTokenEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.ServiceConnectionTokenEventData{}
-				if err := protojson.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-		})
-	}
-}
-
-// Validate the type can parse test data.
-// Goals:
-// - "Loose" parsing confirms the expected library experience
-// - "Strict" parsing confirms:
-//   - no deleted or renamed fields in protos covered in test data
-//   - test data does not carry unknown fields
-func TestParsingSpokeEventData(t *testing.T) {
-	cases := testhelper.FindTestData(t, "SpokeEventData", "google/events/cloud/networkconnectivity/v1")
-
-	for name, file := range cases {
-		t.Run(name, func(t *testing.T) {
-			data, err := os.ReadFile(file)
-			if err != nil {
-				t.Fatal("os.ReadFile:", err)
-			}
-
-			if ext := filepath.Ext(file); ext != ".json" {
-				t.Fatalf("test support for %q data not implemented", ext)
-			}
-
-			t.Run("loose", func(t *testing.T) {
-				out := networkconnectivitydata.SpokeEventData{}
-				pj := protojson.UnmarshalOptions{DiscardUnknown: true}
-				if err := pj.Unmarshal(data, &out); err != nil {
-					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
-				}
-			})
-
-			t.Run("strict", func(t *testing.T) {
-				out := networkconnectivitydata.SpokeEventData{}
+				out := dataconnectdata.ServiceEventData{}
 				if err := protojson.Unmarshal(data, &out); err != nil {
 					t.Fatalf("protojson.Unmarshal: could not parse %q\n----%s\n----", file, data)
 				}
