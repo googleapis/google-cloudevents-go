@@ -23,7 +23,5 @@ branchProtectionRules:
   requiresCodeOwnerReviews: true
   requiresStrictStatusChecks: true
 permissionRules:
-  - team: cloudevents-admins
-    permission: push
   - team: torus-dpe
-    permission: admin
+    permission: push
