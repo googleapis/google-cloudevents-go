@@ -23,5 +23,5 @@ branchProtectionRules:
   requiresCodeOwnerReviews: true
   requiresStrictStatusChecks: true
 permissionRules:
-  - team: torus-dpe
+  - team: acep-team
     permission: push
